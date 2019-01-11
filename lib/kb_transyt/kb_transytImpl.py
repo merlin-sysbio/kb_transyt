@@ -12,7 +12,7 @@ from installed_clients.KBaseReportClient import KBaseReport
         print(params)
         report = KBaseReport(self.callback_url)
         report_info = report.create({'report': {'objects_created':[],
-                                                'text_message': params['parameter_1']},
+                                                'text_message': params['genome_id']},
                                                 'workspace_name': params['workspace_name']})
         output = {
             'report_name': report_info['name'],
