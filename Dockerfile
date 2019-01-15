@@ -12,12 +12,22 @@ MAINTAINER KBase Developer
 # -----------------------------------------
 
 COPY ./ /kb/module
+
+RUN mkdir -p /opt/jdk
+RUN mkdir -p /opt/blast
+RUN tar -xf /kb/module/opt/jdk-11.0.1_linux-x64_bin.tar.gz -C /opt/jdk
+RUN tar -xf /kb/module/opt/ncbi-blast-2.8.1+-x64-linux.tar.gz -C /opt/blast
+
 RUN mkdir -p /kb/module/work
 RUN chmod -R a+rw /kb/module
+
+RUN pip install cobrakbase
 
 WORKDIR /kb/module
 
 RUN make all
+
+ENV PATH="/opt/blast/ncbi-blast-2.8.1+/bin:${PATH}"
 
 ENTRYPOINT [ "./scripts/entrypoint.sh" ]
 
