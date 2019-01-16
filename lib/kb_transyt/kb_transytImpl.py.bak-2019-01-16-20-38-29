@@ -11,25 +11,25 @@ class kb_transyt:
     '''
     Module Name:
     kb_transyt
-
     Module Description:
-    A KBase module: kb_transyt
+    
     '''
-
-    ######## WARNING FOR GEVENT USERS ####### noqa
+    
+    ######## WARNING FOR GEVENT USERS #######
     # Since asynchronous IO can lead to methods - even the same method -
     # interrupting each other, you must be *very* careful when using global
     # state. A method could easily clobber the state set by another while
     # the latter method is running.
-    ######################################### noqa
-    VERSION = "0.0.1"
-    GIT_URL = "git@github.com:merlin-sysbio/kb_transyt.git"
-    GIT_COMMIT_HASH = "a64636d6d2a3fd30fa6dfd2d7aa11b93352431dd"
+    #########################################
 
+    VERSION = "0.0.1"
+    GIT_URL = ""
+    GIT_COMMIT_HASH = ""
+    
     #BEGIN_CLASS_HEADER
     # Class variables and functions can be defined in this block
     #END_CLASS_HEADER
-
+    
     # config contains contents of config file in a hash or None if it couldn't
     # be found
     def __init__(self, config):
@@ -39,50 +39,91 @@ class kb_transyt:
         # saved in the constructor.
         self.callback_url = os.environ['SDK_CALLBACK_URL']
         self.shared_folder = config['scratch']
-        self.config = config
 
         #END_CONSTRUCTOR
         pass
 
-
     def run_transyt(self, ctx, params):
-        """
-        This example function accepts any number of parameters and returns results in a KBaseReport
-        :param params: instance of mapping from String to unspecified object
-        :returns: instance of type "ReportResults" -> structure: parameter
-           "report_name" of String, parameter "report_ref" of String
-        """
         # ctx is the context object
-        # return variables are: output
-        #BEGIN run_transyt
+        # return variables are: returnVal
+        #BEGIN filter_contigs
+        #get workspace url key
+        # Print statements to stdout/stderr are captured and available as the App log
+        print('Starting Filter Contigs function. Params=')
+        print(params)
+        #pprint(params)
 
-        print(os.environ)
-        print(self.config)
         ws_client = Workspace(self.callback_url, token=ctx['token'])
+        #ws_client.
+        #get genome
         def get_object(wclient, oid, ws):
             res = wclient.get_objects2({"objects" : [{"name" : oid, "workspace" : ws}]})
             return res["data"][0]["data"]
 
         genome = get_object(ws_client, params['genome_id'], params['workspace_name'])
+        print(genome.keys())
 
+        #make FAA
+
+        def to_faa(kgenome):
+                faa_features = []
+                for feature in kgenome['features']:
+                        faa_features.append('>' + feature['id'] + '\n' + feature['protein_translation'])
+                        #print(feature)
+                        #break
+                
+                return '\n'.join(faa_features)
+
+        faa = to_faa(genome)
+        with open('/kb/module/data/transyt/genome/genome.faa', 'w') as f:
+                f.write(faa)
+                f.close()
+
+        #detect taxa
+
+        #ref_data = kbase.get_object_info_from_ref(kgenome['taxon_ref'])
+        #ktaxon = kbase.get_object(ref_data['infos'][0][1], ref_data['infos'][0][7])
+        #scientific_lineage = ktaxon['scientific_lineage']
+        #taxa_id = ktaxon['taxonomy_id']
+
+        # Step 1 - Parse/examine the parameters and catch any errors
+        print('Validating parameters.')
+        if 'workspace_name' not in params:
+            raise ValueError('Parameter workspace_name is not set in input arguments')
+        if 'genome_id' not in params:
+            raise ValueError('Parameter genome_id is not set in input arguments')
+
+        #get model (if exists)
+        #/opt/jdk/jdk-11.0.1/bin/java -jar transytTest.jar 
+        # 511145 
+        # ./../genome/GCF_000005845.2_ASM584v2_protein.faa 
+        # ./../genome/simGCF_000005845.2.new_template.xml
+        #cobrakbase make sbml
+
+        # Step 5 - Build a Report and return
         report = KBaseReport(self.callback_url)
         report_info = report.create({'report': {'objects_created':[],
-                                                'text_message': params['genome_id'] + ", " +genome['id']},
+                                                'text_message': params['genome_id']},
                                                 'workspace_name': params['workspace_name']})
 
+
+        # STEP 6: contruct the output to send back
         output = {
             'report_name': report_info['name'],
             'report_ref': report_info['ref'],
         }
         print('returning:', output)
-        #END run_transyt
+                
+        #END filter_contigs
+        
 
         # At some point might do deeper type checking...
         if not isinstance(output, dict):
-            raise ValueError('Method run_transyt return value ' +
+            raise ValueError('Method filter_contigs return value ' +
                              'output is not type dict as required.')
         # return the results
         return [output]
+
     def status(self, ctx):
         #BEGIN_STATUS
         returnVal = {'state': "OK",

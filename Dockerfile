@@ -34,6 +34,8 @@ RUN pip install cobrakbase
 
 WORKDIR /kb/module
 
+RUN rm -Rf /kb/module/opt
+
 RUN make all
 
 ENV PATH="/opt/blast/ncbi-blast-2.8.1+/bin:${PATH}"
