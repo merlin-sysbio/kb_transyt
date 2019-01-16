@@ -58,7 +58,7 @@ class kb_transyt:
 
         print(os.environ)
         print(self.config)
-        ws_client = Workspace(self.callback_url, token=ctx['token'])
+        ws_client = Workspace(self.config['workspace-url'], token=ctx['token'])
         def get_object(wclient, oid, ws):
             res = wclient.get_objects2({"objects" : [{"name" : oid, "workspace" : ws}]})
             return res["data"][0]["data"]
