@@ -4,6 +4,7 @@
 import os
 from installed_clients.WorkspaceClient import Workspace
 from installed_clients.KBaseReportClient import KBaseReport
+import cobrakbase
 #END_HEADER
 
 
@@ -56,19 +57,48 @@ class kb_transyt:
         # return variables are: output
         #BEGIN run_transyt
 
+        kbase = cobrakbase.KBaseAPI(ctx['token'], config=self.config)
+
         print(os.environ)
         print(self.config)
-        ws_client = Workspace(self.config['workspace-url'], token=ctx['token'])
-        def get_object(wclient, oid, ws):
-            res = wclient.get_objects2({"objects" : [{"name" : oid, "workspace" : ws}]})
-            return res["data"][0]["data"]
+        #ws_client = Workspace(self.config['workspace-url'], token=ctx['token'])
+        #def get_object(wclient, oid, ws):
+        #    res = wclient.get_objects2({"objects" : [{"name" : oid, "workspace" : ws}]})
+        #    return res["data"][0]["data"]
 
-        genome = get_object(ws_client, params['genome_id'], params['workspace_name'])
+        ws = params['workspace_name']
+        genome = kbase.get_object(params['genome_id'], ws)
+
+        def to_faa(kgenome):
+            faa_features = []
+            for feature in kgenome['features']:
+                    faa_features.append('>' + feature['id'] + '\n' + feature['protein_translation'])
+            
+            return '\n'.join(faa_features)
+
+        faa = to_faa(genome)
+        print('write genome FAA (bytes):', len(faa))
+        with open('/kb/module/data/transyt/genome/genome.faa', 'w') as f:
+            f.write(faa)
+            f.close()
+
+        #detect taxa
+        ref_data = kbase.get_object_info_from_ref(genome['taxon_ref'])
+        ktaxon = kbase.get_object(ref_data['infos'][0][1], ref_data['infos'][0][7])
+        scientific_lineage = ktaxon['scientific_lineage']
+        taxa_id = ktaxon['taxonomy_id']
+
+        model = None
+        if 'model_id' in params and len(params['model_id'].strip()) > 0:
+            model = kbase.get_object(params['model_id'], ws)
+
+        if not model == None:
+            1
 
         report = KBaseReport(self.callback_url)
         report_info = report.create({'report': {'objects_created':[],
-                                                'text_message': params['genome_id'] + ", " +genome['id']},
-                                                'workspace_name': params['workspace_name']})
+                                                'text_message': params['genome_id'] + ", " +genome['id'] + " " + scientific_lineage + " " + taxa_id},
+                                                'workspace_name': ws})
 
         output = {
             'report_name': report_info['name'],
