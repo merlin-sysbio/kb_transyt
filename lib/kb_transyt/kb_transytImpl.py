@@ -98,7 +98,11 @@ class kb_transyt:
 
         report = KBaseReport(self.callback_url)
         report_info = report.create({'report': {'objects_created':[],
-                                                'text_message': params['genome_id'] + ", " +genome['id'] + " " + scientific_lineage + " " + taxa_id},
+                                                'text_message': "{} {} {} {}".format(
+                                                    params['genome_id'], 
+                                                    genome['id'],
+                                                    scientific_lineage,
+                                                    taxa_id),
                                                 'workspace_name': ws})
 
         output = {
