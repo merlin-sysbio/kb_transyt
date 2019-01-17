@@ -72,6 +72,7 @@ class kb_transyt:
         def to_faa(kgenome):
             faa_features = []
             for feature in kgenome['features']:
+                if 'protein_translation' in feature:
                     faa_features.append('>' + feature['id'] + '\n' + feature['protein_translation'])
             
             return '\n'.join(faa_features)
