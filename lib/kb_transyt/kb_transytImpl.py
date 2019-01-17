@@ -93,23 +93,33 @@ class kb_transyt:
         if 'model_id' in params and len(params['model_id'].strip()) > 0:
             model = kbase.get_object(params['model_id'], ws)
 
+        
+
         if not model == None:
             1
 
+        import subprocess
+
+        java = "/opt/jdk/jdk-11.0.1/bin/java"
+        transyt_jar = "newTransytTest.jar"
+
+        genome_path = "../genome/genome.faa"
+        model_path = "../genome/model.xml"
+        #genome_path = "../genome/GCF_000005845.2_ASM584v2_protein.faa"
+        model_path = "../genome/simGCF_000005845.2.new_template.xml"
+
+        transyt_subprocess = [java, "-jar", transyt_jar, str(taxa_id), genome_path, model_path]
+
+        working_dir= "/kb/module/data/transyt/jar"
+
+        subprocess.check_call(transyt_subprocess, cwd=working_dir)
+
         report = KBaseReport(self.callback_url)
+        text_message = "{} {} {} {}".format(params['genome_id'], genome['id'], scientific_lineage, taxa_id)
         report_info = report.create({'report': {'objects_created':[],
-                                        'text_message': params['genome_id']},
+                                        'text_message': text_message},
                                         'workspace_name': params['workspace_name']})
-        report_params = {
-            'report': {
-                'objects_created':[ ],
-                'text_message': "{} {} {} {}".format(
-                    params['genome_id'],
-                    genome['id'],
-                    scientific_lineage,
-                    taxa_id),
-                'workspace_name': ws}
-            }
+ 
         #report_info = report.create(report_params)
 
         output = {
