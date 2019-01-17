@@ -97,6 +97,9 @@ class kb_transyt:
             1
 
         report = KBaseReport(self.callback_url)
+        report_info = report.create({'report': {'objects_created':[],
+                                        'text_message': params['genome_id']},
+                                        'workspace_name': params['workspace_name']})
         report_params = {
             'report': {
                 'objects_created':[ ],
@@ -107,7 +110,7 @@ class kb_transyt:
                     taxa_id),
                 'workspace_name': ws}
             }
-        report_info = report.create(report_params)
+        #report_info = report.create(report_params)
 
         output = {
             'report_name': report_info['name'],
