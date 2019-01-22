@@ -4,7 +4,10 @@
 import os
 from installed_clients.WorkspaceClient import Workspace
 from installed_clients.KBaseReportClient import KBaseReport
+import cobra
 import cobrakbase
+import kb_transyt_module
+import uuid
 #END_HEADER
 
 
@@ -57,10 +60,12 @@ class kb_transyt:
         # return variables are: output
         #BEGIN run_transyt
 
+        print(params)
+        output_model_id = "test_model"
         kbase = cobrakbase.KBaseAPI(ctx['token'], config=self.config)
 
-        print(os.environ)
-        print(self.config)
+        #print(os.environ)
+        #print(self.config)
         #ws_client = Workspace(self.config['workspace-url'], token=ctx['token'])
         #def get_object(wclient, oid, ws):
         #    res = wclient.get_objects2({"objects" : [{"name" : oid, "workspace" : ws}]})
@@ -94,9 +99,13 @@ class kb_transyt:
             model = kbase.get_object(params['model_id'], ws)
 
         
+        model_path = "../genome/simGCF_000005845.2.new_template.xml"
 
         if not model == None:
-            1
+            print('converting model to sbml')
+            cobra_model = cobrakbase.convert_kmodel(model, {})
+            model_path = "/kb/module/data/transyt/genome/model.xml"
+            cobra.io.write_sbml_model(cobra_model, model_path)
 
         import subprocess
 
@@ -104,21 +113,84 @@ class kb_transyt:
         transyt_jar = "newTransytTest.jar"
 
         genome_path = "../genome/genome.faa"
-        model_path = "../genome/model.xml"
+        
         #genome_path = "../genome/GCF_000005845.2_ASM584v2_protein.faa"
-        model_path = "../genome/simGCF_000005845.2.new_template.xml"
-
+        
         transyt_subprocess = [java, "-jar", transyt_jar, str(taxa_id), genome_path, model_path]
 
         working_dir= "/kb/module/data/transyt/jar"
 
         subprocess.check_call(transyt_subprocess, cwd=working_dir)
 
-        report = KBaseReport(self.callback_url)
+        out_sbml_path = '/kb/module/data/transyt/genome/sbmlResult_qCov_0.8_eValThresh_1.0E-50.xml'
+        objects_created = []
+
+        #check of genome file exists 
+        if os.path.exists(out_sbml_path):
+            #fix sbml header for cobra
+            model_fix_path = self.shared_folder + '/transporters_sbml.xml'
+            sbml_tag = '<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" fbc:required="false" groups:required="false" level="3" sboTerm="SBO:0000624" version="1" xmlns:fbc="http://www.sbml.org/sbml/level3/version1/fbc/version2" xmlns:groups="http://www.sbml.org/sbml/level3/version1/groups/version1">'
+            model_tag = '<model extentUnits="substance" fbc:strict="true" id="transyt" metaid="transyt" name="transyt" substanceUnits="substance" timeUnits="time">'
+            xml_data = None
+            xml_fix = ""
+            with open(out_sbml_path, 'r') as f:
+                xml_data = f.readlines()
+            for l in xml_data:
+                if l.strip().startswith('<sbml'):
+                    xml_fix += sbml_tag
+                elif l.strip().startswith('<model'):
+                    xml_fix += model_tag
+                else:
+                    xml_fix += l
+            if not xml_data == None:
+                with open(model_fix_path, 'w') as f:
+                    f.writelines(xml_fix)
+            #fix otherthing
+            tmodel = cobra.io.read_sbml_model(model_fix_path)
+            out_model = cobrakbase.core.cobra_to_kbase.convert_to_kbase(tmodel.id, tmodel)
+            sss = {
+                'workspace' : ws,
+                'objects' : [{
+                    'data' : out_model,
+                    'name' : output_model_id,
+                    'type' : 'KBaseFBA.FBAModel'
+                }]
+            }
+            kbase.ws_client.save_objects(sss)
+            objects_created.append(output_model_id)
+
+        #/kb/module/data/transyt/genome/sbmlResult_qCov_0.8_eValThresh_1.0E-50.xml
+
         text_message = "{} {} {} {}".format(params['genome_id'], genome['id'], scientific_lineage, taxa_id)
-        report_info = report.create({'report': {'objects_created':[],
-                                        'text_message': text_message},
-                                        'workspace_name': params['workspace_name']})
+        with open(self.shared_folder + '/report.html', 'w') as f:
+            f.write('<p>' + text_message + '</p>')
+
+        report = KBaseReport(self.callback_url)
+
+        report_params = {
+            'direct_html_link_index' : 0,
+            'workspace_name' : params['workspace'],
+            'report_object_name' : 'runMemote_' + uuid.uuid4().hex,
+            'objects_created' : [],
+            'html_links' : [
+                {'name' : 'report', 'description' : 'Report', 'path' : self.shared_folder + '/report.html' }
+            ],
+            'file_links' : [
+                {'name' : params['model_id'] + ".xml", 'description' : 'desc', 'path' : report_folder + "/model.xml"}
+            ]
+        }
+
+        print(report_params)
+
+        
+        report_info = report.create(
+            {
+                'report': {
+                    'objects_created': objects_created,
+                    'text_message': text_message
+                    },
+                'workspace_name': ws
+            })
  
         #report_info = report.create(report_params)
 
