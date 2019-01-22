@@ -38,6 +38,13 @@ parameters :
             Model short-hint
         long-hint  : |
             Model long-hint
+    output_model_id:
+        ui-name : |
+            Output Transporter Model
+        short-hint : |
+            Transporter Model short-hint
+        long-hint  : |
+            Transporter Model long-hint
 
 description : |
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar efficitur felis, quis tincidunt sem congue at. Vivamus ornare feugiat faucibus. Fusce tincidunt mattis nunc, nec varius purus convallis quis. Nulla facilisi. In at magna dolor. Suspendisse sit amet felis at arcu auctor dapibus vitae pharetra dui. Nam semper mi quis tortor fermentum mollis. Donec a arcu pharetra, rutrum dolor vitae, rutrum mauris. Donec ornare fringilla sagittis. Nam laoreet est in elementum malesuada. Vestibulum id mi eget urna hendrerit feugiat. Donec et ultrices nulla. Phasellus diam eros, dapibus at tempus nec, semper vel ante.</p>
