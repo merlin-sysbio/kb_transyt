@@ -150,15 +150,8 @@ class kb_transyt:
             #fix otherthing
             tmodel = cobra.io.read_sbml_model(model_fix_path)
             out_model = cobrakbase.core.cobra_to_kbase.convert_to_kbase(tmodel.id, tmodel)
-            sss = {
-                'workspace' : ws,
-                'objects' : [{
-                    'data' : out_model,
-                    'name' : output_model_id,
-                    'type' : 'KBaseFBA.FBAModel'
-                }]
-            }
-            kbase.ws_client.save_objects(sss)
+            out_model['genome_ref'] = ws + '/' + params['genome_id']
+            kbase.save_object(output_model_id, ws, 'KBaseFBA.FBAModel', out_model)
             objects_created.append(output_model_id)
 
         #/kb/module/data/transyt/genome/sbmlResult_qCov_0.8_eValThresh_1.0E-50.xml
