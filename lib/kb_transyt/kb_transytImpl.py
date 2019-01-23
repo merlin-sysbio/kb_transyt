@@ -6,6 +6,7 @@ from installed_clients.WorkspaceClient import Workspace
 from installed_clients.KBaseReportClient import KBaseReport
 import cobra
 import cobrakbase
+import cobrakbase.core.cobra_to_kbase
 import kb_transyt_module
 import uuid
 #END_HEADER
@@ -126,9 +127,10 @@ class kb_transyt:
         objects_created = []
 
         #check of genome file exists 
+        model_fix_path = self.shared_folder + '/transporters_sbml.xml'
         if os.path.exists(out_sbml_path):
             #fix sbml header for cobra
-            model_fix_path = self.shared_folder + '/transporters_sbml.xml'
+            
             sbml_tag = '<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" fbc:required="false" groups:required="false" level="3" sboTerm="SBO:0000624" version="1" xmlns:fbc="http://www.sbml.org/sbml/level3/version1/fbc/version2" xmlns:groups="http://www.sbml.org/sbml/level3/version1/groups/version1">'
             model_tag = '<model extentUnits="substance" fbc:strict="true" id="transyt" metaid="transyt" name="transyt" substanceUnits="substance" timeUnits="time">'
             xml_data = None
@@ -176,7 +178,7 @@ class kb_transyt:
                 {'name' : 'report', 'description' : 'Report', 'path' : self.shared_folder + '/report.html' }
             ],
             'file_links' : [
-                {'name' : params['model_id'] + ".xml", 'description' : 'desc', 'path' : report_folder + "/model.xml"}
+                {'name' : params['model_id'] + ".xml", 'description' : 'desc', 'path' : model_fix_path + "/model.xml"}
             ]
         }
 
@@ -197,6 +199,7 @@ class kb_transyt:
         output = {
             'report_name': report_info['name'],
             'report_ref': report_info['ref'],
+            'fbamodel_id' : output_model_id
         }
         print('returning:', output)
         #END run_transyt
