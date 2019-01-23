@@ -164,7 +164,7 @@ class kb_transyt:
 
         report_params = {
             'direct_html_link_index' : 0,
-            'workspace_name' : params['workspace'],
+            'workspace_name' : ws,
             'report_object_name' : 'runMemote_' + uuid.uuid4().hex,
             'objects_created' : [],
             'html_links' : [
