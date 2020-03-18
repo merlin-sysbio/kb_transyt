@@ -8,6 +8,7 @@ import cobra
 import cobrakbase
 import cobrakbase.core.cobra_to_kbase
 import kb_transyt_module
+import subprocess
 import uuid
 #END_HEADER
 
@@ -61,6 +62,13 @@ class kb_transyt:
         # return variables are: output
         #BEGIN run_transyt
 
+        subprocess.Popen(["/opt/neo4j/neo4j-community-4.0.1/bin/neo4j", "start"])
+
+        results_path = '/workdir/resultsWorker/'
+
+        if not os.path.exists(results_path):
+            os.makedirs(results_path)
+
         print(params)
         output_model_id = "test_model"
         kbase = cobrakbase.KBaseAPI(ctx['token'], config=self.config)
@@ -108,18 +116,22 @@ class kb_transyt:
             model_path = "/kb/module/data/transyt/genome/model.xml"
             cobra.io.write_sbml_model(cobra_model, model_path)
 
-        import subprocess
 
         java = "/opt/jdk/jdk-11.0.1/bin/java"
-        transyt_jar = "newTransytTest.jar"
+        transyt_jar = "/opt/transyt/transyt.jar"
 
         genome_path = "../genome/genome.faa"
         
         #genome_path = "../genome/GCF_000005845.2_ASM584v2_protein.faa"
-        
-        transyt_subprocess = [java, "-jar", transyt_jar, str(taxa_id), genome_path, model_path]
 
-        working_dir= "/kb/module/data/transyt/jar"
+        transyt_subprocess = subprocess.Popen([java, "-jar", "--add-exports", "java.base/jdk.internal.misc=ALL-UNNAMED",
+                                               "-Dio.netty.tryReflectionSetAccessible=true", "-Dworkdir=/workdir",
+                                               "-Xmx4096m", transyt_jar, "3", "/kb/module/data/testData/", results_path])
+
+        #this transyt process only runs the example!!! To use the arguments of the code above
+        #please refactor code
+
+        working_dir= "/opt/transyt/jar"
 
         subprocess.check_call(transyt_subprocess, cwd=working_dir)
 

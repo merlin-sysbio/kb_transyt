@@ -1,3 +1,6 @@
 test_local
 sdk.cfg
 .DS_Store
+transyt.jar
+jdk-11.0.1_linux-x64_bin.tar.gz
+neo4j-community-4.0.1-unix.tar.gz
