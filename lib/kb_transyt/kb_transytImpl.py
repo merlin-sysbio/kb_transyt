@@ -7,9 +7,9 @@ from installed_clients.KBaseReportClient import KBaseReport
 import cobra
 import cobrakbase
 import cobrakbase.core.cobra_to_kbase
-import kb_transyt_module
-import subprocess
 import uuid
+import transyt_wrapper as tw
+
 #END_HEADER
 
 
@@ -62,78 +62,14 @@ class kb_transyt:
         # return variables are: output
         #BEGIN run_transyt
 
-        subprocess.Popen(["/opt/neo4j/neo4j-community-4.0.1/bin/neo4j", "start"])
-
-        results_path = '/workdir/resultsWorker/'
-
-        if not os.path.exists(results_path):
-            os.makedirs(results_path)
-
         print(params)
-        output_model_id = "test_model"
-        kbase = cobrakbase.KBaseAPI(ctx['token'], config=self.config)
 
-        #print(os.environ)
-        #print(self.config)
-        #ws_client = Workspace(self.config['workspace-url'], token=ctx['token'])
-        #def get_object(wclient, oid, ws):
-        #    res = wclient.get_objects2({"objects" : [{"name" : oid, "workspace" : ws}]})
-        #    return res["data"][0]["data"]
-
-        ws = params['workspace_name']
-        genome = kbase.get_object(params['genome_id'], ws)
-
-        def to_faa(kgenome):
-            faa_features = []
-            for feature in kgenome['features']:
-                if 'protein_translation' in feature:
-                    faa_features.append('>' + feature['id'] + '\n' + feature['protein_translation'])
-            
-            return '\n'.join(faa_features)
-
-        faa = to_faa(genome)
-        print('write genome FAA (bytes):', len(faa))
-        with open('/kb/module/data/transyt/genome/genome.faa', 'w') as f:
-            f.write(faa)
-            f.close()
-
-        #detect taxa
-        ref_data = kbase.get_object_info_from_ref(genome['taxon_ref'])
-        ktaxon = kbase.get_object(ref_data['infos'][0][1], ref_data['infos'][0][7])
-        scientific_lineage = ktaxon['scientific_lineage']
-        taxa_id = ktaxon['taxonomy_id']
-
-        model = None
-        if 'model_id' in params and len(params['model_id'].strip()) > 0:
-            model = kbase.get_object(params['model_id'], ws)
-
-        
-        model_path = "../genome/simGCF_000005845.2.new_template.xml"
-
-        if not model == None:
-            print('converting model to sbml')
-            cobra_model = cobrakbase.convert_kmodel(model, {})
-            model_path = "/kb/module/data/transyt/genome/model.xml"
-            cobra.io.write_sbml_model(cobra_model, model_path)
+        transyt_process = tw.transyt_wrapper(token=ctx['token'], params=params, config=self.config)
 
 
-        java = "/opt/jdk/jdk-11.0.1/bin/java"
-        transyt_jar = "/opt/transyt/transyt.jar"
+        '''output_model_id = "test_model"
 
-        genome_path = "../genome/genome.faa"
-        
-        #genome_path = "../genome/GCF_000005845.2_ASM584v2_protein.faa"
 
-        transyt_subprocess = subprocess.Popen([java, "-jar", "--add-exports", "java.base/jdk.internal.misc=ALL-UNNAMED",
-                                               "-Dio.netty.tryReflectionSetAccessible=true", "-Dworkdir=/workdir",
-                                               "-Xmx4096m", transyt_jar, "3", "/kb/module/data/testData/", results_path])
-
-        #this transyt process only runs the example!!! To use the arguments of the code above
-        #please refactor code
-
-        working_dir= "/opt/transyt/jar"
-
-        subprocess.check_call(transyt_subprocess, cwd=working_dir)
 
         out_sbml_path = '/kb/module/data/transyt/genome/sbmlResult_qCov_0.8_eValThresh_1.0E-50.xml'
         objects_created = []
@@ -174,22 +110,6 @@ class kb_transyt:
 
         report = KBaseReport(self.callback_url)
 
-        report_params = {
-            'direct_html_link_index' : 0,
-            'workspace_name' : params['workspace'],
-            'report_object_name' : 'runMemote_' + uuid.uuid4().hex,
-            'objects_created' : [],
-            'html_links' : [
-                {'name' : 'report', 'description' : 'Report', 'path' : self.shared_folder + '/report.html' }
-            ],
-            'file_links' : [
-                {'name' : params['model_id'] + ".xml", 'description' : 'desc', 'path' : model_fix_path + "/model.xml"}
-            ]
-        }
-
-        print(report_params)
-
-        
         report_info = report.create(
             {
                 'report': {
@@ -213,8 +133,11 @@ class kb_transyt:
         if not isinstance(output, dict):
             raise ValueError('Method run_transyt return value ' +
                              'output is not type dict as required.')
-        # return the results
+        # return the results'''
+
+        output = None
         return [output]
+
     def status(self, ctx):
         #BEGIN_STATUS
         returnVal = {'state': "OK",
