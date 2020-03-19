@@ -121,5 +121,3 @@ class transyt_wrapper:
     def deploy_neo4j_database(self):
 
         subprocess.Popen(["/opt/neo4j/neo4j-community-4.0.1/bin/neo4j", "start"])
-
-wp = transyt_wrapper(token="NSRBLCNEOIC3RJZWFC66FGOLLWOQ24MI", deploy_database=False)
