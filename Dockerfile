@@ -28,28 +28,30 @@ WORKDIR /kb/module
 
 # ------------ LOCAL TEST ---------------
 
-ADD data/workdir.tar.gz /
+#ADD data/workdir.tar.gz /
 
-RUN mv /kb/module/transyt.jar /opt/transyt
+#RUN mv /kb/module/transyt.jar /opt/transyt
 
-ADD neo4j-community-4.0.1-unix.tar.gz /opt/neo4j
-ADD data/data.tar.gz /opt/neo4j/neo4j-community-4.0.1
+#ADD neo4j-community-4.0.1-unix.tar.gz /opt/neo4j
+#
 
-RUN mv /kb/module/data/neo4j.conf /opt/neo4j/neo4j-community-4.0.1/conf/
+#RUN mv /kb/module/data/neo4j.conf /opt/neo4j/neo4j-community-4.0.1/conf/
 
-ADD jdk-11.0.1_linux-x64_bin.tar.gz /opt/jdk
+#ADD jdk-11.0.1_linux-x64_bin.tar.gz /opt/jdk
 
 # ------------- KBASE (NOT READY) ----------------
 
-#WORKDIR /kb/module/opt
-#RUN wget -q http://bioseed.mcs.anl.gov/~fxliu/kbase_build/jdk-11.0.1_linux-x64_bin.tar.gz
-#RUN wget -q  http://bioseed.mcs.anl.gov/~fxliu/kbase_build/transyt_0.0.1.zip
+WORKDIR /kb/module/opt
+RUN wget -q http://bioseed.mcs.anl.gov/~fxliu/kbase_build/jdk-11.0.1_linux-x64_bin.tar.gz
+RUN wget -q  http://bioseed.mcs.anl.gov/~fxliu/kbase_build/transyt_0.0.1.zip
 
-#RUN tar -xf /kb/module/opt/jdk-11.0.1_linux-x64_bin.tar.gz -C /opt/jdk
-#RUN tar -xf /kb/module/opt/ncbi-blast-2.8.1+-x64-linux.tar.gz -C /opt/blast
+RUN tar -xf /kb/module/opt/jdk-11.0.1_linux-x64_bin.tar.gz -C /opt/jdk
+RUN tar -xf /kb/module/opt/ncbi-blast-2.8.1+-x64-linux.tar.gz -C /opt/blast
 #RUN unzip transyt_0.0.1.zip -d /kb/module/data
 
 # ---------------------------------------------
+
+ADD data/data.tar.gz /opt/neo4j/neo4j-community-4.0.1
 
 WORKDIR /kb/module
 
