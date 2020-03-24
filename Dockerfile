@@ -12,6 +12,7 @@ RUN apt-get -y install ncbi-blast+ #control version
 
 RUN pip install --upgrade pip
 RUN pip install cobrakbase
+RUN pip install networkx
 
 # -----------------------------------------
 
