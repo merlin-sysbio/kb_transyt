@@ -26,7 +26,7 @@ RUN mkdir -p /kb/module/opt
 RUN mkdir -p /opt/jdk
 RUN mkdir -p /opt/transyt
 RUN mkdir -p /opt/neo4j
-RUN mkdir /workdir
+#RUN mkdir /workdir
 
 WORKDIR /kb/module
 
@@ -40,12 +40,12 @@ RUN ls data
 
 RUN mv /kb/module/transyt.jar /opt/transyt
 
-#RUN tar -xf /kb/module/neo4j-community-4.0.1-unix.tar.gz -C /opt/neo4j
+RUN tar -xf /kb/module/neo4j-community-4.0.1-unix.tar.gz -C /opt/neo4j
 #RUN tar -xf /kb/module/data/data.tar.gz -C /opt/neo4j/neo4j-community-4.0.1
 
 #RUN mv /kb/module/data/neo4j.conf /opt/neo4j/neo4j-community-4.0.1/conf/
 
-#RUN tar -xf /kb/module/jdk-11.0.1_linux-x64_bin.tar.gz -C /opt/jdk
+RUN tar -xf /kb/module/jdk-11.0.1_linux-x64_bin.tar.gz -C /opt/jdk
 
 # ------------- USING OTHER SYSTEM ----------------
 
