@@ -38,7 +38,7 @@ RUN ls data
 
 #RUN tar -xf /kb/module/data/workdir.tar.gz -C /
 
-#RUN mv /kb/module/transyt.jar /opt/transyt
+RUN mv /kb/module/transyt.jar /opt/transyt
 
 #RUN tar -xf /kb/module/neo4j-community-4.0.1-unix.tar.gz -C /opt/neo4j
 #RUN tar -xf /kb/module/data/data.tar.gz -C /opt/neo4j/neo4j-community-4.0.1
