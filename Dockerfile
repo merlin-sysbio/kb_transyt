@@ -30,6 +30,10 @@ RUN mkdir /workdir
 
 WORKDIR /kb/module
 
+RUN ls
+
+RUN ls data
+
 # ------------ USING GIT LFS ---------------
 
 #RUN tar -xf /kb/module/data/workdir.tar.gz -C /
