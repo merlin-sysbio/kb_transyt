@@ -6,17 +6,19 @@ LABEL maintainer=dlagoa@anl.gov
 # install line here, a git checkout to download code, or run any other
 # installation scripts.
 
-#RUN apt-get update
-#RUN apt-get install wget
-#RUN apt-get -y install ncbi-blast+ #control version
+RUN apt-get update
+RUN apt-get install wget
+RUN apt-get -y install ncbi-blast+ #control version
 
-#RUN pip install --upgrade pip
-#RUN pip install cobrakbase
-#RUN pip install networkx
+RUN pip install --upgrade pip
+RUN pip install cobrakbase
+RUN pip install networkx
 
 # -----------------------------------------
 
 COPY ./ /kb/module
+
+RUN ls
 
 RUN chmod -R a+rw /kb/module
 
