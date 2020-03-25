@@ -24,34 +24,35 @@ RUN mkdir -p /kb/module/opt
 RUN mkdir -p /opt/jdk
 RUN mkdir -p /opt/transyt
 RUN mkdir -p /opt/neo4j
-#RUN mkdir /workdir
+RUN mkdir /downloads
 
-WORKDIR /kb/module
+WORKDIR downloads
 
-# ------------ USING GIT LFS ---------------
+# ------------ Downloads ---------------
 
-RUN tar -xf /kb/module/data/workdir.tar.gz -C /
+RUN wget -q http://bioseed.mcs.anl.gov/~fxliu/kbase_build/jdk-11.0.1_linux-x64_bin.tar.gz
+RUN tar -xf jdk-11.0.1_linux-x64_bin.tar.gz -C /opt/jdk
 
-RUN mv /kb/module/transyt.jar /opt/transyt
+RUN wget -q https://neo4j.com/artifact.php?name=neo4j-community-4.0.2-unix.tar.gz -O neo4j-community-4.0.2-unix.tar.gz
+RUN tar -xf neo4j-community-4.0.2-unix.tar.gz -C /opt/neo4j
 
-RUN tar -xf /kb/module/neo4j-community-4.0.1-unix.tar.gz -C /opt/neo4j
-RUN tar -xf /kb/module/data/data.tar.gz -C /opt/neo4j/neo4j-community-4.0.1
+RUN wget -q https://merlin-sysbio.org/data/transyt/scraper/workdir.tar.gz
+RUN tar -xf workdir.tar.gz -C /
 
-RUN mv /kb/module/data/neo4j.conf /opt/neo4j/neo4j-community-4.0.1/conf/
+RUN wget -q https://merlin-sysbio.org/data/transyt/database/data.tar.gz
+RUN tar -xf data.tar.gz -C /opt/neo4j/neo4j-community-4.0.2
 
-RUN tar -xf /kb/module/jdk-11.0.1_linux-x64_bin.tar.gz -C /opt/jdk
+WORKDIR /opt/transyt
 
-# ------------- USING OTHER SYSTEM ----------------
-
-#WORKDIR /kb/module/opt
-#RUN wget -q http://bioseed.mcs.anl.gov/~fxliu/kbase_build/jdk-11.0.1_linux-x64_bin.tar.gz
-#RUN wget -q  http://bioseed.mcs.anl.gov/~fxliu/kbase_build/transyt_0.0.1.zip
-
-#RUN tar -xf /kb/module/opt/jdk-11.0.1_linux-x64_bin.tar.gz -C /opt/jdk
-#RUN tar -xf /kb/module/opt/ncbi-blast-2.8.1+-x64-linux.tar.gz -C /opt/blast
-#RUN unzip transyt_0.0.1.zip -d /kb/module/data
+RUN wget -q https://merlin-sysbio.org/data/transyt/transyt.jar
 
 # ---------------------------------------------
+
+RUN rm -r /downloads
+
+RUN mv /kb/module/conf/neo4j.conf /opt/neo4j/neo4j-community-4.0.2/conf/
+
+WORKDIR /kb/module
 
 RUN make all
 
@@ -59,7 +60,7 @@ EXPOSE 7474
 EXPOSE 7687
 
 ENV JAVA_HOME=/opt/jdk/jdk-11.0.1
-ENV PATH="/opt/blast/ncbi-blast-2.8.1+/bin:${PATH}"
+#ENV PATH="/opt/blast/ncbi-blast-2.8.1+/bin:${PATH}"
 
 ENTRYPOINT [ "./scripts/entrypoint.sh" ]
 
