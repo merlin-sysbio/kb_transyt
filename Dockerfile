@@ -16,17 +16,17 @@ LABEL maintainer=dlagoa@anl.gov
 
 # -----------------------------------------
 
-#COPY ./ /kb/module
+COPY ./ /kb/module
 
-#RUN chmod -R a+rw /kb/module
-RUN echo "no cache"
+RUN chmod -R a+rw /kb/module
+
 RUN mkdir -p /kb/module/opt
 RUN mkdir -p /opt/jdk
 RUN mkdir -p /opt/transyt
 RUN mkdir -p /opt/neo4j
 RUN mkdir /workdir
 
-#WORKDIR /kb/module
+WORKDIR /kb/module
 
 # ------------ USING GIT LFS ---------------
 
@@ -52,8 +52,6 @@ RUN mkdir /workdir
 #RUN unzip transyt_0.0.1.zip -d /kb/module/data
 
 # ---------------------------------------------
-
-#WORKDIR /kb/module
 
 RUN make all
 
