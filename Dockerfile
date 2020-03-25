@@ -18,8 +18,6 @@ RUN pip install networkx
 
 COPY ./ /kb/module
 
-RUN ls
-
 RUN chmod -R a+rw /kb/module
 
 RUN mkdir -p /kb/module/opt
@@ -30,20 +28,16 @@ RUN mkdir -p /opt/neo4j
 
 WORKDIR /kb/module
 
-RUN ls
-
-RUN ls data
-
 # ------------ USING GIT LFS ---------------
 
-#RUN tar -xf /kb/module/data/workdir.tar.gz -C /
+RUN tar -xf /kb/module/data/workdir.tar.gz -C /
 
 RUN mv /kb/module/transyt.jar /opt/transyt
 
 RUN tar -xf /kb/module/neo4j-community-4.0.1-unix.tar.gz -C /opt/neo4j
-#RUN tar -xf /kb/module/data/data.tar.gz -C /opt/neo4j/neo4j-community-4.0.1
+RUN tar -xf /kb/module/data/data.tar.gz -C /opt/neo4j/neo4j-community-4.0.1
 
-#RUN mv /kb/module/data/neo4j.conf /opt/neo4j/neo4j-community-4.0.1/conf/
+RUN mv /kb/module/data/neo4j.conf /opt/neo4j/neo4j-community-4.0.1/conf/
 
 RUN tar -xf /kb/module/jdk-11.0.1_linux-x64_bin.tar.gz -C /opt/jdk
 
@@ -64,8 +58,8 @@ RUN make all
 EXPOSE 7474
 EXPOSE 7687
 
-#ENV JAVA_HOME=/opt/jdk/jdk-11.0.1
-#ENV PATH="/opt/blast/ncbi-blast-2.8.1+/bin:${PATH}"
+ENV JAVA_HOME=/opt/jdk/jdk-11.0.1
+ENV PATH="/opt/blast/ncbi-blast-2.8.1+/bin:${PATH}"
 
 ENTRYPOINT [ "./scripts/entrypoint.sh" ]
 
