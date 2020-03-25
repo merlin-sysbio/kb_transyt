@@ -19,7 +19,7 @@ LABEL maintainer=dlagoa@anl.gov
 #COPY ./ /kb/module
 
 #RUN chmod -R a+rw /kb/module
-
+RUN echo "no cache"
 RUN mkdir -p /kb/module/opt
 RUN mkdir -p /opt/jdk
 RUN mkdir -p /opt/transyt
