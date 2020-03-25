@@ -55,7 +55,7 @@ RUN mkdir /workdir
 
 #WORKDIR /kb/module
 
-#RUN make all
+RUN make all
 
 EXPOSE 7474
 EXPOSE 7687
@@ -63,6 +63,6 @@ EXPOSE 7687
 #ENV JAVA_HOME=/opt/jdk/jdk-11.0.1
 #ENV PATH="/opt/blast/ncbi-blast-2.8.1+/bin:${PATH}"
 
-#ENTRYPOINT [ "./scripts/entrypoint.sh" ]
+ENTRYPOINT [ "./scripts/entrypoint.sh" ]
 
-#CMD [ ]
+CMD [ ]
