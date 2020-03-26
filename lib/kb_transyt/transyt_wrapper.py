@@ -217,7 +217,6 @@ class transyt_wrapper:
         # return the results
 
         return output
-        print("done")
 
 
     def deploy_neo4j_database(self):

@@ -65,77 +65,9 @@ class kb_transyt:
         print(params)
 
         transyt_process = tw.transyt_wrapper(token=ctx['token'], params=params, config=self.config)
+        transyt_process.run_transyt()
+        output = transyt_process.process_output()
 
-
-        '''output_model_id = "test_model"
-
-
-
-        out_sbml_path = '/kb/module/data/transyt/genome/sbmlResult_qCov_0.8_eValThresh_1.0E-50.xml'
-        objects_created = []
-
-        #check of genome file exists 
-        model_fix_path = self.shared_folder + '/transporters_sbml.xml'
-        if os.path.exists(out_sbml_path):
-            #fix sbml header for cobra
-            
-            sbml_tag = '<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" fbc:required="false" groups:required="false" level="3" sboTerm="SBO:0000624" version="1" xmlns:fbc="http://www.sbml.org/sbml/level3/version1/fbc/version2" xmlns:groups="http://www.sbml.org/sbml/level3/version1/groups/version1">'
-            model_tag = '<model extentUnits="substance" fbc:strict="true" id="transyt" metaid="transyt" name="transyt" substanceUnits="substance" timeUnits="time">'
-            xml_data = None
-            xml_fix = ""
-            with open(out_sbml_path, 'r') as f:
-                xml_data = f.readlines()
-            for l in xml_data:
-                if l.strip().startswith('<sbml'):
-                    xml_fix += sbml_tag
-                elif l.strip().startswith('<model'):
-                    xml_fix += model_tag
-                else:
-                    xml_fix += l
-            if not xml_data == None:
-                with open(model_fix_path, 'w') as f:
-                    f.writelines(xml_fix)
-            #fix otherthing
-            tmodel = cobra.io.read_sbml_model(model_fix_path)
-            out_model = cobrakbase.core.cobra_to_kbase.convert_to_kbase(tmodel.id, tmodel)
-            out_model['genome_ref'] = ws + '/' + params['genome_id']
-            kbase.save_object(output_model_id, ws, 'KBaseFBA.FBAModel', out_model)
-            objects_created.append(output_model_id)
-
-        #/kb/module/data/transyt/genome/sbmlResult_qCov_0.8_eValThresh_1.0E-50.xml
-
-        text_message = "{} {} {} {}".format(params['genome_id'], genome['id'], scientific_lineage, taxa_id)
-        with open(self.shared_folder + '/report.html', 'w') as f:
-            f.write('<p>' + text_message + '</p>')
-
-        report = KBaseReport(self.callback_url)
-
-        report_info = report.create(
-            {
-                'report': {
-                    'objects_created': objects_created,
-                    'text_message': text_message
-                    },
-                'workspace_name': ws
-            })
- 
-        #report_info = report.create(report_params)
-
-        output = {
-            'report_name': report_info['name'],
-            'report_ref': report_info['ref'],
-            'fbamodel_id' : output_model_id
-        }
-        print('returning:', output)
-        #END run_transyt
-
-        # At some point might do deeper type checking...
-        if not isinstance(output, dict):
-            raise ValueError('Method run_transyt return value ' +
-                             'output is not type dict as required.')
-        # return the results'''
-
-        output = None
         return [output]
 
     def status(self, ctx):
