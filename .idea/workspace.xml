@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e437acce-8141-4dfa-9315-1fe32627d390" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/lib/kb_transyt/kb_transytImpl.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/kb_transyt/kb_transytImpl.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kbase.yml" beforeDir="false" afterPath="$PROJECT_DIR$/kbase.yml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,7 +12,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="488">
@@ -33,6 +32,15 @@
               <folding>
                 <element signature="e#99#108#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/kbase.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="10" column="9" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -97,11 +105,11 @@
         <option value="$PROJECT_DIR$/lib/kb_transyt/test_transyt.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/Dockerfile" />
-        <option value="$PROJECT_DIR$/kbase.yml" />
         <option value="$PROJECT_DIR$/ui/narrative/methods/run_transyt/spec.json" />
         <option value="$PROJECT_DIR$/ui/narrative/methods/run_transyt/display.yaml" />
         <option value="$PROJECT_DIR$/lib/kb_transyt/kb_transytImpl.py" />
         <option value="$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py" />
+        <option value="$PROJECT_DIR$/kbase.yml" />
       </list>
     </option>
   </component>
@@ -434,13 +442,6 @@
     <entry file="file://$PROJECT_DIR$/.gitattributes">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/kbase.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="9" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -483,6 +484,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="488">
+          <caret line="210" selection-start-line="210" selection-end-line="210" />
+          <folding>
+            <element signature="e#0#17#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/lib/kb_transyt/kb_transytImpl.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="278">
@@ -493,13 +504,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py">
+    <entry file="file://$PROJECT_DIR$/kbase.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="488">
-          <caret line="210" selection-start-line="210" selection-end-line="210" />
-          <folding>
-            <element signature="e#0#17#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="150">
+          <caret line="10" column="9" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
         </state>
       </provider>
     </entry>
