@@ -76,7 +76,8 @@ class kb_transyt:
         #                     'output is not type dict as required.')
         # return the results
 
-        return [output]
+        #return [output]
+        return []
 
     def status(self, ctx):
         #BEGIN_STATUS
