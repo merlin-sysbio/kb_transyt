@@ -18,8 +18,6 @@ RUN pip install networkx
 
 COPY ./ /kb/module
 
-RUN cat /kb/module/lib/kb_transyt/kb_transytImpl.py
-
 RUN chmod -R a+rw /kb/module
 
 RUN mkdir -p /kb/module/opt

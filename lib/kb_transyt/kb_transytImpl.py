@@ -74,7 +74,7 @@ class kb_transyt:
             'fbamodel_id': "id_here"
         }
 
-        # END run_transyt
+        #END run_transyt
 
         # At some point might do deeper type checking...
         if not isinstance(output, dict):
