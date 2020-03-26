@@ -207,7 +207,7 @@ class transyt_wrapper:
             'report_ref': report_info['ref'],
             'fbamodel_id': output_model_id
         }
-        print('returning:', output)
+        #print('returning:', output)
 
         return output
 
