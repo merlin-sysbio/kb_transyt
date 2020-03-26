@@ -16,10 +16,9 @@ RUN pip install networkx
 
 # -----------------------------------------
 
-#any command here just to prevent kbase from using cache in the rest of the build
-RUN ls
-
 COPY ./ /kb/module
+
+RUN cat /kb/module/lib/kb_transyt/kb_transytImpl.py
 
 RUN chmod -R a+rw /kb/module
 
@@ -63,7 +62,6 @@ EXPOSE 7474
 EXPOSE 7687
 
 ENV JAVA_HOME=/opt/jdk/jdk-11.0.1
-#ENV PATH="/opt/blast/ncbi-blast-2.8.1+/bin:${PATH}"
 
 ENTRYPOINT [ "./scripts/entrypoint.sh" ]
 

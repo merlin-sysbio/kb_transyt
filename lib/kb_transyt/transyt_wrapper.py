@@ -30,15 +30,18 @@ class transyt_wrapper:
             self.deploy_neo4j_database()
 
 
-    def run_transyt(self, model_obj_name = None, genome_obj_name = None, narrative_id = None, ws_name = None):
+    def run_transyt(self, model_obj_name = None, genome_obj_name = None, narrative_id = None):
 
         genome = None
         compounds = None
 
+        if self.ws is None:
+            self.ws = narrative_id
+
         if narrative_id is None:
             genome, compounds = self.retrieve_params_data()
         else:
-            genome, compounds = self.retrieve_test_data(model_obj_name, genome_obj_name, narrative_id, ws_name)
+            genome, compounds = self.retrieve_test_data(model_obj_name, genome_obj_name, narrative_id)
 
         if not os.path.exists(self.inputs_path):
             os.makedirs(self.inputs_path)
@@ -66,11 +69,15 @@ class transyt_wrapper:
 
     def retrieve_test_data(self, model_obj_name, genome_obj_name, narrative_id):
 
-        self.ws = narrative_id
+        if self.params is None:
+            self.params = {'genome_id': genome_obj_name}
 
         genome = self.kbase.get_object(genome_obj_name, narrative_id)
-        print(self.kbase.get_object(model_obj_name, narrative_id)['genome_ref'])
-        model_compounds = self.kbase.get_object(model_obj_name, narrative_id)['modelcompounds']
+
+        model_compounds = None
+
+        if model_obj_name is not None:
+            model_compounds = self.kbase.get_object(model_obj_name, narrative_id)['modelcompounds']
 
         return genome, model_compounds
 
@@ -96,7 +103,9 @@ class transyt_wrapper:
         self.scientific_lineage = ktaxon['scientific_lineage']
         self.taxonomy_id = ktaxon['taxonomy_id']
 
-        self.compounds_to_txt(model_compounds)
+        if model_compounds is not None:
+            self.compounds_to_txt(model_compounds)
+
         self.genome_to_faa(genome)
         self.params_to_file(self.ref_database, False)
 
@@ -138,10 +147,11 @@ class transyt_wrapper:
 
     def process_output(self):
 
-        output_model_id = "test_model"
+        output_model_id = "transporters_ecoli_test"
 
         if self.ws is None:         #delete when tests are complete
-            self.ws = "jplfaria:narrative_1534279408897"
+            self.ws = "davide:narrative_1585245719372"
+            self.params = {"genome_id": "Escherichia_coli_str._K-12_substr._MG1655"}
 
         out_sbml_path = self.results_path + "/results/transyt.xml"
 
@@ -214,4 +224,4 @@ class transyt_wrapper:
 
     def deploy_neo4j_database(self):
 
-        subprocess.Popen(["/opt/neo4j/neo4j-community-4.0.1/bin/neo4j", "start"])
+        subprocess.Popen(["/opt/neo4j/neo4j-community-4.0.2/bin/neo4j", "start"])

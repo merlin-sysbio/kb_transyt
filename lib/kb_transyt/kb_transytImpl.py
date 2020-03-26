@@ -68,7 +68,7 @@ class kb_transyt:
         transyt_process.run_transyt()
         output = transyt_process.process_output()
 
-        output = {
+        output = {      #swithching to this for now to be sure of the output
             'report_name': "report_name_here",
             'report_ref': "report_info_here",
             'fbamodel_id': "id_here"
