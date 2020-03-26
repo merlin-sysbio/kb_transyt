@@ -16,6 +16,9 @@ RUN pip install networkx
 
 # -----------------------------------------
 
+#any command here just to prevent kbase from using cache in the rest of the build
+RUN ls
+
 COPY ./ /kb/module
 
 RUN chmod -R a+rw /kb/module
