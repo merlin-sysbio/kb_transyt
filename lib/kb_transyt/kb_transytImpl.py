@@ -71,9 +71,9 @@ class kb_transyt:
         # END run_transyt
 
         # At some point might do deeper type checking...
-        if not isinstance(output, dict):
-            raise ValueError('Method run_transyt return value ' +
-                             'output is not type dict as required.')
+        #if not isinstance(output, dict):
+        #    raise ValueError('Method run_transyt return value ' +
+        #                     'output is not type dict as required.')
         # return the results
 
         return [output]
