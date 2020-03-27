@@ -2,12 +2,6 @@
 #BEGIN_HEADER
 # The header block is where all import statments should live
 import os
-from installed_clients.WorkspaceClient import Workspace
-from installed_clients.KBaseReportClient import KBaseReport
-import cobra
-import cobrakbase
-import cobrakbase.core.cobra_to_kbase
-import uuid
 import transyt_wrapper as tw
 
 #END_HEADER

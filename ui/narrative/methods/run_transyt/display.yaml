@@ -1,10 +1,10 @@
 #
 # define display information
 #
-name: transyt
+name: TranSyT
 
 tooltip: |
-    Perform some kind of method
+    Tool to identify transport systems and annotate these with reactions.
 
 screenshots: []
 
@@ -16,9 +16,9 @@ icon: icon.png
 suggestions:
     apps:
         related:
-            [app1, app2]
+            []
         next:
-            [app3, app4]
+            []
 
 #
 # Configure the display and description of parameters
@@ -38,10 +38,87 @@ parameters :
             Model short-hint
         long-hint  : |
             Model long-hint
+    auto_accept_evalue:
+        ui-name: |
+            E-value threshold to automatically accept hits
+        short-hint: |
+            The value below which all hits are accepted as possible transporters
+        long-hint: |
+            Describe here the format of the value
+    override_ontologies_filter:
+        ui-name: |
+            Override ontologies filter
+        short-hint: |
+            Model short-hint
+        long-hint: |
+            Model long-hint
+    blast_evalue_threshold:
+        ui-name: |
+            Blast E-value threshold
+        short-hint: |
+            Model short-hint
+        long-hint: |
+            Model long-hint
+    bitscore_threshold:
+        ui-name: |
+            Blast bit score threshold
+        short-hint: |
+            Model short-hint
+        long-hint: |
+            Model long-hint
+    query_coverage_threshold:
+        ui-name: |
+            Blast minimum query coverage threshold
+        short-hint: |
+            Model short-hint
+        long-hint: |
+            Model long-hint
+    similarity_score:
+        ui-name: |
+            Blast similarity score
+        short-hint: |
+            Model short-hint
+        long-hint: |
+            Model long-hint
+    alpha:
+        ui-name: |
+            Reactions annotation alpha value
+        short-hint: |
+            Model short-hint
+        long-hint: |
+            Model long-hint
+    beta:
+        ui-name: |
+            Reactions annotation beta value
+        short-hint: |
+            Model short-hint
+        long-hint: |
+            Model long-hint
+    minimum_hits_penalty:
+        ui-name: |
+            Reactions annotation minimum hits penalty
+        short-hint: |
+            Model short-hint
+        long-hint: |
+            Model long-hint
+    score_threshold:
+        ui-name: |
+            Reactions annotation score threshold
+        short-hint: |
+            Model short-hint
+        long-hint: |
+            Model long-hint
+    alpha_families:
+        ui-name: |
+            TC families annotation α value
+        short-hint: |
+            Model short-hint
+        long-hint: |
+            Model long-hint
+
 
 description : |
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar efficitur felis, quis tincidunt sem congue at. Vivamus ornare feugiat faucibus. Fusce tincidunt mattis nunc, nec varius purus convallis quis. Nulla facilisi. In at magna dolor. Suspendisse sit amet felis at arcu auctor dapibus vitae pharetra dui. Nam semper mi quis tortor fermentum mollis. Donec a arcu pharetra, rutrum dolor vitae, rutrum mauris. Donec ornare fringilla sagittis. Nam laoreet est in elementum malesuada. Vestibulum id mi eget urna hendrerit feugiat. Donec et ultrices nulla. Phasellus diam eros, dapibus at tempus nec, semper vel ante.</p>
-
-    <p>Curabitur auctor, metus at tristique euismod, odio elit tincidunt neque, a facilisis sem massa convallis dolor. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nunc ut hendrerit tellus. Nunc lacinia laoreet finibus. Etiam vitae sagittis enim. Fusce consectetur porta est eu pretium. In hac habitasse platea dictumst. Integer pellentesque sit amet sapien id venenatis. Nullam ac risus at orci eleifend aliquet. Vestibulum elit purus, euismod a nibh quis, pellentesque semper leo. Curabitur ullamcorper felis hendrerit nunc egestas, sit amet pharetra sapien porttitor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas hendrerit ipsum a ligula aliquet vestibulum. Duis a ante urna. Aenean ante neque, rhoncus id luctus ut, accumsan vel nunc.</p>
-
-    <p>Pellentesque accumsan aliquet magna, id consectetur tellus condimentum eu. Suspendisse elit dui, ornare ac leo eget, tincidunt feugiat orci. Maecenas auctor gravida lacinia. Mauris interdum nisi vel gravida varius. Nullam tempus, purus eget posuere aliquet, odio elit semper massa, quis facilisis massa odio vitae lacus. Fusce varius enim a mi vehicula tempus. Maecenas faucibus tellus ipsum, at venenatis ipsum auctor et. Suspendisse sem mi, dignissim id porta efficitur, auctor eget magna. Vivamus varius purus nulla, porttitor euismod lorem cursus quis. Nulla sit amet eros nec sem ultrices pulvinar.</p>
+    <p>The Transport Systems Tracker (TranSyT) is a tool to identify transport systems and the compounds carried
+    across membranes, based on the annotations of the Transporter Classification Database (TCDB). In addition,
+    this tool also generates the respective transport reactions while providing the respective
+    Gene-Protein-Reaction associations.</p>

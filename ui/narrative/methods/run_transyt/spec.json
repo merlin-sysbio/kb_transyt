@@ -31,6 +31,134 @@
             "text_options": {
                 "valid_ws_types": [ "KBaseFBA.FBAModel" ]
             }
+        },
+        {
+            "id": "auto_accept_evalue",
+            "optional": false,
+            "advanced": true,
+            "allow_multiple": false,
+            "default_values": [ "1E-50" ],
+            "field_type": "text"
+        },
+        {
+            "id": "override_ontologies_filter",
+            "optional": false,
+            "advanced": true,
+            "checkbox_options" : {
+                "unchecked_value" : 0,
+                "checked_value" : 1
+            },
+            "allow_multiple": false,
+            "default_values": [ "0" ],
+            "field_type": "checkbox"
+        },
+        {
+            "id": "blast_evalue_threshold",
+            "optional": false,
+            "advanced": true,
+            "allow_multiple": false,
+            "default_values": [ "1" ],
+            "field_type": "text"
+        },
+        {
+            "id": "bitscore_threshold",
+            "optional": false,
+            "advanced": true,
+            "allow_multiple": false,
+            "default_values": [ "50" ],
+            "field_type": "text"
+        },
+        {
+            "id": "query_coverage_threshold",
+            "optional": false,
+            "advanced": true,
+            "allow_multiple": false,
+            "default_values": [ "0.8" ],
+            "field_type": "text",
+            "text_options" : {
+                "valid_ws_types": [],
+                "validate_as": "float",
+                "min_float": 0,
+                "max_float": 1
+            }
+        },
+        {
+            "id": "similarity_score",
+            "optional": false,
+            "advanced": true,
+            "allow_multiple": false,
+            "default_values": [ "0.3" ],
+            "field_type": "text",
+            "text_options" : {
+                "valid_ws_types": [],
+                "validate_as": "float",
+                "min_float": 0,
+                "max_float": 1
+            }
+        },
+        {
+            "id": "alpha",
+            "optional": false,
+            "advanced": true,
+            "allow_multiple": false,
+            "default_values": [ "0.8" ],
+            "field_type": "text",
+            "text_options" : {
+                "valid_ws_types": [],
+                "validate_as": "float",
+                "min_float": 0,
+                "max_float": 1
+            }
+        },
+        {
+            "id": "beta",
+            "optional": false,
+            "advanced": true,
+            "allow_multiple": false,
+            "default_values": [ "0.3" ],
+            "field_type": "text",
+            "text_options" : {
+                "valid_ws_types": [],
+                "validate_as": "float",
+                "min_float": 0,
+                "max_float": 1
+            }
+        },
+        {
+            "id": "minimum_hits_penalty",
+            "optional": false,
+            "advanced": true,
+            "allow_multiple": false,
+            "default_values": [ "2" ],
+            "field_type": "text"
+        },
+        {
+            "id": "score_threshold",
+            "optional": false,
+            "advanced": true,
+            "allow_multiple": false,
+            "default_values": [ "0.5" ],
+            "field_type": "text",
+            "text_options" : {
+                "valid_ws_types": [],
+                "validate_as": "float",
+                "min_float": 0,
+                "max_float": 1
+            }
+        },
+        {
+            "id": "alpha_families",
+            "optional": false,
+            "advanced": true,
+            "allow_multiple": false,
+            "default_values": [ "0.4" ],
+            "field_type": "text",
+            "text_options" : {
+                "valid_ws_types": [],
+                "validate_as": "float",
+                "min_float": 0,
+                "max_float": 1
+            }
         }
     ],
     "behavior": {
