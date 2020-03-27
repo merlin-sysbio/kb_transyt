@@ -30,27 +30,27 @@ WORKDIR downloads
 
 # ------------ Downloads ---------------
 
-RUN wget -q http://bioseed.mcs.anl.gov/~fxliu/kbase_build/jdk-11.0.1_linux-x64_bin.tar.gz
-RUN tar -xf jdk-11.0.1_linux-x64_bin.tar.gz -C /opt/jdk
+#RUN wget -q http://bioseed.mcs.anl.gov/~fxliu/kbase_build/jdk-11.0.1_linux-x64_bin.tar.gz
+#RUN tar -xf jdk-11.0.1_linux-x64_bin.tar.gz -C /opt/jdk
 
-RUN wget -q https://neo4j.com/artifact.php?name=neo4j-community-4.0.2-unix.tar.gz -O neo4j-community-4.0.2-unix.tar.gz
-RUN tar -xf neo4j-community-4.0.2-unix.tar.gz -C /opt/neo4j
+#RUN wget -q https://neo4j.com/artifact.php?name=neo4j-community-4.0.2-unix.tar.gz -O neo4j-community-4.0.2-unix.tar.gz
+#RUN tar -xf neo4j-community-4.0.2-unix.tar.gz -C /opt/neo4j
 
-RUN wget -q https://merlin-sysbio.org/data/transyt/scraper/workdir.tar.gz
-RUN tar -xf workdir.tar.gz -C /
+#RUN wget -q https://merlin-sysbio.org/data/transyt/scraper/workdir.tar.gz
+#RUN tar -xf workdir.tar.gz -C /
 
-RUN wget -q https://merlin-sysbio.org/data/transyt/database/data.tar.gz
-RUN tar -xf data.tar.gz -C /opt/neo4j/neo4j-community-4.0.2
+#RUN wget -q https://merlin-sysbio.org/data/transyt/database/data.tar.gz
+#RUN tar -xf data.tar.gz -C /opt/neo4j/neo4j-community-4.0.2
 
-WORKDIR /opt/transyt
+#WORKDIR /opt/transyt
 
-RUN wget -q https://merlin-sysbio.org/data/transyt/transyt.jar
+#RUN wget -q https://merlin-sysbio.org/data/transyt/transyt.jar
 
 # ---------------------------------------------
 
 RUN rm -r /downloads
 
-RUN mv /kb/module/conf/neo4j.conf /opt/neo4j/neo4j-community-4.0.2/conf/
+#RUN mv /kb/module/conf/neo4j.conf /opt/neo4j/neo4j-community-4.0.2/conf/
 
 WORKDIR /kb/module
 
@@ -59,7 +59,7 @@ RUN make all
 EXPOSE 7474
 EXPOSE 7687
 
-ENV JAVA_HOME=/opt/jdk/jdk-11.0.1
+#ENV JAVA_HOME=/opt/jdk/jdk-11.0.1
 
 ENTRYPOINT [ "./scripts/entrypoint.sh" ]
 
