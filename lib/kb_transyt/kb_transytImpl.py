@@ -58,14 +58,14 @@ class kb_transyt:
 
         print(params)
 
-        transyt_process = tw.transyt_wrapper(token=ctx['token'], params=params, config=self.config, callbackURL=self.callback_url)
-        transyt_process.run_transyt()
-        output = transyt_process.process_output()
+        #transyt_process = tw.transyt_wrapper(token=ctx['token'], params=params, config=self.config, callbackURL=self.callback_url)
+        #transyt_process.run_transyt()
+        #output = transyt_process.process_output()
 
         output = {      #swithching to this for now to be sure of the output
             'report_name': "report_name_here",
             'report_ref': "report_info_here",
-            'fbamodel_id': "id_here"
+            'fbamodel_id': "transporters_ecoli_test"
         }
 
         #END run_transyt
