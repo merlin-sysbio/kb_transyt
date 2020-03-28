@@ -2,7 +2,7 @@ module-name:
     kb_transyt
 
 module-description:
-    A KBase module
+    A KBase module 
 
 service-language:
     python
