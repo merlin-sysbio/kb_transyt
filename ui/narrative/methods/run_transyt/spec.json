@@ -215,7 +215,7 @@
                     "target_property": "query_coverage_threshold"
                 },{
                     "input_parameter": "similarity_score",
-                    "target_property": "similarity_score"
+                    "target_property": "similarity"
                 },{
                     "input_parameter": "alpha",
                     "target_property": "alpha"
