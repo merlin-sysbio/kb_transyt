@@ -1,9 +1,9 @@
 {
-    "ver": "0.0.1",
+    "ver": "0.0.7",
     "authors": [
-        "filipeliu"
+        "filipeliu", "davide"
     ],
-    "contact": "fliu@anl.gov",
+    "contact": ["fliu@anl.gov", "dlagoa@anl.gov"],
     "categories": ["active", "metabolic_modeling"],
     "widgets": {
         "input": null,
@@ -33,6 +33,14 @@
             }
         },
         {
+            "id": "output_name",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "" ],
+            "field_type": "text"
+        },
+        {
             "id": "auto_accept_evalue",
             "optional": false,
             "advanced": true,
@@ -45,8 +53,8 @@
             "optional": false,
             "advanced": true,
             "checkbox_options" : {
-                "unchecked_value" : 0,
-                "checked_value" : 1
+                "unchecked_value" : "false",
+                "checked_value" : "true"
             },
             "allow_multiple": false,
             "default_values": [ "0" ],
@@ -130,7 +138,11 @@
             "advanced": true,
             "allow_multiple": false,
             "default_values": [ "2" ],
-            "field_type": "text"
+            "field_type": "text",
+            "text_options": {
+                "validate_as": "int",
+                "min_integer" : 0
+            }
         },
         {
             "id": "score_threshold",
@@ -179,6 +191,42 @@
                 },{
                     "input_parameter": "model_id",
                     "target_property": "model_id"
+                },{
+                    "input_parameter": "output_name",
+                    "target_property": "output_name"
+                },{
+                    "input_parameter": "auto_accept_evalue",
+                    "target_property": "auto_accept_evalue"
+                },{
+                    "input_parameter": "override_ontologies_filter",
+                    "target_property": "override_ontologies_filter"
+                },{
+                    "input_parameter": "blast_evalue_threshold",
+                    "target_property": "blast_evalue_threshold"
+                },{
+                    "input_parameter": "bitscore_threshold",
+                    "target_property": "bitscore_threshold"
+                },{
+                    "input_parameter": "query_coverage_threshold",
+                    "target_property": "query_coverage_threshold"
+                },{
+                    "input_parameter": "similarity_score",
+                    "target_property": "similarity_score"
+                },{
+                    "input_parameter": "alpha",
+                    "target_property": "alpha"
+                },{
+                    "input_parameter": "beta",
+                    "target_property": "beta"
+                },{
+                    "input_parameter": "minimum_hits_penalty",
+                    "target_property": "minimum_hits_penalty"
+                },{
+                    "input_parameter": "score_threshold",
+                    "target_property": "score_threshold"
+                },{
+                    "input_parameter": "alpha_families",
+                    "target_property": "alpha_families"
                 }
             ],
             "output_mapping": [

@@ -55,17 +55,13 @@ class transyt_wrapper:
         transyt_subprocess = subprocess.Popen([self.java, "-jar", "--add-exports",
                                                "java.base/jdk.internal.misc=ALL-UNNAMED",
                                                "-Dio.netty.tryReflectionSetAccessible=true", "-Dworkdir=/workdir",
+                                               "-Dlogback.configurationFile=/kb/module/conf/logback.xml",
                                                "-Xmx4096m", self.transyt_jar, "3", self.inputs_path,
                                                self.results_path])
 
-#       working_dir = "/opt/transyt/jar"
-#       subprocess.check_call(transyt_subprocess, cwd=working_dir)
-
         exit_code = transyt_subprocess.wait()
 
-        print(exit_code)
-
-        print("jar process finished")
+        print("jar process finished! exit code: " + str(exit_code))
 
 
     def retrieve_test_data(self, model_obj_name, genome_obj_name, narrative_id):
@@ -108,7 +104,7 @@ class transyt_wrapper:
             self.compounds_to_txt(model_compounds)
 
         self.genome_to_faa(genome)
-        self.params_to_file(self.ref_database, False)
+        self.params_to_file()
 
 
     def compounds_to_txt(self, model_compounds):
@@ -139,16 +135,21 @@ class transyt_wrapper:
             f.close()
 
 
-    def params_to_file(self, ref_database, override_common_ontology_filter):
+    def params_to_file(self):
 
         with open(self.inputs_path + 'params.txt', 'w') as f:
-            f.write(str(self.taxonomy_id) + "\n" + ref_database + "\n" + str(override_common_ontology_filter))
+
+            for key in self.params:
+                f.write(key + "\t" + str(self.params[key]) + "\n")
+
+            f.write('taxID' + "\t" + str(self.taxonomy_id))
+            f.write('reference_database' + "\t" + self.ref_database)
             f.close()
 
 
     def process_output(self):
 
-        output_model_id = "transporters_ecoli_test"
+        output_model_id = self.params['output_name']
 
         if self.ws is None:         #delete when tests are complete
             self.ws = "davide:narrative_1585245719372"
@@ -183,16 +184,9 @@ class transyt_wrapper:
             tmodel = cobra.io.read_sbml_model(model_fix_path)
             out_model = convert_to_kbase(tmodel.id, tmodel)
 
-            print(out_model['genome_ref'])
-
             out_model['genome_ref'] = self.ws + '/' + self.params['genome_id']
 
-            print(out_model['genome_ref'])
-
             self.kbase.save_object(output_model_id, self.ws, 'KBaseFBA.FBAModel', out_model)
-#            objects_created.append(output_model_id)
-
-        # /kb/module/data/transyt/genome/sbmlResult_qCov_0.8_eValThresh_1.0E-50.xml
 
         text_message = "{} {} {} {}".format(self.params['genome_id'], self.genome_id, self.scientific_lineage,
                                             self.taxonomy_id)
@@ -211,7 +205,7 @@ class transyt_wrapper:
                 'workspace_name': self.ws
             })
 
-        # report_info = report.create(report_params)
+        #report_info = report.create(report_params)
 
         output = {
             'report_name': report_info['name'],
