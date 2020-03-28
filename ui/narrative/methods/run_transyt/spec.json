@@ -74,7 +74,11 @@
             "advanced": true,
             "allow_multiple": false,
             "default_values": [ "50" ],
-            "field_type": "text"
+            "field_type": "text",
+            "text_options": {
+                "validate_as": "int",
+                "min_integer" : 0
+            }
         },
         {
             "id": "query_coverage_threshold",
