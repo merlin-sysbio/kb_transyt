@@ -1,5 +1,5 @@
 {
-    "ver": "0.0.7",
+    "ver": "0.0.8",
     "authors": [
         "filipeliu", "davide"
     ],
@@ -74,7 +74,11 @@
             "advanced": true,
             "allow_multiple": false,
             "default_values": [ "50" ],
-            "field_type": "text"
+            "field_type": "text",
+            "text_options": {
+                "validate_as": "int",
+                "min_integer" : 0
+            }
         },
         {
             "id": "query_coverage_threshold",
@@ -211,7 +215,7 @@
                     "target_property": "query_coverage_threshold"
                 },{
                     "input_parameter": "similarity_score",
-                    "target_property": "similarity_score"
+                    "target_property": "similarity"
                 },{
                     "input_parameter": "alpha",
                     "target_property": "alpha"
