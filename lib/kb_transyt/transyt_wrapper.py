@@ -3,7 +3,7 @@ import subprocess
 import os
 import cobra
 from installed_clients.KBaseReportClient import KBaseReport
-from cobrakbase.core.cobra_to_kbase import convert_to_kbase
+from cobra_to_kbase_patched import convert_to_kbase
 
 class transyt_wrapper:
 
@@ -142,7 +142,7 @@ class transyt_wrapper:
             for key in self.params:
                 f.write(key + "\t" + str(self.params[key]) + "\n")
 
-            f.write('taxID' + "\t" + str(self.taxonomy_id))
+            f.write('taxID' + "\t" + str(self.taxonomy_id) + "\n")
             f.write('reference_database' + "\t" + self.ref_database)
             f.close()
 
