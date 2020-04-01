@@ -85,7 +85,7 @@ class transyt_wrapper:
         genome = self.kbase.get_object(self.params['genome_id'], self.ws)
         model_compounds = None
 
-        if 'model_id' in self.params and self.params['model_id'].strip() is not None:
+        if 'model_id' in self.params and self.params['model_id'] is not None:
             kbase_model = self.kbase.get_object(self.params['model_id'], self.ws)
             model_compounds = kbase_model['modelcompounds']
 
