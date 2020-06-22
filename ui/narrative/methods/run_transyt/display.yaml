@@ -1,5 +1,4 @@
 #
-# define display information
 #
 name: TranSyT
 
@@ -86,7 +85,7 @@ parameters :
         ui-name: |
             Reactions annotation alpha value
         short-hint: |
-            Parameter used to balance the weight between frenquency and taxonomy scores
+            Parameter used to balance the weight between frequency and taxonomy scores
     beta:
         ui-name: |
             Reactions annotation beta value
@@ -106,7 +105,7 @@ parameters :
         ui-name: |
             TC families annotation alpha value
         short-hint: |
-            Parameter used to balance the weight between frenquency and similarity scores
+            Parameter used to balance the weight between frequency and similarity scores
 
 
 description : |
