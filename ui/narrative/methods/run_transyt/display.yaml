@@ -71,22 +71,22 @@ parameters :
         ui-name: |
             Blast bit score threshold
         short-hint: |
-            Paramenter used to filter the results of the NCBI Blast+ software
+            Parameter used to filter the results of the NCBI Blast+ software
     query_coverage_threshold:
         ui-name: |
             Blast minimum query coverage threshold
         short-hint: |
-            Paramenter used to filter the results of the NCBI Blast+ software
+            Parameter used to filter the results of the NCBI Blast+ software
     similarity_score:
         ui-name: |
             Blast similarity score
         short-hint: |
-            Paramenter used to filter the results of the NCBI Blast+ software
+            Parameter used to filter the results of the NCBI Blast+ software
     alpha:
         ui-name: |
             Reactions annotation alpha value
         short-hint: |
-            Paramenter used to balance the weight between frenquency and taxonomy scores
+            Parameter used to balance the weight between frenquency and taxonomy scores
     beta:
         ui-name: |
             Reactions annotation beta value
@@ -106,7 +106,7 @@ parameters :
         ui-name: |
             TC families annotation alpha value
         short-hint: |
-            Paramenter used to balance the weight between frenquency and similarity scores
+            Parameter used to balance the weight between frenquency and similarity scores
 
 
 description : |
