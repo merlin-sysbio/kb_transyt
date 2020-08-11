@@ -1,5 +1,5 @@
 {
-    "ver": "0.0.9",
+    "ver": "0.0.10",
     "authors": [
         "filipeliu", "davide"
     ],
@@ -45,6 +45,28 @@
             "optional": false,
             "advanced": true,
             "allow_multiple": false,
+            "default_values": [ "0" ],
+            "field_type": "text"
+        },
+        {
+            "id": "percent_accept",
+            "optional": false,
+            "advanced": true,
+            "allow_multiple": false,
+            "default_values": [ "10" ],
+            "field_type": "text",
+            "text_options" : {
+                "valid_ws_types": [],
+                "validate_as": "int",
+                "min_float": 0,
+                "max_float": 100
+            }
+        },
+        {
+            "id": "limit_evalue_accept",
+            "optional": false,
+            "advanced": true,
+            "allow_multiple": false,
             "default_values": [ "1E-50" ],
             "field_type": "text"
         },
@@ -65,7 +87,7 @@
             "optional": false,
             "advanced": true,
             "allow_multiple": false,
-            "default_values": [ "1" ],
+            "default_values": [ "1E-20" ],
             "field_type": "text"
         },
         {
@@ -113,7 +135,7 @@
             "optional": false,
             "advanced": true,
             "allow_multiple": false,
-            "default_values": [ "0.8" ],
+            "default_values": [ "0.75" ],
             "field_type": "text",
             "text_options" : {
                 "valid_ws_types": [],
@@ -153,7 +175,7 @@
             "optional": false,
             "advanced": true,
             "allow_multiple": false,
-            "default_values": [ "0.5" ],
+            "default_values": [ "0.75" ],
             "field_type": "text",
             "text_options" : {
                 "valid_ws_types": [],
@@ -178,6 +200,18 @@
         },
         {
             "id": "accept_unk_family",
+            "optional": false,
+            "advanced": true,
+            "checkbox_options" : {
+                "unchecked_value" : "false",
+                "checked_value" : "true"
+            },
+            "allow_multiple": false,
+            "default_values": [ "0" ],
+            "field_type": "checkbox"
+        },
+        {
+            "id": "ignore_m2",
             "optional": false,
             "advanced": true,
             "checkbox_options" : {
@@ -214,6 +248,12 @@
                     "input_parameter": "auto_accept_evalue",
                     "target_property": "auto_accept_evalue"
                 },{
+                    "input_parameter": "percent_accept",
+                    "target_property": "percent_accept"
+                },{
+                    "input_parameter": "limit_evalue_accept",
+                    "target_property": "limit_evalue_accept"
+                },{
                     "input_parameter": "override_ontologies_filter",
                     "target_property": "override_ontologies_filter"
                 },{
@@ -246,6 +286,9 @@
                 },{
                     "input_parameter": "accept_unk_family",
                     "target_property": "accept_unk_family"
+                },{
+                    "input_parameter": "ignore_m2",
+                    "target_property": "ignore_m2"
                 }
             ],
             "output_mapping": [

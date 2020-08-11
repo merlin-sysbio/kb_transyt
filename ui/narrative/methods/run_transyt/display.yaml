@@ -51,6 +51,23 @@ parameters :
              due to the high similarity with the query sequence. All reactions available in TranSyT’s internal database
             associated with TCDB entries that comply with the the specified conditions, will be assigned to the
             respective genes.
+    percent_accept:
+        ui-name: |
+            Percentage top blast results acceptance
+        short-hint: |
+            Percentage of top blast results that should be accepted
+        long-hint: |
+            Percentage of top blast results between thresholds that should be accepted for each query gene.
+    limit_evalue_accept:
+        ui-name: |
+            E-value threshold lower threshold method-1
+        short-hint: |
+            The value above which all results should be disregarded by method-1.
+        long-hint: |
+            Used in TranSyT's 'auto accept' method. This does not take the taxonomy of the BLAST hits into account,
+            due to the high similarity with the query sequence. All reactions available in TranSyT’s internal database
+            associated with TCDB entries that comply with the the specified conditions, will be assigned to the
+            respective genes.
     override_ontologies_filter:
         ui-name: |
             Override ontologies filter
@@ -111,6 +128,11 @@ parameters :
             Accept unknown families (TC class 9)
         short-hint: |
             If true, TranSyT will accept transporters from incompletely characterized (putative) families of transporters
+    ignore_m2:
+        ui-name: |
+            Ignore sencond method of classification
+        short-hint: |
+            If true, TranSyT only use method-1 in its classifications.
 
 description : |
     <p>The Transport Systems Tracker (TranSyT) is a tool to identify transport systems and the compounds carried
