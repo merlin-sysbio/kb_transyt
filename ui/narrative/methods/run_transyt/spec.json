@@ -1,5 +1,5 @@
 {
-    "ver": "0.0.8",
+    "ver": "0.0.9",
     "authors": [
         "filipeliu", "davide"
     ],
@@ -175,6 +175,18 @@
                 "min_float": 0,
                 "max_float": 1
             }
+        },
+        {
+            "id": "accept_unk_family",
+            "optional": false,
+            "advanced": true,
+            "checkbox_options" : {
+                "unchecked_value" : "false",
+                "checked_value" : "true"
+            },
+            "allow_multiple": false,
+            "default_values": [ "0" ],
+            "field_type": "checkbox"
         }
     ],
     "behavior": {
@@ -231,6 +243,9 @@
                 },{
                     "input_parameter": "alpha_families",
                     "target_property": "alpha_families"
+                },{
+                    "input_parameter": "accept_unk_family",
+                    "target_property": "accept_unk_family"
                 }
             ],
             "output_mapping": [

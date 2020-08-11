@@ -107,7 +107,11 @@ parameters :
             TC families annotation alpha value
         short-hint: |
             Paramenter used to balance the weight between frenquency and similarity scores
-
+    accept_unk_family:
+        ui-name: |
+            Accept unknown families (TC class 9)
+        short-hint: |
+            If true, TranSyT will accept transporters from incompletely characterized (putative) families of transporters
 
 description : |
     <p>The Transport Systems Tracker (TranSyT) is a tool to identify transport systems and the compounds carried
