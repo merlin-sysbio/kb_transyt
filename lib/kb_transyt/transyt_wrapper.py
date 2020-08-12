@@ -130,7 +130,7 @@ class transyt_wrapper:
             if 'protein_translation' in feature and feature['protein_translation'] is not '':
                 faa_features.append('>' + feature['id'] + '\n' + feature['protein_translation'])
 
-        with open(self.inputs_path + 'genome.faa', 'w') as f:
+        with open(self.inputs_path + 'protein.faa', 'w') as f:
             f.write('\n'.join(faa_features))
             f.close()
 
