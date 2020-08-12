@@ -33,12 +33,29 @@
             }
         },
         {
-            "id": "output_name",
+            "id": "replace_trans",
             "optional": false,
             "advanced": false,
             "allow_multiple": false,
+            "checkbox_options" : {
+                "unchecked_value" : "false",
+                "checked_value" : "true"
+            },
             "default_values": [ "" ],
+            "default_values": [ "1" ],
             "field_type": "text"
+        },
+        {
+            "id": "cpmds_filter",
+            "optional": false,
+            "advanced": true,
+            "checkbox_options" : {
+                "unchecked_value" : "false",
+                "checked_value" : "true"
+            },
+            "allow_multiple": false,
+            "default_values": [ "1" ],
+            "field_type": "checkbox"
         },
         {
             "id": "auto_accept_evalue",
@@ -57,7 +74,7 @@
             "field_type": "text",
             "text_options" : {
                 "valid_ws_types": [],
-                "validate_as": "int",
+                "validate_as": "float",
                 "min_float": 0,
                 "max_float": 100
             }
@@ -242,8 +259,11 @@
                     "input_parameter": "model_id",
                     "target_property": "model_id"
                 },{
-                    "input_parameter": "output_name",
-                    "target_property": "output_name"
+                    "input_parameter": "replace_trans",
+                    "target_property": "replace_trans"
+                },{
+                    "input_parameter": "cpmds_filter",
+                    "target_property": "cpmds_filter"
                 },{
                     "input_parameter": "auto_accept_evalue",
                     "target_property": "auto_accept_evalue"

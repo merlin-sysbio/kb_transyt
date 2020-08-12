@@ -36,11 +36,20 @@ parameters :
         long-hint: |
             The metabolic model is used to filter reactions that may contain compounds that are not present. If
             not provided, a large set of false positives may be assigned to the model.
-    output_name:
+    replace_trans:
         ui-name: |
-            Output name
+            Replace model transporters
         short-hint: |
-            Name of the output object to create
+            Replace the transporters available in the model by the transporters found with TranSyT
+        long-hint: |
+            If true, TranSyT will replace all transporters in the model by the ones found by it. Otherwise, it will
+            attempt to merge the reactions already present in the model with the new ones. While merging, if a reaction
+            already exists, its GPR might be replaced by the new one.
+    cpmds_filter:
+        ui-name: |
+            Filter by compounds present in model
+        short-hint: |
+            If true, TranSyT will use the compounds present in the model to filter reactions with no possible flux
     auto_accept_evalue:
         ui-name: |
             E-value threshold to automatically accept hits
