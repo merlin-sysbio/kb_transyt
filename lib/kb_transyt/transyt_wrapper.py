@@ -56,8 +56,7 @@ class transyt_wrapper:
                                                "java.base/jdk.internal.misc=ALL-UNNAMED",
                                                "-Dio.netty.tryReflectionSetAccessible=true", "-Dworkdir=/workdir",
                                                "-Dlogback.configurationFile=/kb/module/conf/logback.xml",
-                                               "-Xmx4096m", self.transyt_jar, "3", self.inputs_path,
-                                               self.results_path])
+                                               "-Xmx4096m", self.transyt_jar, "3", self.inputs_path])
 
         exit_code = transyt_subprocess.wait()
 
