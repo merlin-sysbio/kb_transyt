@@ -150,7 +150,7 @@ class transyt_wrapper:
 
     def process_output(self):
 
-        output_model_id = self.params['output_name']
+        output_model_id = "transyt_transporters_test_model"
 
         if self.ws is None:         #delete when tests are complete
             self.ws = "davide:narrative_1585245719372"

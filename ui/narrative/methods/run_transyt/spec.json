@@ -41,9 +41,8 @@
                 "unchecked_value" : "false",
                 "checked_value" : "true"
             },
-            "default_values": [ "" ],
             "default_values": [ "1" ],
-            "field_type": "text"
+            "field_type": "checkbox"
         },
         {
             "id": "cpmds_filter",
