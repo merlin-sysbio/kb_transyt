@@ -5,6 +5,7 @@ import cobra
 from installed_clients.KBaseReportClient import KBaseReport
 from cobra_to_kbase_patched import convert_to_kbase,convert_to_kbase_reaction, get_compounds_references, \
     get_compartmets_references, build_model_compound, build_model_compartment
+import generate_report
 
 class transyt_wrapper:
 
@@ -57,7 +58,7 @@ class transyt_wrapper:
 
         if not os.path.exists(self.results_path):
             os.makedirs(self.results_path)
-
+        '''
         transyt_subprocess = subprocess.Popen([self.java, "-jar", "--add-exports",
                                                "java.base/jdk.internal.misc=ALL-UNNAMED",
                                                "-Dio.netty.tryReflectionSetAccessible=true", "-Dworkdir=/workdir",
@@ -65,6 +66,8 @@ class transyt_wrapper:
                                                "-Xmx4096m", self.transyt_jar, "3", self.inputs_path])
 
         exit_code = transyt_subprocess.wait()
+        '''
+        exit_code = 0
 
         print("jar process finished! exit code: " + str(exit_code))
 
@@ -247,6 +250,59 @@ class transyt_wrapper:
                         self.kbase_model["modelcompounds"].append(model_compound)
 
                 self.kbase_model["modelreactions"].append(model_reaction)
+
+        #generate_report._generate_report(self.kbase_model, self.params, self.results_path)
+
+    def get_report(self):
+        report_params = {
+            # message is an optional field.
+            # A string that appears in the summary section of the result page
+            'message': "this is a transyt message",
+
+            # A list of strings that can be used to alert the user
+            'warnings': "a warning should be here",
+
+            # The workspace name or ID is included in every report
+            'workspace_name': self.ws,
+
+            # HTML files that appear in “Links”
+            #   section. A list of paths or shock node
+            #   IDs pointing to a single flat html file
+            #   or to the top-level directory of a
+            #   website. The report widget can render
+            #   one html view directly. Set one of the
+            #   following fields to decide which view to
+            #   render:
+            #     direct_html - A string with simple
+            #       html text that will be rendered
+            #       within the report widget:
+            #     direct_html_link_index - Integer to
+            #       specify the index of the page in
+            #       html_links to view directly in the
+            #       report widget
+            # See a working example here:
+            # https://github.com/kbaseapps/kb_deseq/blob/586714d/lib/kb_deseq/Utils/DESeqUtil.py#L86-L194
+            # 'html_links': html_files_in_app,
+            # 'direct_html_link_index': 0,
+            'direct_html': '<!DOCTYPE html><html><head><style>body {font-family: "Lato", sans-serif;}/* Style the tab */div.tab {    overflow: hidden;    border: 1px solid #ccc;    background-color: #f1f1f1;}/* Style the buttons inside the tab */div.tab button {    background-color: inherit;    float: left;    border: none;    outline: none;    cursor: pointer;    padding: 14px 16px;    transition: 0.3s;    font-size: 17px;}/* Change background color of buttons on hover */div.tab button:hover {    background-color: #ddd;}/* Create an active/current tablink class */div.tab button.active {    background-color: #ccc;}/* Style the tab content */.tabcontent {    display: none;    padding: 6px 12px;    border: 1px solid #ccc;    -webkit-animation: fadeEffect 1s;    animation: fadeEffect 1s;    border-top: none;}/* Fade in tabs */@-webkit-keyframes fadeEffect {    from {opacity: 0;}    to {opacity: 1;}}@keyframes fadeEffect {    from {opacity: 0;}    to {opacity: 1;}}table {    font-family: arial, sans-serif;    border-collapse: collapse;    width: 100%;}td, th {    border: 1px solid #dddddd;    text-align: left;    padding: 8px;}tr:nth-child(odd) {    background-color: #dddddd;}div.gallery {    margin: 5px;    border: 1px solid #ccc;    float: left;    width: 180px;}div.gallery:hover {    border: 1px solid #777;}div.gallery img {    width: 100%;    height: auto;}div.desc {    padding: 15px;    text-align: center;}.tg  {border-collapse:collapse;border-spacing:0;}.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;  overflow:hidden;padding:10px 5px;word-break:normal;}.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}.tg .tg-baqh{text-align:center;vertical-align:top}.tg .tg-i1re{background-color:#9b9b9b;color:#ffffff;font-weight:bold;text-align:center;vertical-align:top}.tg .tg-0lax{text-align:left;vertical-align:top}</style></head><body><p></p><div class="tab">  <button class="tablinks" onclick="openTab(event, "Overview")" id="defaultOpen">Overview</button>  <button class="tablinks" onclick="openTab(event, "Visualization")">Visualization</button></div><div id="Overview" class="tabcontent">    <p>Overview_Content</p></div><div id="Visualization" class="tabcontent">  <p>Visualization_Content</p></div><script>function openTab(evt, tabName) {    var i, tabcontent, tablinks;    tabcontent = document.getElementsByClassName("tabcontent");    for (i = 0; i < tabcontent.length; i++) {        tabcontent[i].style.display = "none";    }    tablinks = document.getElementsByClassName("tablinks");    for (i = 0; i < tablinks.length; i++) {        tablinks[i].className = tablinks[i].className.replace(" active", "");    }    document.getElementById(tabName).style.display = "block";    evt.currentTarget.className += " active";}// Get the element with id="defaultOpen" and click on itdocument.getElementById("defaultOpen").click();</script></body></html>',
+
+            # html_window_height : Window height - This sets the height
+            # of the HTML window displayed under the “Reports” section.
+            # The width is fixed.
+            'html_window_height': 333,
+        }  # end of report_params
+
+        # Make the client, generate the report
+
+        kbase_report_client = KBaseReport(self.callback_url)
+        report_output = kbase_report_client.create_extended_report(report_params)
+
+        # Return references which will allow inline display of
+        # the report in the Narrative
+        output = {'report_name': report_output['name'],
+                         'report_ref': report_output['ref']}
+
+        return output
 
     def read_references_file(self):
 

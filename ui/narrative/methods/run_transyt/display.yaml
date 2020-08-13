@@ -38,7 +38,7 @@ parameters :
             not provided, a large set of false positives may be assigned to the model.
     rule:
         ui-name: |
-            Replace model transporters
+            Model result rules
         short-hint: |
             Replace the transporters available in the model by the transporters found with TranSyT
         long-hint: |
