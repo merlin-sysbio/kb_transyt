@@ -260,7 +260,7 @@ class transyt_wrapper:
             'message': "this is a transyt message",
 
             # A list of strings that can be used to alert the user
-            'warnings': "a warning should be here",
+            'warnings': ["a warning should be here", "and another one here"],
 
             # The workspace name or ID is included in every report
             'workspace_name': self.ws,
