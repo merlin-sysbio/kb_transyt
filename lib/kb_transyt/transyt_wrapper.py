@@ -3,11 +3,12 @@ import subprocess
 import os
 import cobra
 from installed_clients.KBaseReportClient import KBaseReport
-from cobra_to_kbase_patched import convert_to_kbase
+from cobra_to_kbase_patched import convert_to_kbase,convert_to_kbase_reaction, get_compounds_references, \
+    get_compartmets_references, build_model_compound, build_model_compartment
 
 class transyt_wrapper:
 
-    def __init__(self, token=None, params=None, config=None, deploy_database=True, callbackURL=None):
+    def __init__(self, token=None, params=None, config=None, deploy_database=True, callbackURL=None, dev=False):
 
         self.params = params
         self.config = config
@@ -19,13 +20,18 @@ class transyt_wrapper:
         self.java = '/opt/jdk/jdk-11.0.1/bin/java'
         self.transyt_jar = '/opt/transyt/transyt.jar'
         self.ref_database = 'ModelSEED'     #check if it only supports modelseed
+        self.kbase_model = None
 
         self.ws = None
         self.taxonomy_id = None
         self.genome_id = None
         self.scientific_lineage = None
+        self.kbase = None
 
-        self.kbase = cobrakbase.KBaseAPI(token, config=self.config)
+        if dev:
+            self.kbase = cobrakbase.KBaseAPI(token=token, dev=True)
+        else:
+            self.kbase = cobrakbase.KBaseAPI(token, config=self.config)
 
         if deploy_database:
             self.deploy_neo4j_database()
@@ -85,8 +91,8 @@ class transyt_wrapper:
         model_compounds = None
 
         if self.params['cpmds_filter'] == 1 and 'model_id' in self.params and self.params['model_id'] is not None:
-            kbase_model = self.kbase.get_object(self.params['model_id'], self.ws)
-            model_compounds = kbase_model['modelcompounds']
+            self.kbase_model = self.kbase.get_object(self.params['model_id'], self.ws)
+            model_compounds = self.kbase_model['modelcompounds']
 
         return genome, model_compounds
 
@@ -149,73 +155,129 @@ class transyt_wrapper:
 
     def process_output(self):
 
-        output_model_id = "transyt_transporters_test_model"
-
-        if self.ws is None:         #delete when tests are complete
-            self.ws = "davide:narrative_1585245719372"
-            self.params = {"genome_id": "Escherichia_coli_str._K-12_substr._MG1655"}
-
         out_sbml_path = self.results_path + "/results/transyt.xml"
 
-        objects_created = []
+        if self.ws is None:  # delete when tests are complete
+            self.ws = "davide:narrative_1585772431721"
+            #self.params["genome_id"] = "Escherichia_coli_K-12_MG1655"
+            self.kbase_model = self.kbase.get_object(self.params['model_id'], self.ws)
+            self.results_path = "/Users/davidelagoa/Desktop/ecoli/ecoli_iML1515_new/results/results"
+            out_sbml_path = self.results_path + "/transyt.xml"
 
         model_fix_path = self.results_path + '/transporters_sbml.xml'
         if os.path.exists(out_sbml_path):
-            # fix sbml header for cobra
 
-            sbml_tag = '<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" fbc:required="false" groups:required="false" level="3" sboTerm="SBO:0000624" version="1" xmlns:fbc="http://www.sbml.org/sbml/level3/version1/fbc/version2" xmlns:groups="http://www.sbml.org/sbml/level3/version1/groups/version1">'
-            model_tag = '<model extentUnits="substance" fbc:strict="true" id="transyt" metaid="transyt" name="transyt" substanceUnits="substance" timeUnits="time">'
-            xml_data = None
-            xml_fix = ""
-            with open(out_sbml_path, 'r') as f:
-                xml_data = f.readlines()
-            for l in xml_data:
-                if l.strip().startswith('<sbml'):
-                    xml_fix += sbml_tag
-                elif l.strip().startswith('<model'):
-                    xml_fix += model_tag
-                else:
-                    xml_fix += l
+            self.fix_transyt_model(out_sbml_path, model_fix_path) #fix this in TranSyT, then delete this step
+            self.merge_or_replace_model_reactions(model_fix_path)
 
-            if xml_data is not None:
-                with open(model_fix_path, 'w') as f:
-                    f.writelines(xml_fix)
+            self.kbase.save_object(self.params['model_id'], self.ws, 'KBaseFBA.FBAModel', self.kbase_model)
 
-            tmodel = cobra.io.read_sbml_model(model_fix_path)
-            out_model = convert_to_kbase(tmodel.id, tmodel)
+    def merge_or_replace_model_reactions(self, transyt_model_fix_path):
 
-            out_model['genome_ref'] = self.ws + '/' + self.params['genome_id']
+        cobra_model = cobra.io.read_sbml_model(transyt_model_fix_path)
 
-            self.kbase.save_object(output_model_id, self.ws, 'KBaseFBA.FBAModel', out_model)
+        option = self.params["rule"]
+        references = self.read_references_file()
 
-        text_message = "{} {} {} {}".format(self.params['genome_id'], self.genome_id, self.scientific_lineage,
-                                            self.taxonomy_id)
+        transporters_in_model = {}
+        compounds_in_model = []
+        compartments_in_model = []
 
-        with open(self.results_path + '/report.html', 'w') as f:
-            f.write('<p>' + text_message + '</p>')
+        for reaction in self.kbase_model["modelreactions"]:
+            compartments = []
 
-        report = KBaseReport(self.callback_url)
+            for compound in reaction["modelReactionReagents"]:
+                compartment = compound["modelcompound_ref"].split("_")[1]
+                compound_ref = compound["modelcompound_ref"].split("/")[-1]
 
-        report_info = report.create(
-            {
-                'report': {
-                    'objects_created': objects_created,
-                    'text_message': text_message
-                },
-                'workspace_name': self.ws
-            })
+                if compound_ref not in compounds_in_model:
+                    compounds_in_model.append(compound_ref)
+                if compartment not in compartments_in_model:
+                    compartments_in_model.append(compartment)
 
-        #report_info = report.create(report_params)
+                if compartment not in compartments:
+                    compartments.append(compartment)
 
-        output = {
-            'report_name': report_info['name'],
-            'report_ref': report_info['ref'],
-            'fbamodel_id': output_model_id
-        }
-        #print('returning:', output)
+            if len(compartments) > 1 and option == "replace_all":
+                self.kbase_model["modelreactions"].remove(reaction)
+            elif len(compartments) > 1 and "merge_" in option:
+                transporters_in_model[reaction["id"].split("_")[0]] = reaction
 
-        return output
+        compartments_to_refs = get_compartmets_references(cobra_model)
+        compounds_to_refs = get_compounds_references(cobra_model)
 
+        for reaction in cobra_model.reactions:
+
+            reaction_id = reaction.id
+
+            if reaction_id in references:
+                reaction_id = references[reaction_id]
+                reaction.id = reaction_id
+
+            save = False
+            model_reaction = convert_to_kbase_reaction(reaction, compounds_to_refs)
+
+            if option == "replace_all":
+                save = True
+            elif reaction_id in transporters_in_model:
+                if option == "merge_reactions_only":
+                    continue
+                elif option == "merge_reactions_and_gpr":
+                    for gpr in model_reaction["modelReactionProteins"]:
+                        transporters_in_model[reaction_id]["modelReactionProteins"].append(gpr)    #this only works because kbase object is ignoring complexes
+                elif option == "merge_reactions_replace_gpr":
+                    #print(reaction_id)
+                    transporters_in_model[reaction_id]["modelReactionProteins"] = model_reaction["modelReactionProteins"]
+            else:   #for merge and reaction is not already in model
+                save = True
+
+            if save and self.params["accept_transyt_ids"] == 1:
+
+                for metabolite in reaction.metabolites:
+                    comp_id = metabolite.compartment + "0"
+                    if comp_id not in compartments_in_model:
+                        model_compartment = build_model_compartment(comp_id,
+                                                                    compartments_to_refs[metabolite.compartment],
+                                                                    cobra_model.compartments[metabolite.compartment] + "_0")
+                        self.kbase_model["modelcompartments"].append(model_compartment)
+                        compounds_in_model.append(comp_id)
+
+                    if metabolite.id not in compounds_in_model:
+                        model_compound = build_model_compound(metabolite, compartments_to_refs)
+                        self.kbase_model["modelcompounds"].append(model_compound)
+
+                self.kbase_model["modelreactions"].append(model_reaction)
+
+    def read_references_file(self):
+
+        dic = {}
+
+        with open(self.results_path + '/reactions_references.txt', 'r') as f:
+            for line in f:
+                split_line = line.split("\t")
+                dic[split_line[0].strip()] = split_line[1].strip().replace("[", "").replace("]", "").split("; ")[0] #not sure if more than 1 is possible
+
+        return dic
+
+    def fix_transyt_model(self, out_sbml_path, model_fix_path):
+
+        sbml_tag = '<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" fbc:required="false" groups:required="false" level="3" sboTerm="SBO:0000624" version="1" xmlns:fbc="http://www.sbml.org/sbml/level3/version1/fbc/version2" xmlns:groups="http://www.sbml.org/sbml/level3/version1/groups/version1">'
+        model_tag = '<model extentUnits="substance" fbc:strict="true" id="transyt" metaid="transyt" name="transyt" substanceUnits="substance" timeUnits="time">'
+        xml_data = None
+        xml_fix = ""
+        with open(out_sbml_path, 'r') as f:
+            xml_data = f.readlines()
+        for l in xml_data:
+            if l.strip().startswith('<sbml'):
+                xml_fix += sbml_tag
+            elif l.strip().startswith('<model'):
+                xml_fix += model_tag
+            else:
+                xml_fix += l
+
+        if xml_data is not None:
+            with open(model_fix_path, 'w') as f:
+                f.writelines(xml_fix)
 
     def deploy_neo4j_database(self):
 

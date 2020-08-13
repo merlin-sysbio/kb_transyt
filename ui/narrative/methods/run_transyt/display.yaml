@@ -36,7 +36,7 @@ parameters :
         long-hint: |
             The metabolic model is used to filter reactions that may contain compounds that are not present. If
             not provided, a large set of false positives may be assigned to the model.
-    replace_trans:
+    rule:
         ui-name: |
             Replace model transporters
         short-hint: |
@@ -47,7 +47,7 @@ parameters :
             already exists, its GPR might be replaced by the new one.
     cpmds_filter:
         ui-name: |
-            Filter by compounds present in model
+            Filter reactions by compounds present in model
         short-hint: |
             If true, TranSyT will use the compounds present in the model to filter reactions with no possible flux
     auto_accept_evalue:
@@ -137,6 +137,15 @@ parameters :
             Accept unknown families (TC class 9)
         short-hint: |
             If true, TranSyT will accept transporters from incompletely characterized (putative) families of transporters
+    accept_transyt_ids:
+        ui-name: |
+            Accept TranSyT identifiers if ModelSEED reference not found
+        short-hint: |
+            If true, TranSyT will use its identifiers in reactions where a ModelSEED reference is not available
+        long-hint: |
+            TranSyT always tries to identify its reactions using ModelSEED identifiers. If the contidion is set to true,
+            TranSyT will use its identifiers in reactions where a ModelSEED reference is not available. Otherwise,
+            reactions without a ModelSEED reference will be ignored.
     ignore_m2:
         ui-name: |
             Ignore sencond method of classification

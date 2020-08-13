@@ -33,16 +33,40 @@
             }
         },
         {
-            "id": "replace_trans",
+            "id": "rule",
             "optional": false,
             "advanced": false,
             "allow_multiple": false,
-            "checkbox_options" : {
-                "unchecked_value" : "false",
-                "checked_value" : "true"
-            },
-            "default_values": [ "1" ],
-            "field_type": "checkbox"
+            "default_values": [ "merge_reactions_replace_gpr" ],
+            "field_type": "dropdown",
+            "dropdown_options": {
+                "options": [
+                    {
+                        "value": "replace_all",
+                        "display": "Replace all transport reactions in the model",
+                        "id": "replace_all",
+                        "ui_name": "Replace all transport reactions in the model"
+                    },
+                    {
+                        "value": "merge_reactions_only",
+                        "display": "Merge model transporters with new transport reactions but keep original GPR rules",
+                        "id": "merge_reactions_only",
+                        "ui_name": "Merge model transporters with new transport reactions but keep original GPR rules"
+                    },
+                    {
+                        "value": "merge_reactions_and_gpr",
+                        "display": "Merge model transporters and GPR rules with new transport reactions",
+                        "id": "merge_reactions_and_gpr",
+                        "ui_name": "Merge model transporters and GPR rules with new transport reactions"
+                    },
+                    {
+                        "value": "merge_reactions_replace_gpr",
+                        "display": "Merge model transporters with new transport reactions but replace GPR rules",
+                        "id": "merge_reactions_replace_gpr",
+                        "ui_name": "Merge model transporters with new transport reactions but replace GPR rules"
+                    }
+                ]
+            }
         },
         {
             "id": "cpmds_filter",
@@ -227,6 +251,18 @@
             "field_type": "checkbox"
         },
         {
+            "id": "accept_transyt_ids",
+            "optional": false,
+            "advanced": true,
+            "checkbox_options" : {
+                "unchecked_value" : "false",
+                "checked_value" : "true"
+            },
+            "allow_multiple": false,
+            "default_values": [ "1" ],
+            "field_type": "checkbox"
+        },
+        {
             "id": "ignore_m2",
             "optional": false,
             "advanced": true,
@@ -258,8 +294,8 @@
                     "input_parameter": "model_id",
                     "target_property": "model_id"
                 },{
-                    "input_parameter": "replace_trans",
-                    "target_property": "replace_trans"
+                    "input_parameter": "rule",
+                    "target_property": "rule"
                 },{
                     "input_parameter": "cpmds_filter",
                     "target_property": "cpmds_filter"
@@ -305,6 +341,9 @@
                 },{
                     "input_parameter": "accept_unk_family",
                     "target_property": "accept_unk_family"
+                },{
+                    "input_parameter": "accept_transyt_ids",
+                    "target_property": "accept_transyt_ids"
                 },{
                     "input_parameter": "ignore_m2",
                     "target_property": "ignore_m2"
