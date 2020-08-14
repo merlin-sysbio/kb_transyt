@@ -315,13 +315,13 @@ class transyt_wrapper:
 
         return dic
 
-    def fix_transyt_model(self, out_sbml_path, model_fix_path):
+    def fix_transyt_model(self, sbml_path, sbml_fix_path):
 
         sbml_tag = '<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" fbc:required="false" groups:required="false" level="3" sboTerm="SBO:0000624" version="1" xmlns:fbc="http://www.sbml.org/sbml/level3/version1/fbc/version2" xmlns:groups="http://www.sbml.org/sbml/level3/version1/groups/version1">'
         model_tag = '<model extentUnits="substance" fbc:strict="true" id="transyt" metaid="transyt" name="transyt" substanceUnits="substance" timeUnits="time">'
         xml_data = None
         xml_fix = ""
-        with open(out_sbml_path, 'r') as f:
+        with open(sbml_path, 'r') as f:
             xml_data = f.readlines()
         for l in xml_data:
             if l.strip().startswith('<sbml'):
@@ -332,8 +332,11 @@ class transyt_wrapper:
                 xml_fix += l
 
         if xml_data is not None:
-            with open(model_fix_path, 'w') as f:
+            with open(sbml_fix_path, 'w') as f:
                 f.writelines(xml_fix)
+
+    def get_workspace_name(self):
+        return self.ws
 
     def deploy_neo4j_database(self):
 

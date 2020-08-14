@@ -2,6 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e437acce-8141-4dfa-9315-1fe32627d390" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/conf/transyt.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/kb_transyt/kb_transytImpl.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/kb_transyt/kb_transytImpl.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/kb_transyt/report_template.html" beforeDir="false" afterPath="$PROJECT_DIR$/conf/report_template.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,11 +28,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="262" column="74" selection-start-line="262" selection-start-column="74" selection-end-line="262" selection-end-column="74" />
+            <state relative-caret-position="467">
+              <caret line="333" column="32" lean-forward="true" selection-start-line="333" selection-start-column="32" selection-end-line="333" selection-end-column="32" />
               <folding>
                 <element signature="e#0#17#0" expanded="true" />
               </folding>
@@ -36,11 +40,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/kb_transyt/kb_transytImpl.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="401">
-              <caret line="71" column="28" lean-forward="true" selection-start-line="71" selection-start-column="28" selection-end-line="71" selection-end-column="28" />
+            <state relative-caret-position="315">
+              <caret line="76" column="40" lean-forward="true" selection-start-line="76" selection-start-column="40" selection-end-line="76" selection-end-column="40" />
               <folding>
                 <element signature="e#99#108#0" expanded="true" />
               </folding>
@@ -49,22 +53,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/kb_transyt/generate_report.py">
+        <entry file="file://$PROJECT_DIR$/Dockerfile">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="353">
-              <caret line="221" lean-forward="true" selection-start-line="221" selection-end-line="221" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="219">
+              <caret line="18" column="18" lean-forward="true" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="18" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/kb_transyt/report_template.html">
+        <entry file="file://$PROJECT_DIR$/lib/kb_transyt/generate_report.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="188">
-              <caret line="114" column="27" selection-end-line="141" selection-end-column="7" />
+            <state relative-caret-position="541">
+              <caret line="221" selection-start-line="221" selection-end-line="221" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -90,7 +94,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>output</find>
       <find>SO_</find>
       <find>TO3000146</find>
       <find>prote</find>
@@ -120,6 +123,7 @@
       <find>&quot;r&quot;</find>
       <find>spl</find>
       <find>for metabolite in reaction.metabolites:</find>
+      <find>conf</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -141,13 +145,13 @@
         <option value="$PROJECT_DIR$/lib/kb_transyt/test_transyt.py" />
         <option value="$PROJECT_DIR$/ui/narrative/methods/run_transyt/spec.json" />
         <option value="$PROJECT_DIR$/ui/narrative/methods/run_transyt/display.yaml" />
-        <option value="$PROJECT_DIR$/lib/kb_transyt/report_template.html" />
         <option value="$PROJECT_DIR$/lib/DataFileUtil/DataFileUtilClient.py" />
         <option value="$PROJECT_DIR$/lib/DataFileUtil/baseclient.py" />
         <option value="$PROJECT_DIR$/lib/DataFileUtil/authclient.py" />
         <option value="$PROJECT_DIR$/lib/kb_transyt/generate_report.py" />
-        <option value="$PROJECT_DIR$/lib/kb_transyt/kb_transytImpl.py" />
+        <option value="$PROJECT_DIR$/lib/kb_transyt/report_template.html" />
         <option value="$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py" />
+        <option value="$PROJECT_DIR$/lib/kb_transyt/kb_transytImpl.py" />
       </list>
     </option>
   </component>
@@ -170,13 +174,7 @@
             <path>
               <item name="kb_transyt" type="b2602c69:ProjectViewProjectNode" />
               <item name="kb_transyt" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="kb_transyt" type="b2602c69:ProjectViewProjectNode" />
-              <item name="kb_transyt" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="kb_transyt" type="462c0819:PsiDirectoryNode" />
+              <item name="conf" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="kb_transyt" type="b2602c69:ProjectViewProjectNode" />
@@ -214,7 +212,7 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/conf" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
   </component>
   <component name="PyConsoleOptionsProvider">
@@ -226,13 +224,13 @@
     </option>
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/conf" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/conf" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/data" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/conf" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -490,13 +488,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Dockerfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="945">
-          <caret line="63" selection-start-line="63" selection-end-line="63" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/OneDrive - Universidade do Minho/UMinho/ArtigoTranSyT/kb_transyt/lib/python3.7/site-packages/cobrakbase/Workspace/WorkspaceClient.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-3047">
@@ -589,13 +580,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ui/narrative/methods/run_transyt/spec.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="26" column="30" selection-start-line="26" selection-start-column="30" selection-end-line="26" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/DataFileUtil/baseclient.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="653">
@@ -623,10 +607,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/kb_transyt/report_template.html">
+    <entry file="file://$PROJECT_DIR$/ui/narrative/methods/run_transyt/spec.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="114" column="27" selection-end-line="141" selection-end-column="7" />
+        <state relative-caret-position="247">
+          <caret line="26" column="30" selection-start-line="26" selection-start-column="30" selection-end-line="26" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conf/transyt.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conf/report_template.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="111">
+          <caret line="113" column="38" lean-forward="true" selection-start-line="113" selection-start-column="38" selection-end-line="113" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/kb_transyt/generate_report.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="541">
+          <caret line="221" selection-start-line="221" selection-end-line="221" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dockerfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="219">
+          <caret line="18" column="18" lean-forward="true" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="467">
+          <caret line="333" column="32" lean-forward="true" selection-start-line="333" selection-start-column="32" selection-end-line="333" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#17#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -640,32 +661,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/kb_transyt/generate_report.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="353">
-          <caret line="221" lean-forward="true" selection-start-line="221" selection-end-line="221" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/kb_transyt/kb_transytImpl.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
-          <caret line="71" column="28" lean-forward="true" selection-start-line="71" selection-start-column="28" selection-end-line="71" selection-end-column="28" />
+        <state relative-caret-position="315">
+          <caret line="76" column="40" lean-forward="true" selection-start-line="76" selection-start-column="40" selection-end-line="76" selection-end-column="40" />
           <folding>
             <element signature="e#99#108#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="262" column="74" selection-start-line="262" selection-start-column="74" selection-end-line="262" selection-end-column="74" />
-          <folding>
-            <element signature="e#0#17#0" expanded="true" />
           </folding>
         </state>
       </provider>
