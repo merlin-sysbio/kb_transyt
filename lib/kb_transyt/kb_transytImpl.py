@@ -88,14 +88,16 @@ class kb_transyt:
 
         print(report_params)
 
-        report_info = report.create(
-            {
-                'report': {
-                    'objects_created': objects_created,
-                    'text_message': "SOME TEXT MESSAGE HERE"
-                },
-                'workspace_name': transyt_process.get_workspace_name()
-            })
+        report_info = report.create_extended_report(report_params)
+
+        #report_info = report.create(
+        #    {
+        #        'report': {
+        #            'objects_created': objects_created,
+        #            'text_message': "SOME TEXT MESSAGE HERE"
+        #        },
+        #        'workspace_name': transyt_process.get_workspace_name()
+        #    })
 
         # report_info = report.create(report_params)
 
