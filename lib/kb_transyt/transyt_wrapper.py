@@ -3,13 +3,14 @@ import subprocess
 import os
 import cobra
 from installed_clients.KBaseReportClient import KBaseReport
-from cobra_to_kbase_patched import convert_to_kbase,convert_to_kbase_reaction, get_compounds_references, \
+from cobra_to_kbase_patched import convert_to_kbase_reaction, get_compounds_references, \
     get_compartmets_references, build_model_compound, build_model_compartment
-import generate_report
+import  kb_transyt_report
 
 class transyt_wrapper:
 
-    def __init__(self, token=None, params=None, config=None, deploy_database=True, callbackURL=None, dev=False):
+    def __init__(self, token=None, params=None, config=None, deploy_database=True, callbackURL=None, dev=False,
+                 shared_folder=None):
 
         self.params = params
         self.config = config
@@ -22,6 +23,7 @@ class transyt_wrapper:
         self.transyt_jar = '/opt/transyt/transyt.jar'
         self.ref_database = 'ModelSEED'     #check if it only supports modelseed
         self.kbase_model = None
+        self.shared_folder = shared_folder
 
         self.ws = None
         self.taxonomy_id = None
@@ -158,26 +160,37 @@ class transyt_wrapper:
 
     def process_output(self):
 
+        self.shared_folder = ""
+
         out_sbml_path = self.results_path + "/results/transyt.xml"
+        model_fix_path = self.shared_folder + '/transporters_sbml.xml'
 
         if self.ws is None:  # delete when tests are complete
             self.ws = "davide:narrative_1585772431721"
             #self.params["genome_id"] = "Escherichia_coli_K-12_MG1655"
             self.kbase_model = self.kbase.get_object(self.params['model_id'], self.ws)
             self.results_path = "/Users/davidelagoa/Desktop/ecoli/ecoli_iML1515_new/results/results"
+            self.shared_folder = "/Users/davidelagoa/Desktop/ecoli/ecoli_iML1515_new/results/results"
             out_sbml_path = self.results_path + "/transyt.xml"
+            model_fix_path = self.results_path + "/transporters_sbml.xml"
 
-        model_fix_path = self.results_path + '/transporters_sbml.xml'
         if os.path.exists(out_sbml_path):
 
-            self.fix_transyt_model(out_sbml_path, model_fix_path) #fix this in TranSyT, then delete this step
+            #self.fix_transyt_model(out_sbml_path, model_fix_path) #fix this in TranSyT, then delete this step
             self.merge_or_replace_model_reactions(model_fix_path)
 
-            self.kbase.save_object(self.params['model_id'], self.ws, 'KBaseFBA.FBAModel', self.kbase_model)
+            #self.kbase.save_object(self.params['model_id'], self.ws, 'KBaseFBA.FBAModel', self.kbase_model)
 
     def merge_or_replace_model_reactions(self, transyt_model_fix_path):
 
         cobra_model = cobra.io.read_sbml_model(transyt_model_fix_path)
+
+        report_new_compartments = {}
+        report_new_reactions_added = {}
+        report_reactions_gpr_modified = {}
+        report_reactions_removed = {}
+        #report_reactions_not_saved = {}
+        report_reactions_not_saved_not_accept_transyt_id = {}
 
         option = self.params["rule"]
         references = self.read_references_file()
@@ -185,6 +198,9 @@ class transyt_wrapper:
         transporters_in_model = {}
         compounds_in_model = []
         compartments_in_model = []
+
+        kbase_cobra_model = cobrakbase.convert_kmodel(self.kbase_model) #facilitates building the report
+
 
         for reaction in self.kbase_model["modelreactions"]:
             compartments = []
@@ -203,6 +219,7 @@ class transyt_wrapper:
 
             if len(compartments) > 1 and option == "replace_all":
                 self.kbase_model["modelreactions"].remove(reaction)
+                report_reactions_removed[reaction["id"]] = kbase_cobra_model.reactions.get_by_id(reaction["id"])
             elif len(compartments) > 1 and "merge_" in option:
                 transporters_in_model[reaction["id"].split("_")[0]] = reaction
 
@@ -211,6 +228,7 @@ class transyt_wrapper:
 
         for reaction in cobra_model.reactions:
 
+            original_id = reaction.id
             reaction_id = reaction.id
 
             if reaction_id in references:
@@ -220,18 +238,21 @@ class transyt_wrapper:
             save = False
             model_reaction = convert_to_kbase_reaction(reaction, compounds_to_refs)
 
+            if reaction_id == "TZ2900069":
+                print()
+
             if option == "replace_all":
                 save = True
             elif reaction_id in transporters_in_model:
                 if option == "merge_reactions_only":
                     continue
                 elif option == "merge_reactions_and_gpr":
-                    for gpr in model_reaction["modelReactionProteins"]:
-                        transporters_in_model[reaction_id]["modelReactionProteins"].append(gpr)    #this only works because kbase object is ignoring complexes
+                    transporters_in_model[reaction_id]["modelReactionProteins"] = self.merge_gpr(
+                        transporters_in_model[reaction_id]["modelReactionProteins"],
+                        model_reaction["modelReactionProteins"])
                 elif option == "merge_reactions_replace_gpr":
-                    #print(reaction_id)
                     transporters_in_model[reaction_id]["modelReactionProteins"] = model_reaction["modelReactionProteins"]
-            else:   #for merge and reaction is not already in model
+            else:   #for reaction that is not already in model
                 save = True
 
             if save and self.params["accept_transyt_ids"] == 1:
@@ -244,65 +265,65 @@ class transyt_wrapper:
                                                                     cobra_model.compartments[metabolite.compartment] + "_0")
                         self.kbase_model["modelcompartments"].append(model_compartment)
                         compounds_in_model.append(comp_id)
+                        report_new_compartments[comp_id] = cobra_model.compartments[metabolite.compartment]
 
                     if metabolite.id not in compounds_in_model:
                         model_compound = build_model_compound(metabolite, compartments_to_refs)
                         self.kbase_model["modelcompounds"].append(model_compound)
 
                 self.kbase_model["modelreactions"].append(model_reaction)
+                report_new_reactions_added[original_id] = reaction
+            elif self.params["accept_transyt_ids"] == 0:
+                report_reactions_not_saved_not_accept_transyt_id[original_id] = reaction
+
+        report_path = self.shared_folder + "/report.html"
+
+        report_elements = {
+            #"New compartments":report_new_compartments,
+            "New reactions": report_new_reactions_added,
+            #"Reactions modified":report_reactions_modified,
+            "Reactions removed": report_reactions_removed,
+            #"reactions_not_saved":report_reactions_not_saved
+            "Reactions not saved (ModelSEED ID not found)": report_reactions_not_saved_not_accept_transyt_id
+        }
+
+        kb_transyt_report.generate_report(report_path, report_elements, references)
 
         #generate_report._generate_report(self.kbase_model, self.params, self.results_path)
 
-    def get_report(self):
-        report_params = {
-            # message is an optional field.
-            # A string that appears in the summary section of the result page
-            'message': "this is a transyt message",
+    def merge_gpr(self, kbase_model_gpr, transyt_model_gpr):
 
-            # A list of strings that can be used to alert the user
-            'warnings': ["a warning should be here", "and another one here"],
+        kbase_gpr = self.build_str_gpr(kbase_model_gpr)
 
-            # The workspace name or ID is included in every report
-            'workspace_name': self.ws,
+        for model_protein in transyt_model_gpr:
 
-            # HTML files that appear in “Links”
-            #   section. A list of paths or shock node
-            #   IDs pointing to a single flat html file
-            #   or to the top-level directory of a
-            #   website. The report widget can render
-            #   one html view directly. Set one of the
-            #   following fields to decide which view to
-            #   render:
-            #     direct_html - A string with simple
-            #       html text that will be rendered
-            #       within the report widget:
-            #     direct_html_link_index - Integer to
-            #       specify the index of the page in
-            #       html_links to view directly in the
-            #       report widget
-            # See a working example here:
-            # https://github.com/kbaseapps/kb_deseq/blob/586714d/lib/kb_deseq/Utils/DESeqUtil.py#L86-L194
-            # 'html_links': html_files_in_app,
-            # 'direct_html_link_index': 0,
-            'direct_html': '<!DOCTYPE html><html><head><style>body {font-family: "Lato", sans-serif;}/* Style the tab */div.tab {    overflow: hidden;    border: 1px solid #ccc;    background-color: #f1f1f1;}/* Style the buttons inside the tab */div.tab button {    background-color: inherit;    float: left;    border: none;    outline: none;    cursor: pointer;    padding: 14px 16px;    transition: 0.3s;    font-size: 17px;}/* Change background color of buttons on hover */div.tab button:hover {    background-color: #ddd;}/* Create an active/current tablink class */div.tab button.active {    background-color: #ccc;}/* Style the tab content */.tabcontent {    display: none;    padding: 6px 12px;    border: 1px solid #ccc;    -webkit-animation: fadeEffect 1s;    animation: fadeEffect 1s;    border-top: none;}/* Fade in tabs */@-webkit-keyframes fadeEffect {    from {opacity: 0;}    to {opacity: 1;}}@keyframes fadeEffect {    from {opacity: 0;}    to {opacity: 1;}}table {    font-family: arial, sans-serif;    border-collapse: collapse;    width: 100%;}td, th {    border: 1px solid #dddddd;    text-align: left;    padding: 8px;}tr:nth-child(odd) {    background-color: #dddddd;}div.gallery {    margin: 5px;    border: 1px solid #ccc;    float: left;    width: 180px;}div.gallery:hover {    border: 1px solid #777;}div.gallery img {    width: 100%;    height: auto;}div.desc {    padding: 15px;    text-align: center;}.tg  {border-collapse:collapse;border-spacing:0;}.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;  overflow:hidden;padding:10px 5px;word-break:normal;}.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}.tg .tg-baqh{text-align:center;vertical-align:top}.tg .tg-i1re{background-color:#9b9b9b;color:#ffffff;font-weight:bold;text-align:center;vertical-align:top}.tg .tg-0lax{text-align:left;vertical-align:top}</style></head><body><p></p><div class="tab">  <button class="tablinks" onclick="openTab(event, "Overview")" id="defaultOpen">Overview</button>  <button class="tablinks" onclick="openTab(event, "Visualization")">Visualization</button></div><div id="Overview" class="tabcontent">    <p>Overview_Content</p></div><div id="Visualization" class="tabcontent">  <p>Visualization_Content</p></div><script>function openTab(evt, tabName) {    var i, tabcontent, tablinks;    tabcontent = document.getElementsByClassName("tabcontent");    for (i = 0; i < tabcontent.length; i++) {        tabcontent[i].style.display = "none";    }    tablinks = document.getElementsByClassName("tablinks");    for (i = 0; i < tablinks.length; i++) {        tablinks[i].className = tablinks[i].className.replace(" active", "");    }    document.getElementById(tabName).style.display = "block";    evt.currentTarget.className += " active";}// Get the element with id="defaultOpen" and click on itdocument.getElementById("defaultOpen").click();</script></body></html>',
+            protein = []
+            for model_subunit in model_protein["modelReactionProteinSubunits"]:
+                for gene_ref in model_subunit["feature_refs"]:
+                    subunit = gene_ref.split("/")[-1].strip()
+                    protein.append(subunit)
+            protein.sort()
 
-            # html_window_height : Window height - This sets the height
-            # of the HTML window displayed under the “Reports” section.
-            # The width is fixed.
-            'html_window_height': 333,
-        }  # end of report_params
+            if " and ".join(protein) not in kbase_gpr:
+                kbase_model_gpr.append(model_protein)
 
-        # Make the client, generate the report
+        return kbase_model_gpr
 
-        kbase_report_client = KBaseReport(self.callback_url)
-        report_output = kbase_report_client.create_extended_report(report_params)
+    def build_str_gpr(self, kbase_gpr):
 
-        # Return references which will allow inline display of
-        # the report in the Narrative
-        output = {'report_name': report_output['name'],
-                         'report_ref': report_output['ref']}
+        gpr = []
 
-        return output
+        for model_protein in kbase_gpr:
+
+            protein = []
+            for model_subunit in model_protein["modelReactionProteinSubunits"]:
+                for gene_ref in model_subunit["feature_refs"]:
+                    subunit = gene_ref.split("/")[-1].strip()
+                    protein.append(subunit)
+            protein.sort()
+            gpr.append(" and ".join(protein))
+
+        return gpr
 
     def read_references_file(self):
 

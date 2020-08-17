@@ -61,7 +61,8 @@ class kb_transyt:
 
         print(params)
 
-        transyt_process = tw.transyt_wrapper(token=ctx['token'], params=params, config=self.config, callbackURL=self.callback_url)
+        transyt_process = tw.transyt_wrapper(token=ctx['token'], params=params, config=self.config,
+                                             callbackURL=self.callback_url, shared_folder=self.shared_folder)
         transyt_process.run_transyt()
         #output = transyt_process.process_output()
         #output = transyt_process.get_report()
