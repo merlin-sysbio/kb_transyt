@@ -1,15 +1,41 @@
 import os
+from installed_clients.KBaseReportClient import KBaseReport
+import uuid
 
 
-def generate_report(report_path, report_elements, references):
-    generate_html_file(report_path, report_elements, references)
+def generate_report(report_path, report_elements, references, object_created,
+                    callback_url, ws_name, model_id, sbml_path, transyt_zip, new_compartments, html_template_path):
 
-    exit(0)
+    generate_html_file(report_path, report_elements, references, html_template_path)
 
-    return None
+    report = KBaseReport(callback_url)
+
+    report_params = {
+        'direct_html_link_index': 0,
+        'workspace_name': ws_name,
+        'report_object_name': 'run_transyt_' + uuid.uuid4().hex,
+        'objects_created': object_created,
+        'html_links': [
+            {'name': 'report', 'description': 'Report', 'path': report_path}
+        ],
+        'file_links': [
+            {'name': model_id + ".xml", 'description': 'desc', 'path': sbml_path},
+            {'name': "transyt_output.zip", 'description': 'desc', 'path': transyt_zip}
+        ]
+    }
+
+    if len(new_compartments) > 0:
+        report_params['warnings'] = []
+        for compartment in new_compartments:
+            report_params['warnings'].append("New compartment \"" + compartment + "\" added to the model!")
+
+    print(report_params)
+    report_info = report.create_extended_report(report_params)
+
+    return report_info
 
 
-def generate_html_file(report_path, report_elements, references):
+def generate_html_file(report_path, report_elements, references, html_template_path):
 
     onclick_bar = "<p></p><div class='tab'>\n"
     html = ""
@@ -45,14 +71,21 @@ def generate_html_file(report_path, report_elements, references):
                               <th class='tg-i1re'>Equation</th><th class='tg-i1re'>GPR</th></tr></thead><tbody>\n"
                 html = html + reactions_removed_html(report_elements[title])
 
+            elif title == "Reactions GPR modified":
+                html = html + "<table class='tg'><thead><tr><h3>Reactions in this table were already" \
+                              "present in the model but had their GPR modified according to the option " \
+                              "selected in the parameter \"Model result rules\".</h3></tr>\n"
+                html = html + "<tr><th class='tg-i1re'>TranSyT ID</th><th class='tg-i1re'>ModelSEED ID</th>\
+                              <th class='tg-i1re'>Original GPR</th><th class='tg-i1re'>New GPR</th></tr></thead><tbody>\n"
+                html = html + reactions_gpr_modified_html(report_elements[title], references)
+
             html = html + "</tbody></table></div>\n\n"
 
     onclick_bar = onclick_bar + "</div>"
     html = onclick_bar + html
 
     with open(report_path, 'w') as result_file:
-        with open(os.path.join(os.path.dirname(__file__), '/Users/davidelagoa/PycharmProjects/kb_transyt/conf/report_template.html'),
-                  'r') as report_template_file:
+        with open(html_template_path, 'r') as report_template_file:
             report_template = report_template_file.read()
             report_template = report_template.replace('<p>BODY_CONTENT</p>',
                                                       html)
@@ -92,11 +125,40 @@ def reactions_removed_html(reactions_removed):
 
         gpr_rule = reaction.gene_reaction_rule.strip()
 
+        if identifier == "TI2004089":
+            print()
+
         if gpr_rule:
             gpr_rule = ">" + reaction.gene_reaction_rule.replace(")", "")\
                 .replace("(", "").replace(" or ", "<br>>").strip()
 
-        html = html + "<td class='tg-0lax'>" + gpr_rule + "</td>"
+        html = html + "<td class='tg-0lax'>" + gpr_rule.replace("> ", ">") + "</td>"
+        html = html + "</tr>\n"
+
+    return html
+
+def reactions_gpr_modified_html(reactions_modified, references):
+    html = ""
+
+    for identifier in reactions_modified:
+
+        original_gpr = reactions_modified[identifier][0].strip()
+        new_gpr = reactions_modified[identifier][1].strip()
+
+        model_seed_id = "-"
+        if identifier in references:
+            model_seed_id = references[identifier]
+
+        if original_gpr:
+            original_gpr = ">" + original_gpr.replace(")", "")\
+                .replace("(", "").replace(" or ", "<br>>").strip()
+
+        html = html + "<tr>"
+        html = html + "<td class='tg-baqh'>" + identifier + "</td>"
+        html = html + "<td class='tg-baqh'>" + model_seed_id + "</td>"
+        html = html + "<td class='tg-0lax'>" + original_gpr + "</td>"
+        html = html + "<td class='tg-0lax'>>" + new_gpr.replace(")", "").replace("(", "") \
+            .replace(" or ", "<br>>").strip() + "</td>"
         html = html + "</tr>\n"
 
     return html

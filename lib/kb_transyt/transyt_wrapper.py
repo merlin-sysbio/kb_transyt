@@ -2,10 +2,11 @@ import cobrakbase
 import subprocess
 import os
 import cobra
-from installed_clients.KBaseReportClient import KBaseReport
 from cobra_to_kbase_patched import convert_to_kbase_reaction, get_compounds_references, \
     get_compartmets_references, build_model_compound, build_model_compartment
-import  kb_transyt_report
+import kb_transyt_report
+import shutil
+
 
 class transyt_wrapper:
 
@@ -39,7 +40,6 @@ class transyt_wrapper:
         if deploy_database:
             self.deploy_neo4j_database()
 
-
     def run_transyt(self, model_obj_name = None, genome_obj_name = None, narrative_id = None):
 
         genome = None
@@ -60,7 +60,7 @@ class transyt_wrapper:
 
         if not os.path.exists(self.results_path):
             os.makedirs(self.results_path)
-        '''
+
         transyt_subprocess = subprocess.Popen([self.java, "-jar", "--add-exports",
                                                "java.base/jdk.internal.misc=ALL-UNNAMED",
                                                "-Dio.netty.tryReflectionSetAccessible=true", "-Dworkdir=/workdir",
@@ -68,11 +68,8 @@ class transyt_wrapper:
                                                "-Xmx4096m", self.transyt_jar, "3", self.inputs_path])
 
         exit_code = transyt_subprocess.wait()
-        '''
-        exit_code = 0
 
         print("jar process finished! exit code: " + str(exit_code))
-
 
     def retrieve_test_data(self, model_obj_name, genome_obj_name, narrative_id):
 
@@ -87,7 +84,6 @@ class transyt_wrapper:
 
         return genome, model_compounds
 
-
     def retrieve_params_data(self):
 
         self.ws = self.params['workspace_name']
@@ -100,7 +96,6 @@ class transyt_wrapper:
             model_compounds = self.kbase_model['modelcompounds']
 
         return genome, model_compounds
-
 
     def inputs_preprocessing(self, genome, model_compounds):
 
@@ -115,7 +110,6 @@ class transyt_wrapper:
 
         self.genome_to_faa(genome)
         self.params_to_file()
-
 
     def compounds_to_txt(self, model_compounds):
 
@@ -133,7 +127,6 @@ class transyt_wrapper:
             f.write('\n'.join(compounds_list))
             f.close()
 
-
     def genome_to_faa(self, genome):
         faa_features = []
         for feature in genome['features']:
@@ -143,7 +136,6 @@ class transyt_wrapper:
         with open(self.inputs_path + 'protein.faa', 'w') as f:
             f.write('\n'.join(faa_features))
             f.close()
-
 
     def params_to_file(self):
 
@@ -165,6 +157,7 @@ class transyt_wrapper:
         out_sbml_path = self.results_path + "/results/transyt.xml"
         model_fix_path = self.shared_folder + '/transporters_sbml.xml'
 
+        '''
         if self.ws is None:  # delete when tests are complete
             self.ws = "davide:narrative_1585772431721"
             #self.params["genome_id"] = "Escherichia_coli_K-12_MG1655"
@@ -173,13 +166,18 @@ class transyt_wrapper:
             self.shared_folder = "/Users/davidelagoa/Desktop/ecoli/ecoli_iML1515_new/results/results"
             out_sbml_path = self.results_path + "/transyt.xml"
             model_fix_path = self.results_path + "/transporters_sbml.xml"
+        '''
 
         if os.path.exists(out_sbml_path):
 
-            #self.fix_transyt_model(out_sbml_path, model_fix_path) #fix this in TranSyT, then delete this step
-            self.merge_or_replace_model_reactions(model_fix_path)
+            # fix this in TranSyT, then delete this step
+            self.fix_transyt_model(out_sbml_path, model_fix_path)
 
-            #self.kbase.save_object(self.params['model_id'], self.ws, 'KBaseFBA.FBAModel', self.kbase_model)
+            # this steps saves the object in the workspace
+            self.kbase.save_object(self.params['model_id'], self.ws, 'KBaseFBA.FBAModel', self.kbase_model)
+
+            return self.merge_or_replace_model_reactions(model_fix_path)
+        return None
 
     def merge_or_replace_model_reactions(self, transyt_model_fix_path):
 
@@ -189,7 +187,6 @@ class transyt_wrapper:
         report_new_reactions_added = {}
         report_reactions_gpr_modified = {}
         report_reactions_removed = {}
-        #report_reactions_not_saved = {}
         report_reactions_not_saved_not_accept_transyt_id = {}
 
         option = self.params["rule"]
@@ -200,7 +197,6 @@ class transyt_wrapper:
         compartments_in_model = []
 
         kbase_cobra_model = cobrakbase.convert_kmodel(self.kbase_model) #facilitates building the report
-
 
         for reaction in self.kbase_model["modelreactions"]:
             compartments = []
@@ -238,20 +234,28 @@ class transyt_wrapper:
             save = False
             model_reaction = convert_to_kbase_reaction(reaction, compounds_to_refs)
 
-            if reaction_id == "TZ2900069":
-                print()
-
             if option == "replace_all":
                 save = True
             elif reaction_id in transporters_in_model:
                 if option == "merge_reactions_only":
                     continue
+
                 elif option == "merge_reactions_and_gpr":
+                    original_gpr = self.build_str_gpr(transporters_in_model[reaction_id]["modelReactionProteins"])
+
                     transporters_in_model[reaction_id]["modelReactionProteins"] = self.merge_gpr(
                         transporters_in_model[reaction_id]["modelReactionProteins"],
                         model_reaction["modelReactionProteins"])
+
+                    new_gpr = self.build_str_gpr(transporters_in_model[reaction_id]["modelReactionProteins"])
+                    report_reactions_gpr_modified[original_id] = (original_gpr, new_gpr)
+
                 elif option == "merge_reactions_replace_gpr":
+                    original_gpr = self.build_str_gpr(transporters_in_model[reaction_id]["modelReactionProteins"])
+                    new_gpr = self.build_str_gpr(transporters_in_model[reaction_id]["modelReactionProteins"])
                     transporters_in_model[reaction_id]["modelReactionProteins"] = model_reaction["modelReactionProteins"]
+                    report_reactions_gpr_modified[original_id] = (original_gpr, new_gpr)
+
             else:   #for reaction that is not already in model
                 save = True
 
@@ -276,24 +280,33 @@ class transyt_wrapper:
             elif self.params["accept_transyt_ids"] == 0:
                 report_reactions_not_saved_not_accept_transyt_id[original_id] = reaction
 
+        new_transyt_zip_path = self.results_path + "/results.zip"
+        shutil.copyfile(self.results_path + "/results.zip", new_transyt_zip_path)
         report_path = self.shared_folder + "/report.html"
 
         report_elements = {
-            #"New compartments":report_new_compartments,
             "New reactions": report_new_reactions_added,
-            #"Reactions modified":report_reactions_modified,
+            "Reactions GPR modified": report_reactions_gpr_modified,
             "Reactions removed": report_reactions_removed,
-            #"reactions_not_saved":report_reactions_not_saved
             "Reactions not saved (ModelSEED ID not found)": report_reactions_not_saved_not_accept_transyt_id
         }
+        objects_created = [self.kbase_model]
 
-        kb_transyt_report.generate_report(report_path, report_elements, references)
+        report_info = kb_transyt_report.generate_report(report_path, report_elements, references, objects_created,
+                                                        self.callback_url, self.ws, self.params['model_id'],
+                                                        transyt_model_fix_path, new_transyt_zip_path,
+                                                        report_new_compartments, "/kb/module/conf/report_template.html")
+        output = {
+            'report_name': report_info['name'],
+            'report_ref': report_info['ref'],
+            'fbamodel_id': self.params['model_id']
+        }
 
-        #generate_report._generate_report(self.kbase_model, self.params, self.results_path)
+        return output
 
     def merge_gpr(self, kbase_model_gpr, transyt_model_gpr):
 
-        kbase_gpr = self.build_str_gpr(kbase_model_gpr)
+        kbase_gpr = self.build_str_subunits(kbase_model_gpr)
 
         for model_protein in transyt_model_gpr:
 
@@ -311,6 +324,10 @@ class transyt_wrapper:
 
     def build_str_gpr(self, kbase_gpr):
 
+        return " or ".join(self.build_str_subunits(kbase_gpr))
+
+    def build_str_subunits(self, kbase_gpr):
+
         gpr = []
 
         for model_protein in kbase_gpr:
@@ -319,9 +336,12 @@ class transyt_wrapper:
             for model_subunit in model_protein["modelReactionProteinSubunits"]:
                 for gene_ref in model_subunit["feature_refs"]:
                     subunit = gene_ref.split("/")[-1].strip()
-                    protein.append(subunit)
-            protein.sort()
-            gpr.append(" and ".join(protein))
+                    if subunit: #some subunit are empty and passed here as a subunit with a blank ID
+                        protein.append(subunit)
+
+            if len(protein) > 0:
+                protein.sort()
+                gpr.append(" and ".join(protein))
 
         return gpr
 
