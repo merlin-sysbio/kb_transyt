@@ -29,7 +29,6 @@ def generate_report(report_path, report_elements, references, object_created,
         for compartment in new_compartments:
             report_params['warnings'].append("New compartment \"" + compartment + "\" added to the model!")
 
-    print(report_params)
     report_info = report.create_extended_report(report_params)
 
     return report_info

@@ -157,8 +157,6 @@ class transyt_wrapper:
 
     def process_output(self):
 
-        self.shared_folder = ""
-
         out_sbml_path = self.results_path + "/transyt.xml"
         model_fix_path = self.shared_folder + '/transporters_sbml.xml'
 

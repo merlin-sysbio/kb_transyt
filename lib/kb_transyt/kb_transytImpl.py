@@ -66,6 +66,8 @@ class kb_transyt:
         transyt_process.run_transyt()
         output = transyt_process.process_output()
 
+        print(os.system("ls " + self.shared_folder))
+
         '''
         #output = transyt_process.get_report()
 
