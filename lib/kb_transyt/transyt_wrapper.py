@@ -383,6 +383,6 @@ class transyt_wrapper:
         return self.ws
 
     @staticmethod
-    def deploy_neo4j_database(self):
+    def deploy_neo4j_database():
 
         subprocess.Popen(["/opt/neo4j/neo4j-community-4.0.2/bin/neo4j", "start"])
