@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e437acce-8141-4dfa-9315-1fe32627d390" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/kbase.yml" beforeDir="false" afterPath="$PROJECT_DIR$/kbase.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/narrative/methods/run_transyt/spec.json" beforeDir="false" afterPath="$PROJECT_DIR$/ui/narrative/methods/run_transyt/spec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,11 +24,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="294" column="47" lean-forward="true" selection-start-line="294" selection-start-column="47" selection-end-line="294" selection-end-column="47" />
+            <state relative-caret-position="291">
+              <caret line="362" lean-forward="true" selection-start-line="362" selection-end-line="362" />
               <folding>
                 <element signature="e#0#17#0" expanded="true" />
               </folding>
@@ -45,33 +44,6 @@
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ui/narrative/methods/run_transyt/spec.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" column="18" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ui/narrative/methods/run_transyt/display.yaml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="600">
-              <caret line="40" column="30" lean-forward="true" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="30" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/kbase.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="10" selection-start-line="10" selection-start-column="10" selection-end-line="10" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -100,11 +72,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>b1671</find>
-      <find>b1621</find>
-      <find>read</find>
-      <find>os.</find>
-      <find>params.</find>
       <find>for</find>
       <find>re.</find>
       <find>keys</find>
@@ -130,6 +97,11 @@
       <find>sort</find>
       <find>warnings</find>
       <find>davide</find>
+      <find>self.results_path</find>
+      <find>print(</find>
+      <find>self.resul</find>
+      <find>refere</find>
+      <find>self.res</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -157,10 +129,10 @@
         <option value="$PROJECT_DIR$/lib/kb_transyt/test_transyt.py" />
         <option value="$PROJECT_DIR$/lib/installed_clients/KBaseReportClient.py" />
         <option value="$PROJECT_DIR$/lib/kb_transyt/kb_transyt_report.py" />
-        <option value="$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py" />
         <option value="$PROJECT_DIR$/lib/kb_transyt/kb_transytImpl.py" />
         <option value="$PROJECT_DIR$/ui/narrative/methods/run_transyt/spec.json" />
         <option value="$PROJECT_DIR$/kbase.yml" />
+        <option value="$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py" />
       </list>
     </option>
   </component>
@@ -643,26 +615,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="294" column="47" lean-forward="true" selection-start-line="294" selection-start-column="47" selection-end-line="294" selection-end-column="47" />
-          <folding>
-            <element signature="e#0#17#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/kb_transyt/kb_transyt_report.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/kb_transyt/test_transyt.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1363">
@@ -683,10 +635,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ui/narrative/methods/run_transyt/spec.json">
+    <entry file="file://$PROJECT_DIR$/LICENSE">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kbase.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="18" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
+        <state relative-caret-position="150">
+          <caret line="10" column="10" selection-start-line="10" selection-start-column="10" selection-end-line="10" selection-end-column="10" />
         </state>
       </provider>
     </entry>
@@ -697,13 +652,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LICENSE">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kbase.yml">
+    <entry file="file://$PROJECT_DIR$/ui/narrative/methods/run_transyt/spec.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="10" selection-start-line="10" selection-start-column="10" selection-end-line="10" selection-end-column="10" />
+        <state relative-caret-position="15">
+          <caret line="1" column="18" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/kb_transyt/kb_transyt_report.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="291">
+          <caret line="362" lean-forward="true" selection-start-line="362" selection-end-line="362" />
+          <folding>
+            <element signature="e#0#17#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

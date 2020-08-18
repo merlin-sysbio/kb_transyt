@@ -18,7 +18,7 @@ class transyt_wrapper:
         self.callback_url = callbackURL
         #self.inputs_path = '/Users/davidelagoa/Desktop/test/processingDir/'
         self.inputs_path = '/workdir/processingDir/'
-        self.results_path = '/workdir/resultsDir/'
+        self.results_path = ''
         #self.results_path = '/Users/davidelagoa/Desktop/test/resultsDir/'
         self.java = '/opt/jdk/jdk-11.0.1/bin/java'
         self.transyt_jar = '/opt/transyt/transyt.jar'
@@ -58,8 +58,8 @@ class transyt_wrapper:
 
         self.inputs_preprocessing(genome, compounds)
 
-        if not os.path.exists(self.results_path):
-            os.makedirs(self.results_path)
+        #if not os.path.exists(self.results_path):
+        #    os.makedirs(self.results_path)
 
         transyt_subprocess = subprocess.Popen([self.java, "-jar", "--add-exports",
                                                "java.base/jdk.internal.misc=ALL-UNNAMED",
@@ -68,6 +68,11 @@ class transyt_wrapper:
                                                "-Xmx4096m", self.transyt_jar, "3", self.inputs_path])
 
         exit_code = transyt_subprocess.wait()
+
+        self.results_path = self.inputs_path + "results"
+
+        print(os.system("ls " + self.inputs_path))
+        print(os.system("ls " + self.results_path))
 
         print("jar process finished! exit code: " + str(exit_code))
 
@@ -154,7 +159,7 @@ class transyt_wrapper:
 
         self.shared_folder = ""
 
-        out_sbml_path = self.results_path + "/results/transyt.xml"
+        out_sbml_path = self.results_path + "/transyt.xml"
         model_fix_path = self.shared_folder + '/transporters_sbml.xml'
 
         '''
@@ -280,8 +285,8 @@ class transyt_wrapper:
             elif self.params["accept_transyt_ids"] == 0:
                 report_reactions_not_saved_not_accept_transyt_id[original_id] = reaction
 
-        new_transyt_zip_path = self.results_path + "/results.zip"
-        shutil.copyfile(self.results_path + "/results.zip", new_transyt_zip_path)
+        new_transyt_zip_path = self.shared_folder + "/results.zip"
+        shutil.copyfile(self.inputs_path + "/results.zip", new_transyt_zip_path)
         report_path = self.shared_folder + "/report.html"
 
         report_elements = {
