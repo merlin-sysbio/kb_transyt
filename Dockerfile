@@ -56,8 +56,8 @@ WORKDIR /kb/module
 
 RUN make all
 
-EXPOSE 7474
-EXPOSE 7687
+#EXPOSE 7474
+#EXPOSE 7687
 
 ENV JAVA_HOME=/opt/jdk/jdk-11.0.1
 

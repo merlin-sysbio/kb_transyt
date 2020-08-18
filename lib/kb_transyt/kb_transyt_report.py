@@ -3,7 +3,7 @@ from installed_clients.KBaseReportClient import KBaseReport
 import uuid
 
 
-def generate_report(report_path, report_elements, references, object_created,
+def generate_report(report_path, report_elements, references, objects_created,
                     callback_url, ws_name, model_id, sbml_path, transyt_zip, new_compartments, html_template_path):
 
     generate_html_file(report_path, report_elements, references, html_template_path)
@@ -14,7 +14,7 @@ def generate_report(report_path, report_elements, references, object_created,
         'direct_html_link_index': 0,
         'workspace_name': ws_name,
         'report_object_name': 'run_transyt_' + uuid.uuid4().hex,
-        'objects_created': object_created,
+        'objects_created': objects_created,
         'html_links': [
             {'name': 'report', 'description': 'Report', 'path': report_path}
         ],

@@ -293,7 +293,8 @@ class transyt_wrapper:
             "Reactions removed": report_reactions_removed,
             "Reactions not saved (ModelSEED ID not found)": report_reactions_not_saved_not_accept_transyt_id
         }
-        objects_created = [self.kbase_model]
+        # objects_created = [self.kbase_model]
+        objects_created = []
 
         report_info = kb_transyt_report.generate_report(report_path, report_elements, references, objects_created,
                                                         self.callback_url, self.ws, self.params['model_id'],
