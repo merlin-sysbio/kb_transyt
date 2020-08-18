@@ -255,7 +255,7 @@ class transyt_wrapper:
 
                 elif option == "merge_reactions_replace_gpr":
                     original_gpr = self.build_str_gpr(transporters_in_model[reaction_id]["modelReactionProteins"])
-                    new_gpr = self.build_str_gpr(transporters_in_model[reaction_id]["modelReactionProteins"])
+                    new_gpr = self.build_str_gpr(model_reaction["modelReactionProteins"])
                     transporters_in_model[reaction_id]["modelReactionProteins"] = model_reaction["modelReactionProteins"]
                     report_reactions_gpr_modified[original_id] = (original_gpr, new_gpr)
 
