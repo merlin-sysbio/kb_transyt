@@ -38,7 +38,7 @@ class transyt_wrapper:
             self.kbase = cobrakbase.KBaseAPI(token, config=self.config)
 
         if deploy_database:
-            self.deploy_neo4j_database()
+            transyt_wrapper.deploy_neo4j_database()
 
     def run_transyt(self, model_obj_name = None, genome_obj_name = None, narrative_id = None):
 
@@ -382,6 +382,7 @@ class transyt_wrapper:
     def get_workspace_name(self):
         return self.ws
 
+    @staticmethod
     def deploy_neo4j_database(self):
 
         subprocess.Popen(["/opt/neo4j/neo4j-community-4.0.2/bin/neo4j", "start"])
