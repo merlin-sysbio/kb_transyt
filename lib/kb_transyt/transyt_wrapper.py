@@ -176,9 +176,6 @@ class transyt_wrapper:
             # fix this in TranSyT, then delete this step
             self.fix_transyt_model(out_sbml_path, model_fix_path)
 
-            # this steps saves the object in the workspace
-            self.kbase.save_object(self.params['model_id'], self.ws, 'KBaseFBA.FBAModel', self.kbase_model)
-
             return self.merge_or_replace_model_reactions(model_fix_path)
         return None
 
@@ -283,6 +280,9 @@ class transyt_wrapper:
             elif self.params["accept_transyt_ids"] == 0:
                 report_reactions_not_saved_not_accept_transyt_id[original_id] = reaction
 
+        # this steps saves the object in the workspace
+        self.kbase.save_object(self.params['model_id'], self.ws, 'KBaseFBA.FBAModel', self.kbase_model)
+
         new_transyt_zip_path = self.shared_folder + "/results.zip"
         shutil.copyfile(self.inputs_path + "/results.zip", new_transyt_zip_path)
         report_path = self.shared_folder + "/report.html"
@@ -293,7 +293,7 @@ class transyt_wrapper:
             "Reactions removed": report_reactions_removed,
             "Reactions not saved (ModelSEED ID not found)": report_reactions_not_saved_not_accept_transyt_id
         }
-        # objects_created = [self.kbase_model]
+        # objects_created = [self.kbase_model] the object already existed was not created
         objects_created = []
 
         report_info = kb_transyt_report.generate_report(report_path, report_elements, references, objects_created,

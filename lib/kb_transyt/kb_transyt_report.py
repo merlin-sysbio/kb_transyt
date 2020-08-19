@@ -16,7 +16,7 @@ def generate_report(report_path, report_elements, references, objects_created,
         'report_object_name': 'run_transyt_' + uuid.uuid4().hex,
         'objects_created': objects_created,
         'html_links': [
-            {'name': 'report', 'description': 'Report', 'path': report_path}
+            {'name': 'report', 'description': 'Report HTML', 'path': report_path}
         ],
         'file_links': [
             {'name': model_id + ".xml", 'description': 'desc', 'path': sbml_path},
