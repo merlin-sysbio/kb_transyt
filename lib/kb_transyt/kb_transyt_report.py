@@ -4,7 +4,7 @@ import uuid
 import re
 
 tr_url = "https://transyt.bio.di.uminho.pt/reactions/"
-
+search_bar_placeholder = "__SEARCHER__"
 
 def generate_report(report_path, report_elements, references, objects_created, callback_url, ws_name, model_id,
                     sbml_path, transyt_zip, new_compartments, html_template_path, compounds_names):
@@ -41,6 +41,7 @@ def generate_html_file(report_path, report_elements, references, html_template_p
 
     onclick_bar = "<p></p><div class='tab'>\n"
     html = ""
+    object_id = 1
 
     for title in report_elements.keys():
 
@@ -51,37 +52,49 @@ def generate_html_file(report_path, report_elements, references, html_template_p
             html = html + "<div id=\"" + title + "\" class=\"tabcontent\">"
 
             if title == "New reactions":
-                html = html + "<table class='tg'><thead><tr><h3>List of new reactions inserted in the model.</h3></tr>\n"
-                html = html + "<tr><th class='tg-i1re'>TranSyT ID</th>\
+                html = html + "<table id='myTable" + str(object_id) + "' class='tg'><thead><tr><h3>List of new " \
+                                                                      "reactions inserted in the model.</h3></tr>\n"
+                html = html + search_bar_placeholder + "<tr><th class='tg-i1re'>TranSyT ID</th>\
                 <th class='tg-i1re'>ModelSEED ID</th><th class='tg-i1re'>Equation</th>\
                 <th class='tg-i1re'>GPR</th></tr></thead><tbody>"
                 html = html + new_reactions_html(report_elements[title], references)
 
             elif title == "Reactions removed":
-                html = html + "<table class='tg'><thead><tr><h3>Because option \"Replace all transport reactions in " \
+                html = html + "<table id='myTable" + str(object_id) + "' class='tg'><thead><tr><h3>Because option" \
+                                                                      " \"Replace all transport reactions in " \
                               "the model\" was selected, the reactions below were removed from the model.</h3></tr>\n"
-                html = html + "<tr><th class='tg-i1re'>ModelSEED ID</th>\
+                html = html + search_bar_placeholder + "<tr><th class='tg-i1re'>ModelSEED ID</th>\
                               <th class='tg-i1re'>Equation</th><th class='tg-i1re'>GPR</th></tr></thead><tbody>\n"
                 html = html + reactions_removed_html(report_elements[title], False)
 
             elif title == "Reactions not saved (ModelSEED ID not found)":
-                html = html + "<table class='tg'><thead><tr><h3>Reactions in the table below were rejected due to the" \
+                html = html + "<table id='myTable" + str(object_id) + "' class='tg'><thead><tr><h3>Reactions in the" \
+                                                                      " table below were rejected due to the" \
                               " absence of a cross-reference to ModelSEED identifiers. In order to integrate these" \
                               " reactions in the model, the advanced parameter \"Accept TranSyT identifiers if" \
                               " ModelSEED reference not found\" must be selected.</h3></tr>\n"
-                html = html + "<tr><th class='tg-i1re'>TranSyT ID</th>\
+                html = html + search_bar_placeholder + "<tr><th class='tg-i1re'>TranSyT ID</th>\
                               <th class='tg-i1re'>Equation</th><th class='tg-i1re'>GPR</th></tr></thead><tbody>\n"
                 html = html + reactions_removed_html(report_elements[title], True)
 
             elif title == "Reactions GPR modified":
-                html = html + "<table class='tg'><thead><tr><h3>Reactions in this table were already" \
+                html = html + "<table id='myTable" + str(object_id) + "' class='tg'><thead><tr><h3>Reactions in this " \
+                                                                      "table were already" \
                               "present in the model but had their GPR modified according to the option " \
                               "selected in the parameter \"Model result rules\".</h3></tr>\n"
-                html = html + "<tr><th class='tg-i1re'>TranSyT ID</th><th class='tg-i1re'>ModelSEED ID</th>\
+                html = html + search_bar_placeholder + "<tr><th class='tg-i1re'>TranSyT ID</th><th class='tg-i1re'>ModelSEED ID</th>\
                               <th class='tg-i1re'>Original GPR</th><th class='tg-i1re'>New GPR</th></tr></thead><tbody>\n"
                 html = html + reactions_gpr_modified_html(report_elements[title], references)
 
+            search_bar = "<input type='text' id='myInput" + str(object_id) + "' onkeyup='myFunction" + str(object_id)\
+                         + "()' placeholder='Type a query to search in all columns' title='Type in a name'>\n"
+            html = html.replace(search_bar_placeholder, search_bar)
             html = html + "</tbody></table></div>\n\n"
+
+            object_id += 1
+
+    search_style = get_search_bar_style(object_id)
+    search_script = get_search_bar_script(object_id)
 
     onclick_bar = onclick_bar + "</div>"
     html = onclick_bar + html
@@ -92,8 +105,9 @@ def generate_html_file(report_path, report_elements, references, html_template_p
     with open(report_path, 'w') as result_file:
         with open(html_template_path, 'r') as report_template_file:
             report_template = report_template_file.read()
-            report_template = report_template.replace('<p>BODY_CONTENT</p>',
-                                                      html)
+            report_template = report_template.replace('#MY_INPUT', search_style)
+            report_template = report_template.replace('#MY_SCRIPT', search_script)
+            report_template = report_template.replace('<p>BODY_CONTENT</p>', html)
             result_file.write(report_template)
 
 
@@ -170,3 +184,37 @@ def reactions_gpr_modified_html(reactions_modified, references):
         html = html + "</tr>\n"
 
     return html
+
+
+def get_search_bar_style(object_id):
+
+    html = ""
+
+    for i in range(1, object_id):
+        if html:
+            html = html + ", "
+        html = html + "#myInput" + str(i)
+
+    return html
+
+
+def get_search_bar_script(object_id):
+
+    html = "<script>"
+
+    for i in range(1, object_id):
+        html = html + "function myFunction" + str(i) + "() {\n var input, filter, table, tr, td, i, txtValue; " \
+                                                       "input = document.getElementById(\"myInput" + str(i) + "\"); " \
+                                                        "filter = input.value.toUpperCase(); " \
+                                                        "table = document.getElementById(\"myTable" + str(i) + "\"); " \
+                                                        "tr = table.getElementsByTagName(\"tr\"); " \
+                                                        "th = table.getElementsByTagName(\"th\"); " \
+                                                        "for (i = 0; i < tr.length; i++) " \
+                                                        "for(j = 0; j < th.length; j++){ " \
+                                                        "td = tr[i].getElementsByTagName(\"td\")[j]; " \
+                                                        "if (td) { txtValue = td.textContent || td.innerText; " \
+                                                        "if (txtValue.toUpperCase().indexOf(filter) > -1) {" \
+                                                        "tr[i].style.display = \"\";break;}" \
+                                                        "else {tr[i].style.display = \"none\";}}}}\n\n"
+
+    return html + "</script>"

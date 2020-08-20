@@ -230,7 +230,7 @@ class transyt_wrapper:
 
         compartments_to_refs = get_compartmets_references(cobra_model)
         compounds_to_refs = get_compounds_references(cobra_model)
-        compounds_names = self.get_compounds_names(self.kbase_model)
+        compounds_names = transyt_wrapper.get_compounds_names(self.kbase_model)
 
         for reaction in cobra_model.reactions:
 
@@ -392,7 +392,7 @@ class transyt_wrapper:
                 f.writelines(xml_fix)
 
     @staticmethod
-    def get_compounds_names(self, kbase_model):
+    def get_compounds_names(kbase_model):
 
         compounds = {}
 
