@@ -168,7 +168,7 @@ class transyt_wrapper:
         out_sbml_path = self.results_path + "/transyt.xml"
         model_fix_path = self.shared_folder + '/transporters_sbml.xml'
 
-
+        '''
         if self.ws is None:  # delete when tests are complete
             self.ws = "davide:narrative_1585772431721"
             #self.params["genome_id"] = "Escherichia_coli_K-12_MG1655"
@@ -178,7 +178,7 @@ class transyt_wrapper:
             out_sbml_path = self.results_path + "/transyt.xml"
             model_fix_path = self.results_path + "/transporters_sbml.xml"
             self.report_template_html = "/Users/davidelagoa/PycharmProjects/kb_transyt/conf/report_template.html"
-
+        '''
 
         if os.path.exists(out_sbml_path):
 
@@ -292,10 +292,10 @@ class transyt_wrapper:
                 report_reactions_not_saved_not_accept_transyt_id[original_id] = reaction
 
         # this steps saves the object in the workspace
-        #self.kbase.save_object(self.params['model_id'], self.ws, 'KBaseFBA.FBAModel', self.kbase_model)
+        self.kbase.save_object(self.params['model_id'], self.ws, 'KBaseFBA.FBAModel', self.kbase_model)
 
         new_transyt_zip_path = self.shared_folder + "/results.zip"
-        #shutil.copyfile(self.inputs_path + "/results.zip", new_transyt_zip_path)
+        shutil.copyfile(self.inputs_path + "/results.zip", new_transyt_zip_path)
         report_path = self.shared_folder + "/report.html"
 
         report_elements = {
