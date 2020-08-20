@@ -25,6 +25,7 @@ class transyt_wrapper:
         self.ref_database = 'ModelSEED'     #check if it only supports modelseed
         self.kbase_model = None
         self.shared_folder = shared_folder
+        self.report_template_html = "/kb/module/conf/report_template.html"
 
         self.ws = None
         self.taxonomy_id = None
@@ -157,6 +158,10 @@ class transyt_wrapper:
 
     def process_output(self):
 
+        # only used for tests
+        if self.shared_folder is None:
+            self.shared_folder = ""
+
         out_sbml_path = self.results_path + "/transyt.xml"
         model_fix_path = self.shared_folder + '/transporters_sbml.xml'
 
@@ -165,10 +170,11 @@ class transyt_wrapper:
             self.ws = "davide:narrative_1585772431721"
             #self.params["genome_id"] = "Escherichia_coli_K-12_MG1655"
             self.kbase_model = self.kbase.get_object(self.params['model_id'], self.ws)
-            self.results_path = "/Users/davidelagoa/Desktop/ecoli/ecoli_iML1515_new/results/results"
-            self.shared_folder = "/Users/davidelagoa/Desktop/ecoli/ecoli_iML1515_new/results/results"
+            self.results_path = "/Users/davidelagoa/Downloads/results"
+            self.shared_folder = "/Users/davidelagoa/Downloads/results"
             out_sbml_path = self.results_path + "/transyt.xml"
             model_fix_path = self.results_path + "/transporters_sbml.xml"
+            self.report_template_html = "/Users/davidelagoa/PycharmProjects/kb_transyt/conf/report_template.html"
         '''
 
         if os.path.exists(out_sbml_path):
@@ -299,7 +305,7 @@ class transyt_wrapper:
         report_info = kb_transyt_report.generate_report(report_path, report_elements, references, objects_created,
                                                         self.callback_url, self.ws, self.params['model_id'],
                                                         transyt_model_fix_path, new_transyt_zip_path,
-                                                        report_new_compartments, "/kb/module/conf/report_template.html")
+                                                        report_new_compartments, self.report_template_html, self.kbase_model)
         output = {
             'report_name': report_info['name'],
             'report_ref': report_info['ref'],

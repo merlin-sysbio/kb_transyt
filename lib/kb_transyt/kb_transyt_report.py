@@ -1,12 +1,15 @@
 import os
 from installed_clients.KBaseReportClient import KBaseReport
 import uuid
+import re
+
+tr_url = "https://transyt.bio.di.uminho.pt/reactions/"
 
 
-def generate_report(report_path, report_elements, references, objects_created,
-                    callback_url, ws_name, model_id, sbml_path, transyt_zip, new_compartments, html_template_path):
+def generate_report(report_path, report_elements, references, objects_created, callback_url, ws_name, model_id,
+                    sbml_path, transyt_zip, new_compartments, html_template_path, kbase_model):
 
-    generate_html_file(report_path, report_elements, references, html_template_path)
+    generate_html_file(report_path, report_elements, references, html_template_path, kbase_model)
 
     report = KBaseReport(callback_url)
 
@@ -34,7 +37,7 @@ def generate_report(report_path, report_elements, references, objects_created,
     return report_info
 
 
-def generate_html_file(report_path, report_elements, references, html_template_path):
+def generate_html_file(report_path, report_elements, references, html_template_path, kbase_model):
 
     onclick_bar = "<p></p><div class='tab'>\n"
     html = ""
@@ -59,7 +62,7 @@ def generate_html_file(report_path, report_elements, references, html_template_p
                               "the model\" was selected, the reactions below were removed from the model.</h3></tr>\n"
                 html = html + "<tr><th class='tg-i1re'>ModelSEED ID</th>\
                               <th class='tg-i1re'>Equation</th><th class='tg-i1re'>GPR</th></tr></thead><tbody>\n"
-                html = html + reactions_removed_html(report_elements[title])
+                html = html + reactions_removed_html(report_elements[title], False)
 
             elif title == "Reactions not saved (ModelSEED ID not found)":
                 html = html + "<table class='tg'><thead><tr><h3>Reactions in the table below were rejected due to the" \
@@ -68,7 +71,7 @@ def generate_html_file(report_path, report_elements, references, html_template_p
                               " ModelSEED reference not found\" must be selected.</h3></tr>\n"
                 html = html + "<tr><th class='tg-i1re'>TranSyT ID</th>\
                               <th class='tg-i1re'>Equation</th><th class='tg-i1re'>GPR</th></tr></thead><tbody>\n"
-                html = html + reactions_removed_html(report_elements[title])
+                html = html + reactions_removed_html(report_elements[title], True)
 
             elif title == "Reactions GPR modified":
                 html = html + "<table class='tg'><thead><tr><h3>Reactions in this table were already" \
@@ -83,6 +86,11 @@ def generate_html_file(report_path, report_elements, references, html_template_p
     onclick_bar = onclick_bar + "</div>"
     html = onclick_bar + html
 
+    compounds = get_compounds_names(kbase_model)
+
+    for cpd_id in compounds.keys():
+        html = html.replace(cpd_id, compounds[cpd_id])
+
     with open(report_path, 'w') as result_file:
         with open(html_template_path, 'r') as report_template_file:
             report_template = report_template_file.read()
@@ -90,6 +98,26 @@ def generate_html_file(report_path, report_elements, references, html_template_p
                                                       html)
             result_file.write(report_template)
 
+
+def get_compounds_names(kbase_model):
+
+    compounds = {}
+
+    for model_compound in kbase_model["modelcompounds"]:
+        m_seed_id = model_compound["id"]
+
+        # replace compartment
+        m_seed_name = re.sub("_(?:.(?!_))+$", "_", model_compound["name"])
+        # guarantee always same in different compartments (might be different when source of compound is different)
+        m_seed_id_aux = model_compound["id"].split("_")[0] + "_"
+
+        if m_seed_id_aux in compounds:
+            if m_seed_id == compounds[m_seed_id_aux]:
+                compounds[m_seed_id_aux] = m_seed_name
+        else:
+            compounds[m_seed_id_aux] = m_seed_name
+
+    return compounds
 
 def new_reactions_html(new_reactions, references):
     html = ""
@@ -102,7 +130,7 @@ def new_reactions_html(new_reactions, references):
 
         html = html + "<tr>"
         reaction = new_reactions[identifier]
-        html = html + "<td class='tg-baqh'>" + identifier + "</td>"
+        html = html + "<td class='tg-baqh'><a href='" + tr_url + identifier + "'>" + identifier + "</a></td>"
         html = html + "<td class='tg-baqh'>" + model_seed_id + "</td>"
         html = html + "<td class='tg-0lax'>" + reaction.reaction + "</td>"
         html = html + "<td class='tg-0lax'>>" + reaction.gene_reaction_rule.replace(")", "").replace("(", "") \
@@ -112,20 +140,23 @@ def new_reactions_html(new_reactions, references):
     return html
 
 
-def reactions_removed_html(reactions_removed):
+def reactions_removed_html(reactions_removed, assign_transyt_ref):
     html = ""
 
     for identifier in reactions_removed:
 
         html = html + "<tr>"
         reaction = reactions_removed[identifier]
-        html = html + "<td class='tg-baqh'>" + identifier + "</td>"
+
+        if assign_transyt_ref:
+            url_ref = "<a href='" + tr_url + identifier + "'>" + identifier + "</a>"
+        else:
+            url_ref = identifier
+
+        html = html + "<td class='tg-baqh'>" + url_ref + "</td>"
         html = html + "<td class='tg-0lax'>" + reaction.reaction + "</td>"
 
         gpr_rule = reaction.gene_reaction_rule.strip()
-
-        if identifier == "TI2004089":
-            print()
 
         if gpr_rule:
             gpr_rule = ">" + reaction.gene_reaction_rule.replace(")", "")\
@@ -153,7 +184,7 @@ def reactions_gpr_modified_html(reactions_modified, references):
                 .replace("(", "").replace(" or ", "<br>>").strip()
 
         html = html + "<tr>"
-        html = html + "<td class='tg-baqh'>" + identifier + "</td>"
+        html = html + "<td class='tg-baqh'><a href='" + tr_url + identifier + "'>" + identifier + "</a></td>"
         html = html + "<td class='tg-baqh'>" + model_seed_id + "</td>"
         html = html + "<td class='tg-0lax'>" + original_gpr + "</td>"
         html = html + "<td class='tg-0lax'>>" + new_gpr.replace(")", "").replace("(", "") \
