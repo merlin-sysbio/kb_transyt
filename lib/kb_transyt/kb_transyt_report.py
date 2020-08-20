@@ -7,9 +7,9 @@ tr_url = "https://transyt.bio.di.uminho.pt/reactions/"
 
 
 def generate_report(report_path, report_elements, references, objects_created, callback_url, ws_name, model_id,
-                    sbml_path, transyt_zip, new_compartments, html_template_path, kbase_model):
+                    sbml_path, transyt_zip, new_compartments, html_template_path, compounds_names):
 
-    generate_html_file(report_path, report_elements, references, html_template_path, kbase_model)
+    generate_html_file(report_path, report_elements, references, html_template_path, compounds_names)
 
     report = KBaseReport(callback_url)
 
@@ -37,7 +37,7 @@ def generate_report(report_path, report_elements, references, objects_created, c
     return report_info
 
 
-def generate_html_file(report_path, report_elements, references, html_template_path, kbase_model):
+def generate_html_file(report_path, report_elements, references, html_template_path, compounds_names):
 
     onclick_bar = "<p></p><div class='tab'>\n"
     html = ""
@@ -86,10 +86,8 @@ def generate_html_file(report_path, report_elements, references, html_template_p
     onclick_bar = onclick_bar + "</div>"
     html = onclick_bar + html
 
-    compounds = get_compounds_names(kbase_model)
-
-    for cpd_id in compounds.keys():
-        html = html.replace(cpd_id, compounds[cpd_id])
+    for cpd_id in compounds_names.keys():
+        html = html.replace(cpd_id, compounds_names[cpd_id])
 
     with open(report_path, 'w') as result_file:
         with open(html_template_path, 'r') as report_template_file:
@@ -98,26 +96,6 @@ def generate_html_file(report_path, report_elements, references, html_template_p
                                                       html)
             result_file.write(report_template)
 
-
-def get_compounds_names(kbase_model):
-
-    compounds = {}
-
-    for model_compound in kbase_model["modelcompounds"]:
-        m_seed_id = model_compound["id"]
-
-        # replace compartment
-        m_seed_name = re.sub("_(?:.(?!_))+$", "_", model_compound["name"])
-        # guarantee always same in different compartments (might be different when source of compound is different)
-        m_seed_id_aux = model_compound["id"].split("_")[0] + "_"
-
-        if m_seed_id_aux in compounds:
-            if m_seed_id == compounds[m_seed_id_aux]:
-                compounds[m_seed_id_aux] = m_seed_name
-        else:
-            compounds[m_seed_id_aux] = m_seed_name
-
-    return compounds
 
 def new_reactions_html(new_reactions, references):
     html = ""

@@ -6,7 +6,7 @@ from cobra_to_kbase_patched import convert_to_kbase_reaction, get_compounds_refe
     get_compartmets_references, build_model_compound, build_model_compartment
 import kb_transyt_report
 import shutil
-
+import re
 
 class transyt_wrapper:
 
@@ -40,6 +40,9 @@ class transyt_wrapper:
 
         if deploy_database:
             transyt_wrapper.deploy_neo4j_database()
+
+    def get_workspace_name(self):
+        return self.ws
 
     def run_transyt(self, model_obj_name = None, genome_obj_name = None, narrative_id = None):
 
@@ -165,7 +168,7 @@ class transyt_wrapper:
         out_sbml_path = self.results_path + "/transyt.xml"
         model_fix_path = self.shared_folder + '/transporters_sbml.xml'
 
-        '''
+
         if self.ws is None:  # delete when tests are complete
             self.ws = "davide:narrative_1585772431721"
             #self.params["genome_id"] = "Escherichia_coli_K-12_MG1655"
@@ -175,7 +178,7 @@ class transyt_wrapper:
             out_sbml_path = self.results_path + "/transyt.xml"
             model_fix_path = self.results_path + "/transporters_sbml.xml"
             self.report_template_html = "/Users/davidelagoa/PycharmProjects/kb_transyt/conf/report_template.html"
-        '''
+
 
         if os.path.exists(out_sbml_path):
 
@@ -227,6 +230,7 @@ class transyt_wrapper:
 
         compartments_to_refs = get_compartmets_references(cobra_model)
         compounds_to_refs = get_compounds_references(cobra_model)
+        compounds_names = self.get_compounds_names(self.kbase_model)
 
         for reaction in cobra_model.reactions:
 
@@ -280,6 +284,7 @@ class transyt_wrapper:
                     if metabolite.id not in compounds_in_model:
                         model_compound = build_model_compound(metabolite, compartments_to_refs)
                         self.kbase_model["modelcompounds"].append(model_compound)
+                        compounds_names = transyt_wrapper.save_compound_name(model_compound, compounds_names)
 
                 self.kbase_model["modelreactions"].append(model_reaction)
                 report_new_reactions_added[original_id] = reaction
@@ -287,10 +292,10 @@ class transyt_wrapper:
                 report_reactions_not_saved_not_accept_transyt_id[original_id] = reaction
 
         # this steps saves the object in the workspace
-        self.kbase.save_object(self.params['model_id'], self.ws, 'KBaseFBA.FBAModel', self.kbase_model)
+        #self.kbase.save_object(self.params['model_id'], self.ws, 'KBaseFBA.FBAModel', self.kbase_model)
 
         new_transyt_zip_path = self.shared_folder + "/results.zip"
-        shutil.copyfile(self.inputs_path + "/results.zip", new_transyt_zip_path)
+        #shutil.copyfile(self.inputs_path + "/results.zip", new_transyt_zip_path)
         report_path = self.shared_folder + "/report.html"
 
         report_elements = {
@@ -305,7 +310,7 @@ class transyt_wrapper:
         report_info = kb_transyt_report.generate_report(report_path, report_elements, references, objects_created,
                                                         self.callback_url, self.ws, self.params['model_id'],
                                                         transyt_model_fix_path, new_transyt_zip_path,
-                                                        report_new_compartments, self.report_template_html, self.kbase_model)
+                                                        report_new_compartments, self.report_template_html, compounds_names)
         output = {
             'report_name': report_info['name'],
             'report_ref': report_info['ref'],
@@ -386,8 +391,31 @@ class transyt_wrapper:
             with open(sbml_fix_path, 'w') as f:
                 f.writelines(xml_fix)
 
-    def get_workspace_name(self):
-        return self.ws
+    @staticmethod
+    def get_compounds_names(self, kbase_model):
+
+        compounds = {}
+
+        for model_compound in kbase_model["modelcompounds"]:
+            compounds = transyt_wrapper.save_compound_name(model_compound, compounds)
+
+        return compounds
+
+    @staticmethod
+    def save_compound_name(model_compound, compounds):
+        m_seed_id = model_compound["id"]
+        # replace compartment
+        m_seed_name = re.sub("_(?:.(?!_))+$", "_", model_compound["name"])
+        # guarantee always same in different compartments (might be different when source of compound is different)
+        m_seed_id_aux = model_compound["id"].split("_")[0] + "_"
+
+        if m_seed_id_aux in compounds:
+            if m_seed_id == compounds[m_seed_id_aux]:
+                compounds[m_seed_id_aux] = m_seed_name
+        else:
+            compounds[m_seed_id_aux] = m_seed_name
+
+        return compounds
 
     @staticmethod
     def deploy_neo4j_database():
