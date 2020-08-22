@@ -1,7 +1,5 @@
-import os
 from installed_clients.KBaseReportClient import KBaseReport
 import uuid
-import re
 
 tr_url = "https://transyt.bio.di.uminho.pt/reactions/"
 search_bar_placeholder = "__SEARCHER__"
@@ -116,12 +114,14 @@ def new_reactions_html(new_reactions, references):
 
     for identifier in new_reactions:
 
+        reaction = new_reactions[identifier]
+        identifier = identifier.replace("_c0", "")
+
         model_seed_id = "-"
         if identifier in references:
             model_seed_id = references[identifier]
 
         html = html + "<tr>"
-        reaction = new_reactions[identifier]
         html = html + "<td class='tg-baqh'><a href='" + tr_url + identifier + "'>" + identifier + "</a></td>"
         html = html + "<td class='tg-baqh'>" + model_seed_id + "</td>"
         html = html + "<td class='tg-0lax'>" + reaction.reaction + "</td>"
@@ -139,6 +139,7 @@ def reactions_removed_html(reactions_removed, assign_transyt_ref):
 
         html = html + "<tr>"
         reaction = reactions_removed[identifier]
+        identifier = identifier.replace("_c0", "")
 
         if assign_transyt_ref:
             url_ref = "<a href='" + tr_url + identifier + "'>" + identifier + "</a>"
@@ -166,6 +167,8 @@ def reactions_gpr_modified_html(reactions_modified, references):
 
         original_gpr = reactions_modified[identifier][0].strip()
         new_gpr = reactions_modified[identifier][1].strip()
+
+        identifier = identifier.replace("_c0", "")
 
         model_seed_id = "-"
         if identifier in references:

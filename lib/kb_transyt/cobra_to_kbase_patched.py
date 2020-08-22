@@ -206,7 +206,7 @@ def convert_to_kbase_reaction(reaction, compounds_to_refs):
         'direction': direction,
         'edits': {},
         'gapfill_data': {},
-        'id': reaction.id,
+        'id': reaction.id + "_c0",
         'maxforflux': maxforflux,
         'maxrevflux': maxrevflux,
         'modelReactionProteins': model_reaction_proteins,
