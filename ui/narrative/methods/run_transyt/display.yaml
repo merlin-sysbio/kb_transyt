@@ -132,6 +132,11 @@ parameters :
             TC families annotation alpha value
         short-hint: |
             Parameter used to balance the weight between frequency and similarity scores
+    tax_id:
+        ui-name: |
+            NCBI taxonomy identifier
+        short-hint: |
+            This parameter must be used when a taxonomy identifier is not already available in the genome
     accept_unk_family:
         ui-name: |
             Accept unknown families (TC class 9)

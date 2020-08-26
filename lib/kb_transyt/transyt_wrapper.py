@@ -62,6 +62,9 @@ class transyt_wrapper:
 
         self.inputs_preprocessing(genome, compounds)
 
+        if self.taxonomy_id is None:
+            return -3
+
         #if not os.path.exists(self.results_path):
         #    os.makedirs(self.results_path)
 
@@ -79,6 +82,8 @@ class transyt_wrapper:
         print(os.system("ls " + self.results_path))
 
         print("jar process finished! exit code: " + str(exit_code))
+
+        return exit_code
 
     def retrieve_test_data(self, model_obj_name, genome_obj_name, narrative_id):
 
@@ -109,10 +114,13 @@ class transyt_wrapper:
     def inputs_preprocessing(self, genome, model_compounds):
 
         # detect taxa
-        ref_data = self.kbase.get_object_info_from_ref(genome['taxon_ref'])
-        ktaxon = self.kbase.get_object(ref_data.id, ref_data.workspace_id)
-        self.scientific_lineage = ktaxon['scientific_lineage']
-        self.taxonomy_id = ktaxon['taxonomy_id']
+        if 'taxon_ref' in genome:
+            ref_data = self.kbase.get_object_info_from_ref(genome['taxon_ref'])
+            ktaxon = self.kbase.get_object(ref_data.id, ref_data.workspace_id)
+            self.scientific_lineage = ktaxon['scientific_lineage']
+            self.taxonomy_id = ktaxon['taxonomy_id']
+        elif self.params["tax_id"] != "":
+            self.taxonomy_id = self.params["tax_id"]
 
         if model_compounds is not None:
             self.compounds_to_txt(model_compounds)

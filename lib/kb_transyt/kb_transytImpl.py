@@ -63,56 +63,31 @@ class kb_transyt:
 
         transyt_process = tw.transyt_wrapper(token=ctx['token'], params=params, config=self.config,
                                              callbackURL=self.callback_url, shared_folder=self.shared_folder)
-        transyt_process.run_transyt()
-        output = transyt_process.process_output()
+        exit_code = transyt_process.run_transyt()
+
+        if exit_code == -3:
+
+            report = KBaseReport(self.callback_url)
+            report_params = {
+                'warnings': ["The taxonomy identifier is not available in the genome. Please insert a valid 'NCBI "
+                             "taxonomy identifier' in the advanced parameters section."],
+                'workspace_name': self.params['workspace_name'],
+                'report_object_name': 'run_transyt_' + uuid.uuid4().hex,
+                'objects_created': [],
+            }
+
+            report_info = report.create_extended_report(report_params)
+
+            output = {
+                'report_name': report_info['name'],
+                'report_ref': report_info['ref'],
+                'fbamodel_id': self.params['model_id']
+            }
+
+        else:
+            output = transyt_process.process_output()
 
         print(os.system("ls " + self.shared_folder))
-
-        '''
-        #output = transyt_process.get_report()
-
-        report = KBaseReport(self.callback_url)
-        objects_created = []
-        model_fix_path = self.shared_folder + '/transporters_sbml.xml'
-
-        transyt_process.fix_transyt_model("/kb/module/conf/transyt.xml", model_fix_path)
-        shutil.copyfile("/kb/module/conf/report_template.html", self.shared_folder + '/report.html')
-
-        report_params = {
-            'direct_html_link_index': 0,
-            'workspace_name': transyt_process.get_workspace_name(),
-            'report_object_name': 'run_transyt_' + uuid.uuid4().hex,
-            'objects_created': [],
-            'html_links': [
-                {'name': 'report', 'description': 'Report', 'path': self.shared_folder + '/report.html'}
-            ],
-            'file_links': [
-                {'name': params['model_id'] + ".xml", 'description': 'desc', 'path': model_fix_path}
-            ]
-        }
-
-        print(report_params)
-
-        report_info = report.create_extended_report(report_params)
-
-        #report_info = report.create(
-        #    {
-        #        'report': {
-        #            'objects_created': objects_created,
-        #            'text_message': "SOME TEXT MESSAGE HERE"
-        #        },
-        #        'workspace_name': transyt_process.get_workspace_name()
-        #    })
-
-        # report_info = report.create(report_params)
-
-        output = {
-            'report_name': report_info['name'],
-            'report_ref': report_info['ref'],
-            'fbamodel_id': params['model_id']
-        }
-        print('returning:', output)
-        '''
 
         #END run_transyt
 

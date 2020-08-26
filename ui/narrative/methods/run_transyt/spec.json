@@ -239,6 +239,17 @@
             }
         },
         {
+            "id": "tax_id",
+            "optional": false,
+            "advanced": true,
+            "allow_multiple": false,
+            "field_type": "text",
+            "text_options": {
+                "validate_as": "int",
+                "min_integer" : 0
+            }
+        },
+        {
             "id": "accept_unk_family",
             "optional": false,
             "advanced": true,
@@ -338,6 +349,9 @@
                 },{
                     "input_parameter": "alpha_families",
                     "target_property": "alpha_families"
+                },{
+                    "input_parameter": "tax_id",
+                    "target_property": "tax_id"
                 },{
                     "input_parameter": "accept_unk_family",
                     "target_property": "accept_unk_family"
