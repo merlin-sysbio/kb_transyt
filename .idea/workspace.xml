@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e437acce-8141-4dfa-9315-1fe32627d390" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/kb_transyt/kb_transytImpl.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/kb_transyt/kb_transytImpl.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/narrative/methods/run_transyt/display.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/ui/narrative/methods/run_transyt/display.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/narrative/methods/run_transyt/spec.json" beforeDir="false" afterPath="$PROJECT_DIR$/ui/narrative/methods/run_transyt/spec.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,8 +17,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/kb_transyt/test_transyt.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="572" column="35" selection-start-line="572" selection-start-column="35" selection-end-line="572" selection-end-column="35" />
+            <state relative-caret-position="326">
+              <caret line="592" column="30" lean-forward="true" selection-start-line="592" selection-start-column="30" selection-end-line="592" selection-end-column="30" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
               </folding>
@@ -25,11 +26,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="235">
-              <caret line="46" column="8" selection-start-line="46" selection-start-column="8" selection-end-line="46" selection-end-column="8" />
+            <state relative-caret-position="231">
+              <caret line="307" column="40" selection-start-line="307" selection-start-column="40" selection-end-line="307" selection-end-column="40" />
               <folding>
                 <element signature="e#0#17#0" expanded="true" />
               </folding>
@@ -40,8 +41,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ui/narrative/methods/run_transyt/display.yaml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3135">
-              <caret line="209" column="30" selection-start-line="209" selection-start-column="30" selection-end-line="209" selection-end-column="30" />
+            <state relative-caret-position="765">
+              <caret line="51" column="35" selection-start-line="51" selection-start-column="35" selection-end-line="51" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -49,17 +50,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ui/narrative/methods/run_transyt/spec.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="245" column="33" selection-start-line="245" selection-start-column="33" selection-end-line="245" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/kbase.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="10" lean-forward="true" selection-start-line="7" selection-start-column="10" selection-end-line="7" selection-end-column="10" />
+            <state relative-caret-position="337">
+              <caret line="374" column="52" selection-start-line="374" selection-start-column="40" selection-end-line="374" selection-end-column="52" />
             </state>
           </provider>
         </entry>
@@ -76,8 +68,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/kb_transyt/kb_transyt_report.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="32" column="11" selection-start-line="32" selection-start-column="11" selection-end-line="32" selection-end-column="11" />
+            <state relative-caret-position="75">
+              <caret line="6" column="104" selection-start-line="6" selection-start-column="104" selection-end-line="6" selection-end-column="104" />
             </state>
           </provider>
         </entry>
@@ -91,11 +83,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/kb_transyt/kb_transytImpl.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="621">
-              <caret line="83" column="31" selection-start-line="83" selection-start-column="31" selection-end-line="83" selection-end-column="31" />
+            <state relative-caret-position="232">
+              <caret line="63" column="40" lean-forward="true" selection-start-line="63" selection-start-column="40" selection-end-line="63" selection-end-column="40" />
               <folding>
                 <element signature="e#99#108#0" expanded="true" />
               </folding>
@@ -115,7 +107,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>spl</find>
       <find>for metabolite in reaction.metabolites:</find>
       <find>conf</find>
       <find>gene_r</find>
@@ -145,6 +136,7 @@
       <find>taxon_</find>
       <find>taxonomy_id</find>
       <find>run_</find>
+      <find>FBA</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -170,12 +162,12 @@
         <option value="$PROJECT_DIR$/conf/report_template.html" />
         <option value="$PROJECT_DIR$/lib/kb_transyt/cobra_to_kbase_patched.py" />
         <option value="$PROJECT_DIR$/lib/kb_transyt/kb_transyt_report.py" />
-        <option value="$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py" />
         <option value="$PROJECT_DIR$/kbase.yml" />
-        <option value="$PROJECT_DIR$/ui/narrative/methods/run_transyt/display.yaml" />
         <option value="$PROJECT_DIR$/lib/kb_transyt/test_transyt.py" />
-        <option value="$PROJECT_DIR$/ui/narrative/methods/run_transyt/spec.json" />
         <option value="$PROJECT_DIR$/lib/kb_transyt/kb_transytImpl.py" />
+        <option value="$PROJECT_DIR$/ui/narrative/methods/run_transyt/spec.json" />
+        <option value="$PROJECT_DIR$/ui/narrative/methods/run_transyt/display.yaml" />
+        <option value="$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py" />
       </list>
     </option>
   </component>
@@ -381,15 +373,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6136986" visible="true" weight="0.15806195" />
-      <window_info id="Structure" order="1" sideWeight="0.38630137" side_tool="true" visible="true" weight="0.15806195" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6113744" visible="true" weight="0.15806195" />
+      <window_info id="Structure" order="1" sideWeight="0.3886256" side_tool="true" visible="true" weight="0.15806195" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.2547945" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.26027396" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.4219178" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -635,10 +626,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ui/narrative/methods/run_transyt/display.yaml">
+    <entry file="file:///usr/local/Cellar/python/3.7.7/Frameworks/Python.framework/Versions/3.7/lib/python3.7/shutil.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3135">
-          <caret line="209" column="30" selection-start-line="209" selection-start-column="30" selection-end-line="209" selection-end-column="30" />
+        <state relative-caret-position="1710">
+          <caret line="119" selection-start-line="119" selection-end-line="119" />
         </state>
       </provider>
     </entry>
@@ -649,26 +640,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/local/Cellar/python/3.7.7/Frameworks/Python.framework/Versions/3.7/lib/python3.7/shutil.py">
+    <entry file="file://$PROJECT_DIR$/lib/kb_transyt/kb_transytImpl.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1710">
-          <caret line="119" selection-start-line="119" selection-end-line="119" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ui/narrative/methods/run_transyt/spec.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="245" column="33" selection-start-line="245" selection-start-column="33" selection-end-line="245" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/kb_transyt/test_transyt.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="572" column="35" selection-start-line="572" selection-start-column="35" selection-end-line="572" selection-end-column="35" />
+        <state relative-caret-position="232">
+          <caret line="63" column="40" lean-forward="true" selection-start-line="63" selection-start-column="40" selection-end-line="63" selection-end-column="40" />
           <folding>
-            <element signature="e#0#34#0" expanded="true" />
+            <element signature="e#99#108#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -682,27 +659,41 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/kb_transyt/kb_transyt_report.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="32" column="11" selection-start-line="32" selection-start-column="11" selection-end-line="32" selection-end-column="11" />
+        <state relative-caret-position="75">
+          <caret line="6" column="104" selection-start-line="6" selection-start-column="104" selection-end-line="6" selection-end-column="104" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ui/narrative/methods/run_transyt/display.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="51" column="35" selection-start-line="51" selection-start-column="35" selection-end-line="51" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ui/narrative/methods/run_transyt/spec.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="337">
+          <caret line="374" column="52" selection-start-line="374" selection-start-column="40" selection-end-line="374" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/kb_transyt/test_transyt.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="592" column="30" lean-forward="true" selection-start-line="592" selection-start-column="30" selection-end-line="592" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="235">
-          <caret line="46" column="8" selection-start-line="46" selection-start-column="8" selection-end-line="46" selection-end-column="8" />
+        <state relative-caret-position="231">
+          <caret line="307" column="40" selection-start-line="307" selection-start-column="40" selection-end-line="307" selection-end-column="40" />
           <folding>
             <element signature="e#0#17#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/kb_transyt/kb_transytImpl.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="621">
-          <caret line="83" column="31" selection-start-line="83" selection-start-column="31" selection-end-line="83" selection-end-column="31" />
-          <folding>
-            <element signature="e#99#108#0" expanded="true" />
           </folding>
         </state>
       </provider>

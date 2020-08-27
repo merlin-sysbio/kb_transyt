@@ -299,8 +299,13 @@ class transyt_wrapper:
             elif self.params["accept_transyt_ids"] == 0:
                 report_reactions_not_saved_not_accept_transyt_id[original_id] = reaction
 
+        object_id = self.params['model_id']
+
+        if self.params("output_model"):
+            object_id = self.params("output_model")
+
         # this steps saves the object in the workspace
-        self.kbase.save_object(self.params['model_id'], self.ws, 'KBaseFBA.FBAModel', self.kbase_model)
+        self.kbase.save_object(object_id, self.ws, 'KBaseFBA.FBAModel', self.kbase_model)
 
         new_transyt_zip_path = self.shared_folder + "/results.zip"
         shutil.copyfile(self.inputs_path + "/results.zip", new_transyt_zip_path)
@@ -313,7 +318,7 @@ class transyt_wrapper:
             "Reactions removed": report_reactions_removed,
             "Reactions not saved (ModelSEED ID not found)": report_reactions_not_saved_not_accept_transyt_id
         }
-        # objects_created = [self.kbase_model] the object already existed was not created
+
         objects_created = []
 
         report_info = kb_transyt_report.generate_report(report_path, report_elements, references, objects_created,
@@ -323,7 +328,6 @@ class transyt_wrapper:
         output = {
             'report_name': report_info['name'],
             'report_ref': report_info['ref'],
-            'fbamodel_id': self.params['model_id']
         }
 
         return output

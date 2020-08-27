@@ -264,7 +264,7 @@
         {
             "id": "accept_transyt_ids",
             "optional": false,
-            "advanced": true,
+            "advanced": false,
             "checkbox_options" : {
                 "unchecked_value" : "false",
                 "checked_value" : "true"
@@ -284,6 +284,16 @@
             "allow_multiple": false,
             "default_values": [ "0" ],
             "field_type": "checkbox"
+        }, {
+        "id" : "output_model",
+        "optional" : true,
+        "advanced" : false,
+        "allow_multiple" : false,
+        "default_values" : [ "" ],
+        "field_type" : "text",
+        "text_options" : {
+          "valid_ws_types" : [ "KBaseFBA.FBAModel" ],
+          "is_output_name":true
         }
     ],
     "behavior": {
@@ -361,6 +371,9 @@
                 },{
                     "input_parameter": "ignore_m2",
                     "target_property": "ignore_m2"
+                },{
+                    "input_parameter": "output_model",
+                    "target_property": "output_model"
                 }
             ],
             "output_mapping": [
@@ -373,12 +386,6 @@
                 },{
                     "target_property" : "ws",
                     "narrative_system_variable" : "workspace"
-                },{
-                    "constant_value" : "KBaseFBA.FBAModel",
-                    "target_property" : "type"
-                },{
-                    "target_property" : "obj",
-                    "service_method_output_path": [0, "fbamodel_id"]
                 }
             ]
         }
