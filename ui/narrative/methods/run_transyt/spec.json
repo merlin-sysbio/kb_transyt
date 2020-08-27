@@ -392,6 +392,12 @@
                 },{
                     "target_property" : "ws",
                     "narrative_system_variable" : "workspace"
+                },{
+                    "constant_value" : "KBaseFBA.FBAModel",
+                    "target_property" : "type"
+                },{
+                    "target_property" : "obj",
+                    "service_method_output_path": [0, "fbamodel_id"]
                 }
             ]
         }

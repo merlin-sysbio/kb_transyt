@@ -80,7 +80,8 @@ class kb_transyt:
 
             output = {
                 'report_name': report_info['name'],
-                'report_ref': report_info['ref']
+                'report_ref': report_info['ref'],
+                'fbamodel_id': params['model_id']
             }
 
         else:
