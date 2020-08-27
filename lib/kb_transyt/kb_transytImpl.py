@@ -71,7 +71,7 @@ class kb_transyt:
             report_params = {
                 'warnings': ["The taxonomy identifier is not available in the genome. Please insert a valid 'NCBI "
                              "taxonomy identifier' in the advanced parameters section."],
-                'workspace_name': self.params['workspace_name'],
+                'workspace_name': params['workspace_name'],
                 'report_object_name': 'run_transyt_' + uuid.uuid4().hex,
                 'objects_created': []
             }
@@ -81,7 +81,7 @@ class kb_transyt:
             output = {
                 'report_name': report_info['name'],
                 'report_ref': report_info['ref'],
-                'fbamodel_id': self.params['model_id']
+                'fbamodel_id': params['model_id']
             }
 
         else:
