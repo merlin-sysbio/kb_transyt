@@ -380,6 +380,8 @@
                     "input_parameter": "output_model",
                     "target_property": "output_model"
                 }
+            ],
+            "output_mapping": [
             ]
         }
     },
