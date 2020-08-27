@@ -158,7 +158,59 @@ parameters :
             If true, TranSyT only use method-1 in its classifications.
 
 description : |
-    <p>The Transport Systems Tracker (TranSyT) is a tool to identify transport systems and the compounds carried
-    across membranes, based on the annotations of the Transporter Classification Database (TCDB). In addition,
-    this tool also generates the respective transport reactions while providing the respective
-    Gene-Protein-Reaction associations.</p>
+    <p>The Transport Systems Tracker (<i>TranSyT</i>) is a tool to identify transport systems and the compounds carried
+    across membranes based on the annotations of the Transporter Classification Database (TCDB). In addition, this
+    tool also generates the respective transport reactions while providing the respective Gene-Protein-Reaction
+    associations. The tool uses information retrieved from <a href="http://www.tcdb.org/">TCDB</a>, a membrane
+    transport proteins' database containing structural, functional, mechanistic, evolutionary and disease/medical information
+    about transport systems.</p>
+
+    <hr>
+
+    <p><i>TranSyT</i> takes a genome and a metabolic model as input. A set of parameters can also be defined by the
+    user in order to change the stringency of the rules followed by the software. The effects of each parameter are
+    described at the <em>Parameters</em> section below.</p>
+
+    <p>KBase offers several ways to load genomes and metabolic models into a Narrative so that they can be used as
+    one of the required inputs for this and other Apps:
+       <ol>
+         <li>Upload your own data from your local machine.</li>
+         <li>Search for and add to the Narrative a genome or metabolic model from KBase&apos;s reference data collection.</li>
+         <li>Use example data from the Data Browser slideout.</li>
+         <li>Use a genome or metabolic model that you worked with in another Narrative or that another user has shared with you.</li>
+       </ol>
+    </p>
+
+    <hr>
+
+    <p><strong>Output Report</strong><br>Once the App finishes running, an output report is generated detailing the
+    results. The report is built based on the parameters selected by the user. Thus, one or more of the following tabs
+    can be displayed:
+        <ul>
+            <li><u>New reactions:</u> Reactions that were not already represented in the model and were integrated are
+             shown in this tab. Despite using its own identifiers, if a equivalent ModelSEED reaction identifier is available,
+             <i>TranSyT</i> will put a reference, along with the reaction equation and respective GPR.</li>
+            <li><u>Reactions GPR modified:</u> If the parameter to merge or replace reactions' GPRs is selected, <i>TranSyT</i>
+            shows in this tab the changes that were performed.</li>
+            <li><u>Reactions removed:</u> When the option to replace all transport reactions already present in the
+             model is selected, the set of removed reactions is displayed in this tab.</li>
+            <li><u>Reactions not saved (ModelSEED ID not found):</u> When an equivalent ModelSEED reaction identifier
+             is not available and the checkbox of the advanced parameter <em>Accept TranSyT identifiers if ModelSEED
+             reference not found</em> is not selected, <i>TranSyT</i> does not save such reactions in the model, but
+             creates this tab containig the log of disregarded reaction.</li>
+        </ul>
+    </p>
+
+    <p><strong>Metabolic Model Object Viewer</strong><br>In addition to the <em>Output Report</em>, an <em>Object Viewer</em> is
+     also generated. In this object, the tab <em>Reactions</em> will contain the information regarding the reactions
+      created/modified by <i>TranSyT</i>. In cases where a ModelSEED reaction identifier is available,
+      and the reaction is set to be saved, the ModelSEED identified will be assigned in the model instead of <i>TranSyT</i>'s
+      own identifier. If the advanced parameter <em>Filter reactions by compounds present in model</em>
+       is not selected, possible new compounds added by <i>TranSyT</i> to the model will be available in tab
+       <em>Compounds</em>.</p>
+
+    <hr>
+
+    <p>For additional information about genomic annotation and metabolic modeling, visit
+     <a href="https://docs.kbase.us/apps/analysis/assembly-and-annotation">Assembly and Annotation</a> or
+     <a href="https://docs.kbase.us/apps/analysis/metabolic-modeling">Metabolic Modeling</a> in KBase FAQ.<p>
