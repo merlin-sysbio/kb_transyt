@@ -73,7 +73,6 @@ class kb_transyt:
                              "taxonomy identifier' in the advanced parameters section."],
                 'workspace_name': params['workspace_name'],
                 'report_object_name': 'run_transyt_' + uuid.uuid4().hex,
-                'objects_created': []
             }
 
             report_info = report.create_extended_report(report_params)

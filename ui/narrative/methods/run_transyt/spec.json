@@ -6,8 +6,7 @@
     "contact": ["fliu@anl.gov", "dlagoa@anl.gov"],
     "categories": ["active", "metabolic_modeling"],
     "widgets": {
-        "input": null,
-        "output": "kbaseTabTable"
+        "input": null
     },
     "parameters": [ 
         {
