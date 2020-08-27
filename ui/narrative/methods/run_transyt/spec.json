@@ -243,7 +243,7 @@
             "optional": false,
             "advanced": true,
             "allow_multiple": false,
-            "field_type": "text",
+            "field_type": "text"
         },
         {
             "id": "accept_unk_family",
