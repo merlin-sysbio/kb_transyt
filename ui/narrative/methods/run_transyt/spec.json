@@ -240,10 +240,14 @@
         },
         {
             "id": "tax_id",
-            "optional": false,
+            "optional": true,
             "advanced": true,
             "allow_multiple": false,
-            "field_type": "text"
+            "field_type": "text",
+            "text_options": {
+                "validate_as": "int",
+                "min_integer" : 0
+            }
         },
         {
             "id": "accept_unk_family",
