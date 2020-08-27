@@ -284,16 +284,22 @@
             "allow_multiple": false,
             "default_values": [ "0" ],
             "field_type": "checkbox"
-        }, {
-        "id" : "output_model",
-        "optional" : true,
-        "advanced" : false,
-        "allow_multiple" : false,
-        "default_values" : [ "" ],
-        "field_type" : "text",
-        "text_options" : {
-          "valid_ws_types" : [ "KBaseFBA.FBAModel" ],
-          "is_output_name":true
+        },
+        {
+            "id": "output_model",
+            "optional": true,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [
+                ""
+            ],
+            "field_type": "text",
+            "text_options": {
+                "valid_ws_types": [
+                    "KBaseFBA.FBAModel"
+                ],
+                "is_output_name": true
+            }
         }
     ],
     "behavior": {
