@@ -6,7 +6,8 @@
     "contact": ["fliu@anl.gov", "dlagoa@anl.gov"],
     "categories": ["active", "metabolic_modeling"],
     "widgets": {
-        "input": null
+        "input": null,
+        "output": null
     },
     "parameters": [ 
         {
@@ -381,8 +382,7 @@
                     "target_property": "output_model"
                 }
             ],
-            "output_mapping": [
-            ]
+            "output_mapping": null
         }
     },
     "job_id_output_field": "docker"
