@@ -321,7 +321,7 @@ class transyt_wrapper:
             "Reactions not saved (ModelSEED ID not found)": report_reactions_not_saved_not_accept_transyt_id
         }
 
-        objects_created = [{'ref': f"{self.params['workspace']}/{self.params['fba_output_id']}",
+        objects_created = [{'ref': f"{self.ws}/{self.params['model_id']}",
                             'description': description}]
 
         report_info = kb_transyt_report.generate_report(report_path, report_elements, references, objects_created,

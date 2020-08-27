@@ -207,14 +207,6 @@ description : |
         </ul>
     </p>
 
-    <p><strong>Metabolic Model Object Viewer</strong><br>In addition to the <em>Output Report</em>, an <em>Object Viewer</em> is
-     also generated. In this object, the tab <em>Reactions</em> will contain the information regarding the reactions
-      created/modified by <i>TranSyT</i>. In cases where a ModelSEED reaction identifier is available,
-      and the reaction is set to be saved, the ModelSEED identified will be assigned in the model instead of <i>TranSyT</i>'s
-      own identifier. If the advanced parameter <em>Filter reactions by compounds present in model</em>
-       is not selected, possible new compounds added by <i>TranSyT</i> to the model will be available in tab
-       <em>Compounds</em>.</p>
-
     <hr>
 
     <p>For additional information about genomic annotation and metabolic modeling, visit
