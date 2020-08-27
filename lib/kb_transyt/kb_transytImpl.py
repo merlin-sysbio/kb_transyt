@@ -76,7 +76,7 @@ class kb_transyt:
                 'objects_created': []
             }
 
-            report_info = report.create_extended_report(report_params)
+            report_info = report.create(report_params)
 
             output = {
                 'report_name': report_info['name'],
