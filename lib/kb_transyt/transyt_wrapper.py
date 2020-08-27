@@ -300,9 +300,11 @@ class transyt_wrapper:
                 report_reactions_not_saved_not_accept_transyt_id[original_id] = reaction
 
         object_id = self.params['model_id']
+        description = "object new version created"
 
-        if self.params("output_model"):
-            object_id = self.params("output_model")
+        if self.params["output_model"]:
+            object_id = self.params["output_model"]
+            description = "new object created"
 
         # this steps saves the object in the workspace
         self.kbase.save_object(object_id, self.ws, 'KBaseFBA.FBAModel', self.kbase_model)
@@ -319,7 +321,8 @@ class transyt_wrapper:
             "Reactions not saved (ModelSEED ID not found)": report_reactions_not_saved_not_accept_transyt_id
         }
 
-        objects_created = []
+        objects_created = [{'ref': f"{self.params['workspace']}/{self.params['fba_output_id']}",
+                            'description': description}]
 
         report_info = kb_transyt_report.generate_report(report_path, report_elements, references, objects_created,
                                                         self.callback_url, self.ws, self.params['model_id'],
