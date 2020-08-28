@@ -122,7 +122,7 @@ def new_reactions_html(new_reactions, references):
             model_seed_id = references[identifier]
 
         html = html + "<tr>"
-        html = html + "<td class='tg-baqh'><a href='" + tr_url + identifier + "'>" + identifier + "</a></td>"
+        html = html + "<td class='tg-baqh'><a href='" + tr_url + identifier + "' target='_blank'>" + identifier + "</a></td>"
         html = html + "<td class='tg-baqh'>" + model_seed_id + "</td>"
         html = html + "<td class='tg-0lax'>" + reaction.reaction + "</td>"
         html = html + "<td class='tg-0lax'>>" + reaction.gene_reaction_rule.replace(")", "").replace("(", "") \
@@ -142,7 +142,7 @@ def reactions_removed_html(reactions_removed, assign_transyt_ref):
         identifier = identifier.replace("_c0", "")
 
         if assign_transyt_ref:
-            url_ref = "<a href='" + tr_url + identifier + "'>" + identifier + "</a>"
+            url_ref = "<a href='" + tr_url + identifier + "' target='_blank'>" + identifier + "</a>"
         else:
             url_ref = identifier
 
@@ -179,7 +179,7 @@ def reactions_gpr_modified_html(reactions_modified, references):
                 .replace("(", "").replace(" or ", "<br>>").strip()
 
         html = html + "<tr>"
-        html = html + "<td class='tg-baqh'><a href='" + tr_url + identifier + "'>" + identifier + "</a></td>"
+        html = html + "<td class='tg-baqh'><a href='" + tr_url + identifier + "' target='_blank'>" + identifier + "</a></td>"
         html = html + "<td class='tg-baqh'>" + model_seed_id + "</td>"
         html = html + "<td class='tg-0lax'>" + original_gpr + "</td>"
         html = html + "<td class='tg-0lax'>>" + new_gpr.replace(")", "").replace("(", "") \
