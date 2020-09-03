@@ -164,6 +164,9 @@ parameters :
             be replaced by the new one.
 
 description : |
+    <p><strong>App available for Beta Testing. Manuscript in preparation. Please send any feedback to
+    davidelagoa&#64;gmail.com and jplfaria&#64;anl.gov</strong></p>
+
     <p>The Transport Systems Tracker (<i>TranSyT</i>) is a tool to identify transport systems and the compounds carried
     across membranes based on the annotations of the Transporter Classification Database (TCDB). In addition, this
     tool also generates the respective transport reactions while providing the respective Gene-Protein-Reaction

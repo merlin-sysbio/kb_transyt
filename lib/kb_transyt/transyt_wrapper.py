@@ -159,7 +159,12 @@ class transyt_wrapper:
         with open(self.inputs_path + 'params.txt', 'w') as f:
 
             for key in self.params:
-                f.write(key + "\t" + str(self.params[key]) + "\n")
+                value = self.params[key]
+
+                if key == "score_threshold" and self.params['ignore_m2'] == 1:
+                    value = 1
+
+                f.write(key + "\t" + str(value) + "\n")
 
             f.write('taxID' + "\t" + str(self.taxonomy_id) + "\n")
             f.write('reference_database' + "\t" + self.ref_database)
