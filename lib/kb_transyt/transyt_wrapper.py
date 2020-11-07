@@ -147,7 +147,7 @@ class transyt_wrapper:
     def genome_to_faa(self, genome):
         faa_features = []
         for feature in genome['features']:
-            if 'protein_translation' in feature and feature['protein_translation'] is not '':
+            if 'protein_translation' in feature and feature['protein_translation'] != '':
                 faa_features.append('>' + feature['id'] + '\n' + feature['protein_translation'])
 
         with open(self.inputs_path + 'protein.faa', 'w') as f:
