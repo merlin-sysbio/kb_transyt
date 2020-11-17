@@ -2,3 +2,4 @@ test_local
 sdk.cfg
 .DS_Store
 lib/kb_transyt/test_transyt.py
+*/*/__pycache__**

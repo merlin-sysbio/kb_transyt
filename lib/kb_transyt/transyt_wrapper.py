@@ -4,9 +4,11 @@ import os
 import cobra
 from cobra_to_kbase_patched import convert_to_kbase_reaction, get_compounds_references, \
     get_compartmets_references, build_model_compound, build_model_compartment
+from installed_clients.KBaseReportClient import KBaseReport
 import kb_transyt_report
 import shutil
 import re
+import uuid
 
 class transyt_wrapper:
 
@@ -181,7 +183,6 @@ class transyt_wrapper:
         out_sbml_path = self.results_path + "/transyt.xml"
         model_fix_path = self.shared_folder + '/transporters_sbml.xml'
 
-
         if self.ws is None:  # delete when tests are complete
             self.ws = "davide:narrative_1585772431721"
             #self.params["genome_id"] = "Escherichia_coli_K-12_MG1655"
@@ -192,14 +193,18 @@ class transyt_wrapper:
             model_fix_path = self.results_path + "/transporters_sbml.xml"
             self.report_template_html = "/Users/davidelagoa/PycharmProjects/kb_transyt/conf/report_template.html"
 
-
         if os.path.exists(out_sbml_path):
 
             # fix this in TranSyT, then delete this step
             self.fix_transyt_model(out_sbml_path, model_fix_path)
 
             return self.merge_or_replace_model_reactions(model_fix_path)
-        return None
+
+        message = "TranSyT was not able to generate results. Please try again or change inputs paramenters and " \
+                  "check if the provided taxonomy identifier is valid as this in a frequent problem.  " \
+                  "If the problem continues, please consider contact app suport contact."
+
+        return self.build_bad_report_error(message)
 
     def merge_or_replace_model_reactions(self, transyt_model_fix_path):
 
@@ -335,7 +340,7 @@ class transyt_wrapper:
                                                         report_new_compartments, self.report_template_html, compounds_names)
         output = {
             'report_name': report_info['name'],
-            'report_ref': report_info['ref'],
+            'report_ref': report_info['ref']
         }
 
         return output
@@ -411,6 +416,26 @@ class transyt_wrapper:
         if xml_data is not None:
             with open(sbml_fix_path, 'w') as f:
                 f.writelines(xml_fix)
+
+    def build_bad_report_error(self, message):
+
+        report = KBaseReport(self.callback_url)
+        report_params = {
+            'warnings': [message],
+            'workspace_name': self.params['workspace_name'],
+            'report_object_name': 'run_transyt_' + uuid.uuid4().hex,
+            'objects_created': []
+        }
+
+        report_info = report.create_extended_report(report_params)
+
+        output = {
+            'report_name': report_info['name'],
+            'report_ref': report_info['ref'],
+            'fbamodel_id': self.params['model_id']
+        }
+
+        return output
 
     @staticmethod
     def get_compounds_names(kbase_model):

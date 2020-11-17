@@ -3,8 +3,6 @@
 # The header block is where all import statments should live
 import os
 import transyt_wrapper as tw
-from installed_clients.KBaseReportClient import KBaseReport
-import uuid
 import shutil
 
 #END_HEADER
@@ -67,22 +65,10 @@ class kb_transyt:
 
         if exit_code == -3:
 
-            report = KBaseReport(self.callback_url)
-            report_params = {
-                'warnings': ["The taxonomy identifier is not available in the genome. Please insert a valid 'NCBI "
-                             "taxonomy identifier' in the advanced parameters section."],
-                'workspace_name': params['workspace_name'],
-                'report_object_name': 'run_transyt_' + uuid.uuid4().hex,
-                'objects_created': []
-            }
+            message = "The taxonomy identifier is not available in the genome. Please insert a valid 'NCBI " \
+                      "taxonomy identifier' in the advanced parameters section."
 
-            report_info = report.create_extended_report(report_params)
-
-            output = {
-                'report_name': report_info['name'],
-                'report_ref': report_info['ref'],
-                'fbamodel_id': params['model_id']
-            }
+            output = transyt_process.build_bad_report_error(message)
 
         else:
             output = transyt_process.process_output()
