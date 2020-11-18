@@ -15,6 +15,7 @@ RUN pip install --upgrade pip
 RUN rm -rf /miniconda/lib/python3.6/site-packages/ruamel*
 RUN pip install cobrakbase
 RUN pip install networkx
+RUN pip install numpy --upgrade
 
 # -----------------------------------------
 
