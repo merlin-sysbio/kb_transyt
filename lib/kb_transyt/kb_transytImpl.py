@@ -63,7 +63,7 @@ class kb_transyt:
                                              callbackURL=self.callback_url, shared_folder=self.shared_folder)
         exit_code = transyt_process.run_transyt()
 
-        if exit_code == -3:
+        if exit_code == 8:
 
             message = "The taxonomy identifier is not available in the genome. Please insert a valid 'NCBI " \
                       "taxonomy identifier' in the advanced parameters section."

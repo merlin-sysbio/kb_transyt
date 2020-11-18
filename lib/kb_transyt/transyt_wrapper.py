@@ -65,7 +65,7 @@ class transyt_wrapper:
         self.inputs_preprocessing(genome, compounds)
 
         if self.taxonomy_id is None:
-            return -3
+            return 8
 
         #if not os.path.exists(self.results_path):
         #    os.makedirs(self.results_path)

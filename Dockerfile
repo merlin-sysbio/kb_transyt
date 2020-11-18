@@ -10,10 +10,14 @@ RUN apt-get update
 RUN apt-get install wget
 RUN apt-get -y install ncbi-blast+ #control version
 
-RUN pip install --upgrade pip
-RUN pip install cobrakbase
-RUN pip install networkx
+#problem with pip 10
+#RUN pip install --upgrade pip
+#RUN pip install cobrakbase
+#RUN pip install networkx
 
+RUN pip install --upgrade --force-reinstall pip==9.0.3
+RUN pip install cobrakbase --disable-pip-version-check
+RUN pip install networkx --disable-pip-version-check
 # -----------------------------------------
 
 COPY ./ /kb/module
