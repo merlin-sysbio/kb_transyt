@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="e437acce-8141-4dfa-9315-1fe32627d390" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kbase.yml" beforeDir="false" afterPath="$PROJECT_DIR$/kbase.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/narrative/methods/run_transyt/spec.json" beforeDir="false" afterPath="$PROJECT_DIR$/ui/narrative/methods/run_transyt/spec.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,8 +18,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/kb_transyt/test_transyt.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="261">
-              <caret line="606" column="43" lean-forward="true" selection-start-line="606" selection-start-column="43" selection-end-line="606" selection-end-column="43" />
+            <state relative-caret-position="8955">
+              <caret line="606" column="43" selection-start-line="606" selection-start-column="43" selection-end-line="606" selection-end-column="43" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
               </folding>
@@ -25,11 +27,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Dockerfile">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="210">
-              <caret line="14" column="57" selection-start-line="14" selection-start-column="57" selection-end-line="14" selection-end-column="57" />
+              <caret line="42" column="31" lean-forward="true" selection-start-line="42" selection-start-column="31" selection-end-line="42" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -37,13 +39,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ui/narrative/methods/run_transyt/display.yaml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="558">
+            <state relative-caret-position="840">
               <caret line="56" column="44" selection-start-line="56" selection-start-column="44" selection-end-line="56" selection-end-column="44" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/kbase.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="150">
@@ -55,13 +57,18 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-453">
-              <caret line="68" lean-forward="true" selection-start-line="68" selection-end-line="68" />
+            <state relative-caret-position="211">
+              <caret line="120" column="35" lean-forward="true" selection-start-line="120" selection-start-column="35" selection-end-line="120" selection-end-column="35" />
               <folding>
                 <element signature="e#0#17#0" expanded="true" />
               </folding>
             </state>
           </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.travis.yml">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -85,8 +92,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/kb_transyt/kb_transytImpl.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="63" column="40" lean-forward="true" selection-start-line="63" selection-start-column="40" selection-end-line="63" selection-end-column="40" />
+            <state relative-caret-position="915">
+              <caret line="63" column="40" selection-start-line="63" selection-start-column="40" selection-end-line="63" selection-end-column="40" />
               <folding>
                 <element signature="e#99#108#0" expanded="true" />
               </folding>
@@ -106,7 +113,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>davide</find>
       <find>print(</find>
       <find>self.resul</find>
       <find>refere</find>
@@ -136,6 +142,7 @@
       <find>self.params</find>
       <find>build_bad_report_error</find>
       <find>tax</find>
+      <find>params.txt</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -162,11 +169,11 @@
         <option value="$PROJECT_DIR$/ui/narrative/methods/run_transyt/display.yaml" />
         <option value="$PROJECT_DIR$/lib/kb_transyt/test_transyt.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/lib/kb_transyt/kb_transytImpl.py" />
+        <option value="$PROJECT_DIR$/Dockerfile" />
+        <option value="$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py" />
         <option value="$PROJECT_DIR$/ui/narrative/methods/run_transyt/spec.json" />
         <option value="$PROJECT_DIR$/kbase.yml" />
-        <option value="$PROJECT_DIR$/lib/kb_transyt/kb_transytImpl.py" />
-        <option value="$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py" />
-        <option value="$PROJECT_DIR$/Dockerfile" />
       </list>
     </option>
   </component>
@@ -358,20 +365,34 @@
       <option name="project" value="LOCAL" />
       <updated>1605733361295</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="problem with pip 10, rm package affected">
+      <created>1605736497390</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1605736497392</updated>
+    </task>
+    <task id="LOCAL-00008" summary="numpy version problem">
+      <created>1605737609442</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1605737609443</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.7746741" visible="true" weight="0.20571883" />
-      <window_info id="Structure" order="1" sideWeight="0.22532588" side_tool="true" visible="true" weight="0.20571883" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.77397263" visible="true" weight="0.20571883" />
+      <window_info id="Structure" order="1" sideWeight="0.2260274" side_tool="true" visible="true" weight="0.20571883" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.25205478" />
-      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.26438355" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.26438355" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -390,7 +411,9 @@
     <MESSAGE value="new version" />
     <MESSAGE value="debug build kbase" />
     <MESSAGE value="problem with pip 10, instruction to downgrade" />
-    <option name="LAST_COMMIT_MESSAGE" value="problem with pip 10, instruction to downgrade" />
+    <MESSAGE value="problem with pip 10, rm package affected" />
+    <MESSAGE value="numpy version problem" />
+    <option name="LAST_COMMIT_MESSAGE" value="numpy version problem" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -404,11 +427,6 @@
           <url>file://$USER_HOME$/OneDrive - Universidade do Minho/UMinho/ArtigoTranSyT/kb_transyt/lib/python3.7/site-packages/cobrakbase/core/cobra_to_kbase.py</url>
           <line>145</line>
           <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py</url>
-          <line>98</line>
-          <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/lib/kb_transyt/test_transyt.py</url>
@@ -628,10 +646,57 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/lib/kb_transyt/test_transyt.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8955">
+          <caret line="606" column="43" selection-start-line="606" selection-start-column="43" selection-end-line="606" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/kb_transyt/kb_transytImpl.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="915">
+          <caret line="63" column="40" selection-start-line="63" selection-start-column="40" selection-end-line="63" selection-end-column="40" />
+          <folding>
+            <element signature="e#99#108#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dockerfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="42" column="31" lean-forward="true" selection-start-line="42" selection-start-column="31" selection-end-line="42" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="120" column="35" lean-forward="true" selection-start-line="120" selection-start-column="35" selection-end-line="120" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#17#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.travis.yml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ui/narrative/methods/run_transyt/display.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="840">
+          <caret line="56" column="44" selection-start-line="56" selection-start-column="44" selection-end-line="56" selection-end-column="44" />
         </state>
       </provider>
     </entry>
@@ -642,54 +707,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ui/narrative/methods/run_transyt/display.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="558">
-          <caret line="56" column="44" selection-start-line="56" selection-start-column="44" selection-end-line="56" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/kbase.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="10" column="10" selection-start-line="10" selection-start-column="10" selection-end-line="10" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/kb_transyt/kb_transytImpl.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="63" column="40" lean-forward="true" selection-start-line="63" selection-start-column="40" selection-end-line="63" selection-end-column="40" />
-          <folding>
-            <element signature="e#99#108#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/kb_transyt/transyt_wrapper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-453">
-          <caret line="68" lean-forward="true" selection-start-line="68" selection-end-line="68" />
-          <folding>
-            <element signature="e#0#17#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/kb_transyt/test_transyt.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="606" column="43" lean-forward="true" selection-start-line="606" selection-start-column="43" selection-end-line="606" selection-end-column="43" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Dockerfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="57" selection-start-line="14" selection-start-column="57" selection-end-line="14" selection-end-column="57" />
         </state>
       </provider>
     </entry>
