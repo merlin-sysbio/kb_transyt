@@ -39,15 +39,15 @@ RUN tar -xf jdk-11.0.1_linux-x64_bin.tar.gz -C /opt/jdk
 RUN wget -q https://neo4j.com/artifact.php?name=neo4j-community-4.0.2-unix.tar.gz -O neo4j-community-4.0.2-unix.tar.gz
 RUN tar -xf neo4j-community-4.0.2-unix.tar.gz -C /opt/neo4j
 
-RUN wget -q https://merlin-sysbio.org/data/transyt/scraper/workdir.tar.gz
+RUN wget -q https://merlin.bio.di.uminho.pt/data/transyt/scraper/workdir.tar.gz
 RUN tar -xf workdir.tar.gz -C /
 
-RUN wget -q https://merlin-sysbio.org/data/transyt/database/data.tar.gz
+RUN wget -q https://merlin.bio.di.uminho.pt/data/transyt/database/data.tar.gz
 RUN tar -xf data.tar.gz -C /opt/neo4j/neo4j-community-4.0.2
 
 WORKDIR /opt/transyt
 
-RUN wget -q https://merlin-sysbio.org/data/transyt/transyt.jar
+RUN wget -q https://merlin.bio.di.uminho.pt/data/transyt/transyt.jar
 
 # ---------------------------------------------
 
